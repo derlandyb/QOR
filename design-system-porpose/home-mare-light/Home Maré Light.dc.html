@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:ital,wght@0,300..800;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#FFFFFF; }
+  a { color:#00857C; text-decoration:none; }
+  a:hover { color:#E01B52; }
+  ::selection { background:#E01B52; color:#FFFFFF; }
+</style>
+</helmet>
+
+<div style="background:#FFFFFF; color:#1B1B22; font-family:'Work Sans',Helvetica,Arial,sans-serif; overflow-x:hidden;">
+
+  <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,.85); backdrop-filter:blur(14px); border-bottom:1px solid #E8E8EE;">
+    <div style="max-width:1280px; margin:0 auto; padding:16px 24px; display:flex; align-items:center; gap:24px; justify-content:space-between;">
+      <a href="#" style="font-family:Anton,Impact,sans-serif; font-size:26px; letter-spacing:.02em; text-transform:uppercase; color:#0F0F14; display:flex; align-items:center; gap:10px;">
+        <span style="width:12px; height:12px; border-radius:999px; background:#E01B52; display:inline-block;"></span>Maré
+      </a>
+      <nav style="display:flex; gap:4px; align-items:center; background:#F6F6F8; border:1px solid #E8E8EE; border-radius:999px; padding:4px;">
+        <a href="#agenda" style="font-family:'Work Sans',sans-serif; font-size:14px; font-weight:700; color:#FFFFFF; background:#E01B52; border-radius:999px; padding:9px 18px; transition:all 180ms ease-out;">Agenda</a>
+        <a href="#destaque" style="font-family:'Work Sans',sans-serif; font-size:14px; font-weight:500; color:#4A4A57; border-radius:999px; padding:9px 18px; transition:all 180ms ease-out;" style-hover="background:#EDEDF2; color:#0F0F14">Destaque</a>
+        <a href="#cidades" style="font-family:'Work Sans',sans-serif; font-size:14px; font-weight:500; color:#4A4A57; border-radius:999px; padding:9px 18px; transition:all 180ms ease-out;" style-hover="background:#EDEDF2; color:#0F0F14">Cidades</a>
+        <a href="#news" style="font-family:'Work Sans',sans-serif; font-size:14px; font-weight:500; color:#4A4A57; border-radius:999px; padding:9px 18px; transition:all 180ms ease-out;" style-hover="background:#EDEDF2; color:#0F0F14">Newsletter</a>
+      </nav>
+      <a href="#agenda" style="font-family:'Work Sans',sans-serif; font-size:15px; font-weight:600; color:#FFFFFF; background:#00857C; border-radius:8px; padding:13px 24px; transition:all 180ms ease-out; white-space:nowrap;" style-hover="transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,133,124,.28)">Divulgar evento</a>
+    </div>
+  </header>
+
+  <section style="max-width:1280px; margin:0 auto; padding:96px 24px 64px;">
+    <div style="display:flex; align-items:center; gap:12px; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:#00857C; margin-bottom:32px;">
+      <span style="width:8px; height:8px; border-radius:999px; background:#00857C; display:inline-block;"></span>
+      <span>Agenda viva · Grande Vitória — ES</span>
+    </div>
+    <h1 style="font-family:Anton,Impact,sans-serif; font-size:clamp(56px,10vw,158px); line-height:.86; letter-spacing:-.03em; text-transform:uppercase; margin:0 0 40px; color:#0F0F14;">Onde a<br>música<br><span style="color:#E01B52;">quebra</span> aqui</h1>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:40px; align-items:end;">
+      <p style="font-size:20px; line-height:1.6; color:#4A4A57; max-width:46ch; margin:0; text-wrap:pretty;">Toda a programação de shows, rodas, festas e festivais de Vitória, Vila Velha, Serra, Cariacica e Guarapari — reunida, atualizada e sem fake news de line-up.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap;">
+        <a href="#agenda" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#FFFFFF; background:#E01B52; border-radius:8px; padding:16px 30px; transition:all 180ms ease-out; box-shadow:0 4px 12px rgba(224,27,82,.18);" style-hover="transform:translateY(-2px); background:#C4173F; box-shadow:0 12px 28px rgba(224,27,82,.28)">Ver agenda da semana</a>
+        <a href="#destaque" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#0F0F14; background:transparent; border:1px solid #D3D3DC; border-radius:8px; padding:15px 29px; transition:all 180ms ease-out;" style-hover="border-color:#E01B52; color:#E01B52; background:rgba(224,27,82,.06)">Destaque do mês</a>
+      </div>
+    </div>
+    <div style="margin-top:64px; height:clamp(220px,34vw,420px); border-radius:16px; background:repeating-linear-gradient(135deg,#F2F2F6 0 14px,#EAEAF0 14px 28px); display:flex; align-items:center; justify-content:center; box-shadow:0 12px 32px rgba(15,15,20,.08);">
+      <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#8A8A99;">imagem de capa — público em show na orla · 21:9</span>
+    </div>
+  </section>
+
+  <section style="border-top:1px solid #E8E8EE; border-bottom:1px solid #E8E8EE; background:#F9F9FB;">
+    <div style="max-width:1280px; margin:0 auto; padding:32px 24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:24px;">
+      <div><div style="font-family:Anton,Impact,sans-serif; font-size:44px; line-height:1; color:#E01B52;">128</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6B6B79; margin-top:8px;">eventos este mês</div></div>
+      <div><div style="font-family:Anton,Impact,sans-serif; font-size:44px; line-height:1; color:#00857C;">42</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6B6B79; margin-top:8px;">casas parceiras</div></div>
+      <div><div style="font-family:Anton,Impact,sans-serif; font-size:44px; line-height:1; color:#A8620A;">5</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6B6B79; margin-top:8px;">cidades cobertas</div></div>
+      <div><div style="font-family:Anton,Impact,sans-serif; font-size:44px; line-height:1; color:#7A3FE0;">24h</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6B6B79; margin-top:8px;">atualização da grade</div></div>
+    </div>
+  </section>
+
+  <section id="agenda" style="max-width:1280px; margin:0 auto; padding:96px 24px;">
+    <div style="display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between; align-items:end; margin-bottom:40px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#E01B52; margin-bottom:16px;">Esta semana · 08 a 14 set</div>
+        <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0; color:#0F0F14;">Próximos shows</h2>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button type="button" style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#FFFFFF; background:#1B1B22; border:none; border-radius:999px; padding:9px 16px; cursor:pointer; transition:all 180ms ease-out;">Todos</button>
+        <button type="button" style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#4A4A57; background:transparent; border:1px solid #D3D3DC; border-radius:999px; padding:8px 15px; cursor:pointer; transition:all 180ms ease-out;" style-hover="border-color:#E01B52; color:#E01B52">Samba</button>
+        <button type="button" style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#4A4A57; background:transparent; border:1px solid #D3D3DC; border-radius:999px; padding:8px 15px; cursor:pointer; transition:all 180ms ease-out;" style-hover="border-color:#00857C; color:#00857C">Eletrônica</button>
+        <button type="button" style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#4A4A57; background:transparent; border:1px solid #D3D3DC; border-radius:999px; padding:8px 15px; cursor:pointer; transition:all 180ms ease-out;" style-hover="border-color:#A8620A; color:#A8620A">MPB</button>
+        <button type="button" style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:#4A4A57; background:transparent; border:1px solid #D3D3DC; border-radius:999px; padding:8px 15px; cursor:pointer; transition:all 180ms ease-out;" style-hover="border-color:#7A3FE0; color:#7A3FE0">Rock</button>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:24px;">
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; overflow:hidden; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block; color:inherit;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12); border-color:#D3D3DC">
+        <div style="height:180px; background:repeating-linear-gradient(135deg,#F2F2F6 0 12px,#EAEAF0 12px 24px); display:flex; align-items:center; justify-content:center; position:relative;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8A8A99;">foto do artista 16:9</span>
+          <span style="position:absolute; top:16px; left:16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#FFFFFF; background:#E01B52; border-radius:999px; padding:5px 12px;">Samba</span>
+        </div>
+        <div style="padding:24px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#E01B52; margin-bottom:10px;">Sex 12 set · 22h00</div>
+          <div style="font-size:22px; font-weight:600; line-height:1.25; color:#0F0F14; margin-bottom:8px;">Roda de samba no cais</div>
+          <div style="font-size:14px; color:#6B6B79; margin-bottom:20px;">Cais das Artes · Vitória</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #EDEDF2; padding-top:16px;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#1B1B22;">R$ 40</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#0F7A46;">Ingressos abertos</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; overflow:hidden; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block; color:inherit;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12); border-color:#D3D3DC">
+        <div style="height:180px; background:repeating-linear-gradient(135deg,#F2F2F6 0 12px,#EAEAF0 12px 24px); display:flex; align-items:center; justify-content:center; position:relative;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8A8A99;">foto do artista 16:9</span>
+          <span style="position:absolute; top:16px; left:16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#FFFFFF; background:#00857C; border-radius:999px; padding:5px 12px;">Eletrônica</span>
+        </div>
+        <div style="padding:24px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#00857C; margin-bottom:10px;">Sáb 13 set · 23h30</div>
+          <div style="font-size:22px; font-weight:600; line-height:1.25; color:#0F0F14; margin-bottom:8px;">Maré Baixa — B2B na Curva</div>
+          <div style="font-size:14px; color:#6B6B79; margin-bottom:20px;">Curva da Jurema · Vitória</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #EDEDF2; padding-top:16px;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#1B1B22;">R$ 90</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#A8620A;">Últimos lotes</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; overflow:hidden; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block; color:inherit;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12); border-color:#D3D3DC">
+        <div style="height:180px; background:repeating-linear-gradient(135deg,#F2F2F6 0 12px,#EAEAF0 12px 24px); display:flex; align-items:center; justify-content:center; position:relative;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8A8A99;">foto do artista 16:9</span>
+          <span style="position:absolute; top:16px; left:16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#FFFFFF; background:#A8620A; border-radius:999px; padding:5px 12px;">MPB</span>
+        </div>
+        <div style="padding:24px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#A8620A; margin-bottom:10px;">Dom 14 set · 19h00</div>
+          <div style="font-size:22px; font-weight:600; line-height:1.25; color:#0F0F14; margin-bottom:8px;">Voz e violão na Prainha</div>
+          <div style="font-size:14px; color:#6B6B79; margin-bottom:20px;">Prainha · Vila Velha</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #EDEDF2; padding-top:16px;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#1B1B22;">Gratuito</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#0F7A46;">Entrada livre</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; overflow:hidden; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block; color:inherit;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12); border-color:#D3D3DC">
+        <div style="height:180px; background:repeating-linear-gradient(135deg,#F2F2F6 0 12px,#EAEAF0 12px 24px); display:flex; align-items:center; justify-content:center; position:relative;">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8A8A99;">foto do artista 16:9</span>
+          <span style="position:absolute; top:16px; left:16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#FFFFFF; background:#7A3FE0; border-radius:999px; padding:5px 12px;">Rock</span>
+        </div>
+        <div style="padding:24px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#7A3FE0; margin-bottom:10px;">Qui 11 set · 21h00</div>
+          <div style="font-size:22px; font-weight:600; line-height:1.25; color:#0F0F14; margin-bottom:8px;">Noite autoral capixaba</div>
+          <div style="font-size:14px; color:#6B6B79; margin-bottom:20px;">Galpão Laranjeiras · Serra</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #EDEDF2; padding-top:16px;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#1B1B22;">R$ 25</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#C42B37;">Esgotando</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-top:40px; display:flex; justify-content:center;">
+      <a href="#" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#0F0F14; border:1px solid #D3D3DC; border-radius:8px; padding:15px 32px; transition:all 180ms ease-out;" style-hover="border-color:#E01B52; color:#E01B52; background:rgba(224,27,82,.06)">Ver os 128 eventos do mês</a>
+    </div>
+  </section>
+
+  <section id="destaque" style="background:#F9F9FB; border-top:1px solid #E8E8EE; border-bottom:1px solid #E8E8EE;">
+    <div style="max-width:1280px; margin:0 auto; padding:96px 24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:56px; align-items:center;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#00857C; margin-bottom:20px;">Destaque do mês · Festival</div>
+        <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(40px,6vw,88px); line-height:.92; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 24px; color:#0F0F14;">Sons da<br>Baía 2026</h2>
+        <p style="font-size:18px; line-height:1.7; color:#4A4A57; max-width:46ch; margin:0 0 32px; text-wrap:pretty;">Três noites na orla de Camburi com dezoito atrações entre samba, congo, eletrônica e rock capixaba. Palco principal virado para o mar.</p>
+        <div style="display:flex; flex-direction:column; gap:2px; margin-bottom:32px; font-family:'JetBrains Mono',monospace; font-size:13px;">
+          <div style="display:flex; gap:16px; padding:12px 0; border-top:1px solid #E4E4EB;"><span style="color:#8A8A99; width:80px; letter-spacing:.1em; text-transform:uppercase;">Datas</span><span style="color:#1B1B22;">27, 28 e 29 de novembro</span></div>
+          <div style="display:flex; gap:16px; padding:12px 0; border-top:1px solid #E4E4EB;"><span style="color:#8A8A99; width:80px; letter-spacing:.1em; text-transform:uppercase;">Local</span><span style="color:#1B1B22;">Praia de Camburi · Vitória</span></div>
+          <div style="display:flex; gap:16px; padding:12px 0; border-top:1px solid #E4E4EB; border-bottom:1px solid #E4E4EB;"><span style="color:#8A8A99; width:80px; letter-spacing:.1em; text-transform:uppercase;">Passe</span><span style="color:#1B1B22;">A partir de R$ 180 (3 dias)</span></div>
+        </div>
+        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+          <a href="#" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#FFFFFF; background:#00857C; border-radius:8px; padding:16px 30px; transition:all 180ms ease-out;" style-hover="transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,133,124,.28)">Garantir passe</a>
+          <a href="#" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#0F0F14; border:1px solid #D3D3DC; border-radius:8px; padding:15px 29px; transition:all 180ms ease-out;" style-hover="border-color:#00857C; color:#00857C; background:rgba(0,133,124,.06)">Line-up completo</a>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="height:clamp(200px,26vw,300px); border-radius:16px; background:repeating-linear-gradient(135deg,#F2F2F6 0 12px,#E9E9EF 12px 24px); display:flex; align-items:center; justify-content:center; box-shadow:0 12px 32px rgba(15,15,20,.1);">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A99;">pôster do festival · 4:3</span>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; padding:24px; box-shadow:0 2px 8px rgba(15,15,20,.06);">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A99; margin-bottom:16px;">Headliners confirmados</div>
+          <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(20px,2.2vw,30px); line-height:1.15; text-transform:uppercase; color:#0F0F14;">Banda da Ponte</div>
+          <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(20px,2.2vw,30px); line-height:1.15; text-transform:uppercase; color:#5A5A68;">Congo de Roda D'Água</div>
+          <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(20px,2.2vw,30px); line-height:1.15; text-transform:uppercase; color:#5A5A68;">Aline Cardoso</div>
+          <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(20px,2.2vw,30px); line-height:1.15; text-transform:uppercase; color:#9C9CAC;">+ 15 atrações</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cidades" style="max-width:1280px; margin:0 auto; padding:96px 24px;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#A8620A; margin-bottom:16px;">Cobertura</div>
+    <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 40px; color:#0F0F14;">Cinco cidades, uma agenda</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px;">
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; padding:28px; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12)">
+        <div style="font-family:Anton,Impact,sans-serif; font-size:30px; line-height:1.1; text-transform:uppercase; color:#0F0F14; margin-bottom:12px;">Vitória</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#E01B52;">52 eventos</div>
+      </a>
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; padding:28px; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12)">
+        <div style="font-family:Anton,Impact,sans-serif; font-size:30px; line-height:1.1; text-transform:uppercase; color:#0F0F14; margin-bottom:12px;">Vila Velha</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#00857C;">34 eventos</div>
+      </a>
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; padding:28px; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12)">
+        <div style="font-family:Anton,Impact,sans-serif; font-size:30px; line-height:1.1; text-transform:uppercase; color:#0F0F14; margin-bottom:12px;">Serra</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#A8620A;">21 eventos</div>
+      </a>
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; padding:28px; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12)">
+        <div style="font-family:Anton,Impact,sans-serif; font-size:30px; line-height:1.1; text-transform:uppercase; color:#0F0F14; margin-bottom:12px;">Cariacica</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#7A3FE0;">13 eventos</div>
+      </a>
+      <a href="#" style="background:#FFFFFF; border:1px solid #E8E8EE; border-radius:16px; padding:28px; box-shadow:0 2px 8px rgba(15,15,20,.06); transition:all 220ms cubic-bezier(.2,.8,.2,1); display:block;" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(15,15,20,.12)">
+        <div style="font-family:Anton,Impact,sans-serif; font-size:30px; line-height:1.1; text-transform:uppercase; color:#0F0F14; margin-bottom:12px;">Guarapari</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#E01B52;">8 eventos</div>
+      </a>
+    </div>
+  </section>
+
+  <section id="news" style="background:#F9F9FB; border-top:1px solid #E8E8EE;">
+    <div style="max-width:1280px; margin:0 auto; padding:96px 24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:48px; align-items:center;">
+      <div>
+        <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 16px; color:#0F0F14;">A grade da semana no seu e-mail</h2>
+        <p style="font-size:17px; line-height:1.7; color:#4A4A57; max-width:44ch; margin:0;">Toda quinta, às 10h: o que vale a pena entre Vitória e Guarapari. Sem spam, sem post patrocinado disfarçado.</p>
+      </div>
+      <div>
+        <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6B6B79; margin-bottom:8px;">Seu e-mail</label>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <input type="email" placeholder="voce@email.com" style="flex:1 1 220px; box-sizing:border-box; font-family:'Work Sans',sans-serif; font-size:16px; color:#0F0F14; background:#FFFFFF; border:1px solid #D3D3DC; border-radius:4px; padding:15px 16px; outline:none; transition:all 180ms ease-out;" style-hover="border-color:#B4B4C2" style-focus="border-color:#00857C; box-shadow:0 0 0 3px rgba(0,133,124,.16)">
+          <button type="button" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#FFFFFF; background:#E01B52; border:none; border-radius:8px; padding:16px 30px; cursor:pointer; transition:all 180ms ease-out;" style-hover="transform:translateY(-2px); background:#C4173F; box-shadow:0 12px 28px rgba(224,27,82,.28)">Assinar</button>
+        </div>
+        <div style="font-size:13px; color:#8A8A99; margin-top:12px;">Ao assinar você concorda com a nossa política de privacidade.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid #E8E8EE; background:#FFFFFF;">
+    <div style="max-width:1280px; margin:0 auto; padding:64px 24px 32px; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:40px;">
+      <div>
+        <div style="font-family:Anton,Impact,sans-serif; font-size:26px; text-transform:uppercase; color:#0F0F14; display:flex; align-items:center; gap:10px; margin-bottom:16px;"><span style="width:12px; height:12px; border-radius:999px; background:#E01B52; display:inline-block;"></span>Maré</div>
+        <div style="font-size:14px; line-height:1.7; color:#6B6B79; max-width:32ch;">Agenda independente de música ao vivo da Grande Vitória, Espírito Santo.</div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A99; margin-bottom:16px;">Agenda</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;"><a href="#agenda" style="color:#4A4A57;" style-hover="color:#E01B52">Esta semana</a><a href="#agenda" style="color:#4A4A57;" style-hover="color:#E01B52">Festivais</a><a href="#agenda" style="color:#4A4A57;" style-hover="color:#E01B52">Gratuitos</a><a href="#cidades" style="color:#4A4A57;" style-hover="color:#E01B52">Por cidade</a></div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A99; margin-bottom:16px;">Para produtores</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;"><a href="#" style="color:#4A4A57;" style-hover="color:#E01B52">Divulgar evento</a><a href="#" style="color:#4A4A57;" style-hover="color:#E01B52">Mídia kit</a><a href="#" style="color:#4A4A57;" style-hover="color:#E01B52">Parcerias</a><a href="#" style="color:#4A4A57;" style-hover="color:#E01B52">Contato</a></div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8A8A99; margin-bottom:16px;">Sistema</div>
+        <div style="display:flex; flex-direction:column; gap:10px; font-size:15px;"><a href="../mare-design-system/Maré Design System.dc.html" style="color:#00857C;" style-hover="color:#E01B52">Documentação do DS</a><a href="../home-mare-dark/Home Maré.dc.html" style="color:#4A4A57;" style-hover="color:#E01B52">Versão escura</a><a href="#" style="color:#4A4A57;" style-hover="color:#E01B52">Acessibilidade</a></div>
+      </div>
+    </div>
+    <div style="max-width:1280px; margin:0 auto; padding:24px; border-top:1px solid #E8E8EE; display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#8A8A99;">
+      <span>© 2026 Maré · Vitória — ES</span>
+      <span>Maré DS v1.0 · tema claro</span>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+</body>
+</html>

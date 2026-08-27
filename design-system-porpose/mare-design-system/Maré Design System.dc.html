@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:ital,wght@0,300..800;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#08080B; }
+  a { color:#00CFC0; text-decoration:none; }
+  a:hover { color:#FF3D68; }
+  ::selection { background:#FF3D68; color:#08080B; }
+</style>
+</helmet>
+
+<div style="background:#08080B; color:#E8E8EE; font-family:'Work Sans',Arial,sans-serif; padding:64px 48px 128px; max-width:1240px; margin:0 auto;">
+
+  <header style="display:flex; flex-direction:column; gap:24px; padding-bottom:64px; border-bottom:1px solid #2B2B36;">
+    <div style="display:flex; gap:12px; align-items:center; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#9C9CAC;">
+      <span style="width:10px; height:10px; border-radius:999px; background:#FF3D68; display:inline-block;"></span>
+      <span>Documentação arquitetural · v1.0</span>
+    </div>
+    <h1 style="font-family:Anton,Impact,sans-serif; font-size:clamp(56px,9vw,140px); line-height:.88; letter-spacing:-.03em; text-transform:uppercase; margin:0; color:#FFFFFF;">Maré<br>Design System</h1>
+    <p style="font-size:20px; line-height:1.6; max-width:62ch; color:#C9C9D4; margin:0; text-wrap:pretty;">Sistema unificado para divulgação de eventos musicais na Grande Vitória — ES. Destilado de três sistemas de festival: a energia cromática do Toronto Caribbean Carnival, a hierarquia tipográfica e a matemática de espaçamento do Electric Island, e o acabamento limpo de componentes do Vibrant Brampton.</p>
+  </header>
+
+  <section style="padding:80px 0; border-bottom:1px solid #2B2B36;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#FF3D68; margin-bottom:24px;">01 — Visão geral do conceito</div>
+    <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 32px; color:#FFFFFF;">Pôster noturno, precisão de sistema</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:32px;">
+      <p style="font-size:17px; line-height:1.7; color:#C9C9D4; margin:0; text-wrap:pretty;">A vibe é a de um <strong style="color:#FFFFFF; font-weight:600;">flyer de show impresso em preto</strong> que ganhou comportamento de produto. Canvas quase-preto, tipografia display gigante em caixa alta, e uma rotação de quatro acentos saturados que dá a cada gênero, cidade ou noite sua própria identidade cromática — sem nunca quebrar a unidade do conjunto.</p>
+      <p style="font-size:17px; line-height:1.7; color:#C9C9D4; margin:0; text-wrap:pretty;">Onde as fontes originais eram inconsistentes (três formatos de botão no Carnival, escala de espaçamento indefinida no Brampton), o Maré impõe <strong style="color:#FFFFFF; font-weight:600;">uma única gramática</strong>: base de 4px, raio de 8px para superfícies, pill para tudo clicável em contexto de navegação, e mono para todo texto “de sistema”.</p>
+      <p style="font-size:17px; line-height:1.7; color:#C9C9D4; margin:0; text-wrap:pretty;">Diferente do Electric Island, o Maré <strong style="color:#FFFFFF; font-weight:600;">usa elevação</strong>. Cards de evento precisam de profundidade porque são objetos manipuláveis — não painéis de pôster. Sombras são profundas e difusas, nunca cinzentas, e reforçadas por um halo do acento no estado de foco.</p>
+      <p style="font-size:17px; line-height:1.7; color:#C9C9D4; margin:0; text-wrap:pretty;">Princípios: <strong style="color:#FFFFFF; font-weight:600;">contraste como estrutura</strong> (nada de bordas decorativas), <strong style="color:#FFFFFF; font-weight:600;">um acento por bloco</strong> (nunca dois competindo), <strong style="color:#FFFFFF; font-weight:600;">AA como piso</strong> em todo par texto/fundo, e <strong style="color:#FFFFFF; font-weight:600;">movimento curto</strong> — 160&nbsp;ms a 320&nbsp;ms, nunca decorativo.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:48px;">
+      <div style="background:#16161D; border-radius:8px; padding:24px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#FF3D68; margin-bottom:10px;">Da fonte A · Carnival</div><div style="font-size:15px; line-height:1.6; color:#C9C9D4;">Dinamismo cromático multi-acento, transformado em rotação disciplinada de 4 cores.</div></div>
+      <div style="background:#16161D; border-radius:8px; padding:24px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#00CFC0; margin-bottom:10px;">Da fonte B · Electric Island</div><div style="font-size:15px; line-height:1.6; color:#C9C9D4;">Divisão de trabalho em três tipos, escala de espaçamento 4px e ritmo de seção.</div></div>
+      <div style="background:#16161D; border-radius:8px; padding:24px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#FFB020; margin-bottom:10px;">Da fonte C · Brampton</div><div style="font-size:15px; line-height:1.6; color:#C9C9D4;">Raio 8px, pill-nav com indicador ativo, padding generoso e hovers suaves.</div></div>
+    </div>
+  </section>
+
+  <section style="padding:80px 0; border-bottom:1px solid #2B2B36;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#FF3D68; margin-bottom:24px;">02 — Design tokens · Cores</div>
+    <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 12px; color:#FFFFFF;">Paleta</h2>
+    <p style="font-size:17px; line-height:1.7; color:#9C9CAC; max-width:60ch; margin:0 0 40px;">Quatro acentos com luminosidade e croma equalizados — trocáveis por noite/palco sem reequilibrar o layout. Todos passam AA (≥4.5:1) sobre <code style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#E8E8EE;">ink.900</code>.</p>
+
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:16px;">Acentos de marca</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:48px;">
+      <div style="border-radius:8px; overflow:hidden; background:#16161D;">
+        <div style="height:120px; background:#FF3D68; display:flex; align-items:flex-end; padding:12px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#08080B; font-weight:700;">AA 5.9:1</span></div>
+        <div style="padding:16px;"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">Rosa Maré</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC; margin-top:4px;">--brand-primary<br>#FF3D68</div></div>
+      </div>
+      <div style="border-radius:8px; overflow:hidden; background:#16161D;">
+        <div style="height:120px; background:#00CFC0; display:flex; align-items:flex-end; padding:12px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#08080B; font-weight:700;">AAA 9.8:1</span></div>
+        <div style="padding:16px;"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">Água</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC; margin-top:4px;">--brand-secondary<br>#00CFC0</div></div>
+      </div>
+      <div style="border-radius:8px; overflow:hidden; background:#16161D;">
+        <div style="height:120px; background:#FFB020; display:flex; align-items:flex-end; padding:12px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#08080B; font-weight:700;">AAA 10.4:1</span></div>
+        <div style="padding:16px;"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">Sol</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC; margin-top:4px;">--brand-tertiary<br>#FFB020</div></div>
+      </div>
+      <div style="border-radius:8px; overflow:hidden; background:#16161D;">
+        <div style="height:120px; background:#9B5CFF; display:flex; align-items:flex-end; padding:12px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#FFFFFF; font-weight:700;">AA 4.6:1</span></div>
+        <div style="padding:16px;"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">Noite</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC; margin-top:4px;">--brand-quaternary<br>#9B5CFF</div></div>
+      </div>
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:16px;">Neutros (ink)</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:8px; margin-bottom:48px;">
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#08080B; border:1px solid #2B2B36; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.950</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#08080B</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#0F0F14; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.900</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#0F0F14</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#16161D; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.800</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#16161D</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#1F1F28; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.700</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#1F1F28</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#2B2B36; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.600</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#2B2B36</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#6E6E7E; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.400</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#6E6E7E</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#9C9CAC; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.300</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#9C9CAC</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#C9C9D4; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.200</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#C9C9D4</div></div></div>
+      <div style="border-radius:8px; overflow:hidden;"><div style="height:72px; background:#E8E8EE; border-radius:8px 8px 0 0;"></div><div style="padding:10px 4px;"><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#C9C9D4;">ink.100</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E;">#E8E8EE</div></div></div>
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:16px;">Semânticos</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px;">
+      <div style="background:#16161D; border-radius:8px; padding:16px; display:flex; gap:12px; align-items:center;"><span style="width:36px; height:36px; border-radius:8px; background:#2FD97F; flex:none;"></span><div><div style="font-weight:600; font-size:14px; color:#FFFFFF;">Sucesso</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC;">#2FD97F</div></div></div>
+      <div style="background:#16161D; border-radius:8px; padding:16px; display:flex; gap:12px; align-items:center;"><span style="width:36px; height:36px; border-radius:8px; background:#FFB020; flex:none;"></span><div><div style="font-weight:600; font-size:14px; color:#FFFFFF;">Atenção</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC;">#FFB020</div></div></div>
+      <div style="background:#16161D; border-radius:8px; padding:16px; display:flex; gap:12px; align-items:center;"><span style="width:36px; height:36px; border-radius:8px; background:#FF5A6A; flex:none;"></span><div><div style="font-weight:600; font-size:14px; color:#FFFFFF;">Erro</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC;">#FF5A6A</div></div></div>
+      <div style="background:#16161D; border-radius:8px; padding:16px; display:flex; gap:12px; align-items:center;"><span style="width:36px; height:36px; border-radius:8px; background:#4DA8FF; flex:none;"></span><div><div style="font-weight:600; font-size:14px; color:#FFFFFF;">Info</div><div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#9C9CAC;">#4DA8FF</div></div></div>
+    </div>
+  </section>
+
+  <section style="padding:80px 0; border-bottom:1px solid #2B2B36;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#00CFC0; margin-bottom:24px;">03 — Design tokens · Tipografia</div>
+    <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 12px; color:#FFFFFF;">Três tipos, três funções</h2>
+    <p style="font-size:17px; line-height:1.7; color:#9C9CAC; max-width:60ch; margin:0 0 40px;">Anton grita (títulos, nomes de artista). Work Sans lê (parágrafos, formulários, rótulos de UI). JetBrains Mono informa (datas, horários, preços, códigos de setor). Escala fluida com <code style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#E8E8EE;">clamp()</code> — mínimos fixos garantem legibilidade em telas pequenas, algo que o <code style="font-family:'JetBrains Mono',monospace; font-size:14px; color:#E8E8EE;">vw</code> puro da fonte B não fazia.</p>
+
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <div style="background:#0F0F14; border-radius:8px 8px 0 0; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">display<br>clamp(56,9vw,140)<br>lh .88 · ls -.03em<br>Anton</div>
+        <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(48px,7vw,110px); line-height:.88; letter-spacing:-.03em; text-transform:uppercase; color:#FFFFFF;">Vitória Noturna</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">h1<br>clamp(40,6vw,88)<br>lh .92 · ls -.02em<br>Anton</div>
+        <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(40px,6vw,88px); line-height:.92; letter-spacing:-.02em; text-transform:uppercase; color:#FFFFFF;">Praia da Costa</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">h2<br>clamp(32,4vw,56)<br>lh 1.0 · ls -.02em</div>
+        <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; color:#FFFFFF;">Próximos shows</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">h3<br>clamp(24,2.6vw,36)<br>lh 1.1</div>
+        <div style="font-family:Anton,Impact,sans-serif; font-size:clamp(24px,2.6vw,36px); line-height:1.1; text-transform:uppercase; color:#FFFFFF;">Palco Convento da Penha</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">h4 / título de card<br>22px · 600<br>lh 1.25 · Work Sans</div>
+        <div style="font-size:22px; font-weight:600; line-height:1.25; color:#FFFFFF;">Roda de samba no cais</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">body-lg<br>20px · 400 · lh 1.6</div>
+        <div style="font-size:20px; line-height:1.6; color:#C9C9D4; max-width:52ch;">Texto de abertura de seção, usado logo abaixo de um título para dar contexto sem competir com ele.</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">body<br>16px · 400 · lh 1.65</div>
+        <div style="font-size:16px; line-height:1.65; color:#C9C9D4; max-width:60ch;">Corpo padrão para descrições de evento, biografias de artista e conteúdo editorial. Nunca abaixo de 16px em contexto de leitura contínua.</div>
+      </div>
+      <div style="background:#0F0F14; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">body-sm<br>14px · 400 · lh 1.6</div>
+        <div style="font-size:14px; line-height:1.6; color:#9C9CAC; max-width:60ch;">Metadados secundários, legendas e texto de apoio em cards compactos.</div>
+      </div>
+      <div style="background:#0F0F14; border-radius:0 0 8px 8px; padding:32px; display:grid; grid-template-columns:180px 1fr; gap:32px; align-items:baseline;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; line-height:1.6;">label (mono)<br>12px · 500<br>ls .12em · caixa alta</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:#00CFC0;">Sex 12 set · 22h00 · Vila Velha · R$ 60</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:80px 0; border-bottom:1px solid #2B2B36;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#FFB020; margin-bottom:24px;">04 — Espaçamento, bordas e elevação</div>
+    <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 12px; color:#FFFFFF;">Base 4, ritmo 8</h2>
+    <p style="font-size:17px; line-height:1.7; color:#9C9CAC; max-width:60ch; margin:0 0 40px;">Toda medida é múltipla de 4px; do passo 4 em diante, apenas múltiplos de 8. Seções usam três presets verticais fixos — escolha um, não invente um valor novo.</p>
+
+    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:56px;">
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-1 · 4px</span><span style="height:20px; width:4px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-2 · 8px</span><span style="height:20px; width:8px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-3 · 12px</span><span style="height:20px; width:12px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-4 · 16px</span><span style="height:20px; width:16px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-5 · 24px</span><span style="height:20px; width:24px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-6 · 32px</span><span style="height:20px; width:32px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-7 · 48px</span><span style="height:20px; width:48px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-8 · 64px</span><span style="height:20px; width:64px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-9 · 96px</span><span style="height:20px; width:96px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-10 · 128px</span><span style="height:20px; width:128px; background:#FF3D68; border-radius:2px;"></span></div>
+      <div style="display:flex; align-items:center; gap:24px;"><span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#6E6E7E; width:110px;">space-11 · 160px</span><span style="height:20px; width:160px; background:#FF3D68; border-radius:2px;"></span></div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:32px; margin-bottom:56px;">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:16px;">Ritmo de seção</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:14px; line-height:2; color:#C9C9D4;">section.sm → 64px vertical<br>section.md → 96px vertical<br>section.lg → 160px vertical<br>gutter → 24px (mob) / 48px (desk)<br>container → 1280px<br>grid → 12 col · gap 24px</div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:16px;">Raios</div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="text-align:center;"><div style="width:72px; height:56px; background:#1F1F28; border-radius:0;"></div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E; margin-top:8px;">0</div></div>
+          <div style="text-align:center;"><div style="width:72px; height:56px; background:#1F1F28; border-radius:4px;"></div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E; margin-top:8px;">4 · input</div></div>
+          <div style="text-align:center;"><div style="width:72px; height:56px; background:#1F1F28; border-radius:8px;"></div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E; margin-top:8px;">8 · botão</div></div>
+          <div style="text-align:center;"><div style="width:72px; height:56px; background:#1F1F28; border-radius:16px;"></div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E; margin-top:8px;">16 · card</div></div>
+          <div style="text-align:center;"><div style="width:72px; height:56px; background:#1F1F28; border-radius:999px;"></div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#6E6E7E; margin-top:8px;">full · chip</div></div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.8; color:#6E6E7E; margin-top:16px;">border-width: 1px (hairline) · 2px (foco)</div>
+      </div>
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:16px;">Elevação</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; background:#0F0F14; border-radius:16px; padding:40px;">
+      <div style="background:#1F1F28; border-radius:16px; padding:24px; box-shadow:0 1px 2px rgba(0,0,0,.5);"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">elev-1</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9C9CAC; margin-top:8px; line-height:1.6;">0 1px 2px<br>rgba(0,0,0,.5)</div></div>
+      <div style="background:#1F1F28; border-radius:16px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,.55);"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">elev-2 · card</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9C9CAC; margin-top:8px; line-height:1.6;">0 4px 12px<br>rgba(0,0,0,.55)</div></div>
+      <div style="background:#1F1F28; border-radius:16px; padding:24px; box-shadow:0 12px 32px rgba(0,0,0,.6);"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">elev-3 · hover</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9C9CAC; margin-top:8px; line-height:1.6;">0 12px 32px<br>rgba(0,0,0,.6)</div></div>
+      <div style="background:#1F1F28; border-radius:16px; padding:24px; box-shadow:0 0 0 2px #FF3D68, 0 8px 32px rgba(255,61,104,.28);"><div style="font-weight:600; font-size:15px; color:#FFFFFF;">glow · foco</div><div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#9C9CAC; margin-top:8px; line-height:1.6;">0 0 0 2px accent,<br>0 8px 32px accent/28</div></div>
+    </div>
+  </section>
+
+  <section style="padding:80px 0; border-bottom:1px solid #2B2B36;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#9B5CFF; margin-bottom:24px;">05 — Componentes base</div>
+    <h2 style="font-family:Anton,Impact,sans-serif; font-size:clamp(32px,4vw,56px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; margin:0 0 40px; color:#FFFFFF;">Botões, inputs, cards</h2>
+
+    <div style="background:#0F0F14; border-radius:16px; padding:40px; margin-bottom:24px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#9C9CAC; margin-bottom:8px;">Botão</div>
+      <p style="font-size:15px; line-height:1.7; color:#9C9CAC; max-width:62ch; margin:0 0 32px;">Altura 48px (48px = alvo de toque seguro), raio 8px, padding 14/28, label Work Sans 16/600. Transição <code style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#E8E8EE;">180ms ease-out</code> em cor, sombra e <code style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#E8E8EE;">translateY(-2px)</code> no hover. Passe o mouse nos exemplos.</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center; margin-bottom:32px;">
+        <button type="button" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#08080B; background:#FF3D68; border:none; border-radius:8px; padding:14px 28px; cursor:pointer; transition:all 180ms ease-out; box-shadow:0 4px 12px rgba(0,0,0,.4);" style-hover="transform:translateY(-2px); background:#FF5C80; box-shadow:0 12px 28px rgba(255,61,104,.32);">Comprar ingresso</button>
+        <button type="button" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#FFFFFF; background:transparent; border:1px solid #3A3A47; border-radius:8px; padding:13px 27px; cursor:pointer; transition:all 180ms ease-out;" style-hover="border-color:#FF3D68; color:#FF3D68; background:rgba(255,61,104,.08);">Ver programação</button>
+        <button type="button" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#C9C9D4; background:transparent; border:none; border-radius:8px; padding:14px 20px; cursor:pointer; transition:all 180ms ease-out;" style-hover="color:#FFFFFF; background:#1F1F28;">Terciário</button>
+        <button type="button" disabled="disabled" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#6E6E7E; background:#1F1F28; border:none; border-radius:8px; padding:14px 28px; cursor:not-allowed;">Esgotado</button>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.9; color:#6E6E7E;">primário → fill acento · texto ink.950 · hover: -2px + glow<br>secundário → borda ink.500 · hover: borda e texto viram acento<br>terciário → sem borda · hover: fundo ink.700<br>desativado → ink.700 / ink.400 · sem transição · cursor not-allowed<br>foco (todos) → outline 2px acento + offset 2px</div>
+    </div>
+
+    <div style="background:#0F0F14; border-radius:16px; padding:40px; margin-bottom:24px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#9C9CAC; margin-bottom:8px;">Input</div>
+      <p style="font-size:15px; line-height:1.7; color:#9C9CAC; max-width:62ch; margin:0 0 32px;">Fundo ink.800, borda hairline ink.600, raio 4px (mais duro que o botão — inputs são campos, não ações), altura 48px. Label mono acima; mensagem de erro em 13px abaixo.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; max-width:820px;">
+        <div>
+          <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#9C9CAC; margin-bottom:8px;">Padrão</label>
+          <input type="text" placeholder="seu@email.com" style="width:100%; box-sizing:border-box; font-family:'Work Sans',sans-serif; font-size:16px; color:#FFFFFF; background:#16161D; border:1px solid #2B2B36; border-radius:4px; padding:13px 16px; outline:none; transition:all 180ms ease-out;" style-hover="border-color:#3A3A47" style-focus="border-color:#00CFC0; box-shadow:0 0 0 3px rgba(0,207,192,.18)">
+        </div>
+        <div>
+          <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#00CFC0; margin-bottom:8px;">Foco</label>
+          <input type="text" value="maré" style="width:100%; box-sizing:border-box; font-family:'Work Sans',sans-serif; font-size:16px; color:#FFFFFF; background:#16161D; border:1px solid #00CFC0; border-radius:4px; padding:13px 16px; outline:none; box-shadow:0 0 0 3px rgba(0,207,192,.18);">
+        </div>
+        <div>
+          <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#FF5A6A; margin-bottom:8px;">Erro</label>
+          <input type="text" value="email-invalido" style="width:100%; box-sizing:border-box; font-family:'Work Sans',sans-serif; font-size:16px; color:#FFFFFF; background:#16161D; border:1px solid #FF5A6A; border-radius:4px; padding:13px 16px; outline:none;">
+          <div style="font-size:13px; color:#FF5A6A; margin-top:8px;">Informe um e-mail válido.</div>
+        </div>
+        <div>
+          <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E; margin-bottom:8px;">Desativado</label>
+          <input type="text" value="Indisponível" disabled="disabled" style="width:100%; box-sizing:border-box; font-family:'Work Sans',sans-serif; font-size:16px; color:#6E6E7E; background:#0F0F14; border:1px solid #1F1F28; border-radius:4px; padding:13px 16px; outline:none; cursor:not-allowed;">
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#0F0F14; border-radius:16px; padding:40px;">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#9C9CAC; margin-bottom:8px;">Card de evento</div>
+      <p style="font-size:15px; line-height:1.7; color:#9C9CAC; max-width:62ch; margin:0 0 32px;">Superfície ink.800, raio 16px, elev-2 em repouso e elev-3 + <code style="font-family:'JetBrains Mono',monospace; font-size:13px; color:#E8E8EE;">translateY(-4px)</code> no hover, com a mídia ampliando 4%. Uma faixa do acento marca a categoria — um acento por card, nunca dois.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; max-width:900px;">
+        <div style="background:#16161D; border-radius:16px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,.55); transition:all 220ms ease-out; cursor:pointer;" style-hover="transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,.6)">
+          <div style="height:170px; background:repeating-linear-gradient(135deg,#1F1F28 0 10px,#232330 10px 20px); display:flex; align-items:center; justify-content:center; position:relative;">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#6E6E7E;">foto do artista 16:9</span>
+            <span style="position:absolute; top:16px; left:16px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#08080B; background:#FF3D68; border-radius:999px; padding:5px 12px;">Samba</span>
+          </div>
+          <div style="padding:24px;">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#FF3D68; margin-bottom:10px;">Sex 12 set · 22h</div>
+            <div style="font-size:22px; font-weight:600; line-height:1.25; color:#FFFFFF; margin-bottom:8px;">Roda de samba no cais</div>
+            <div style="font-size:14px; color:#9C9CAC;">Cais das Artes · Vitória</div>
+          </div>
+        </div>
+        <div style="background:#16161D; border-radius:16px; padding:24px; box-shadow:0 4px 12px rgba(0,0,0,.55); display:flex; flex-direction:column; justify-content:center; gap:12px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E;">Anatomia</div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:13px; line-height:2; color:#C9C9D4;">1 · mídia 16:9 + chip de gênero<br>2 · data/hora (mono, acento)<br>3 · título (Work Sans 22/600)<br>4 · local (body-sm, ink.300)<br>padding 24 · gap interno 8/10</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:80px 0;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#FF3D68; margin-bottom:24px;">06 — Tokens em JSON</div>
+    <pre style="background:#0F0F14; border-radius:16px; padding:32px; overflow:auto; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.7; color:#C9C9D4; margin:0;">{
+  "color": {
+    "brand": { "primary": "#FF3D68", "secondary": "#00CFC0",
+               "tertiary": "#FFB020", "quaternary": "#9B5CFF" },
+    "ink": { "950": "#08080B", "900": "#0F0F14", "800": "#16161D",
+             "700": "#1F1F28", "600": "#2B2B36", "500": "#3A3A47",
+             "400": "#6E6E7E", "300": "#9C9CAC", "200": "#C9C9D4",
+             "100": "#E8E8EE", "000": "#FFFFFF" },
+    "semantic": { "success": "#2FD97F", "warning": "#FFB020",
+                  "danger": "#FF5A6A", "info": "#4DA8FF" }
+  },
+  "font": {
+    "display": "Anton, Impact, sans-serif",
+    "body": "'Work Sans', Helvetica, Arial, sans-serif",
+    "mono": "'JetBrains Mono', ui-monospace, monospace"
+  },
+  "type": {
+    "display": { "size": "clamp(56px,9vw,140px)", "lh": 0.88, "ls": "-0.03em" },
+    "h1": { "size": "clamp(40px,6vw,88px)",  "lh": 0.92, "ls": "-0.02em" },
+    "h2": { "size": "clamp(32px,4vw,56px)",  "lh": 1.0,  "ls": "-0.02em" },
+    "h3": { "size": "clamp(24px,2.6vw,36px)","lh": 1.1 },
+    "h4": { "size": "22px", "weight": 600, "lh": 1.25 },
+    "bodyLg": { "size": "20px", "lh": 1.6 },
+    "body":   { "size": "16px", "lh": 1.65 },
+    "bodySm": { "size": "14px", "lh": 1.6 },
+    "label":  { "size": "12px", "weight": 500, "ls": "0.12em", "case": "upper" }
+  },
+  "space": { "1":"4px","2":"8px","3":"12px","4":"16px","5":"24px",
+             "6":"32px","7":"48px","8":"64px","9":"96px","10":"128px","11":"160px" },
+  "section": { "sm":"64px", "md":"96px", "lg":"160px" },
+  "layout": { "container":"1280px", "gutterMobile":"24px",
+              "gutterDesktop":"48px", "columns":12, "gridGap":"24px" },
+  "radius": { "none":"0","sm":"4px","md":"8px","lg":"16px","full":"999px" },
+  "border": { "hairline":"1px", "focus":"2px" },
+  "elevation": {
+    "1":"0 1px 2px rgba(0,0,0,.5)",
+    "2":"0 4px 12px rgba(0,0,0,.55)",
+    "3":"0 12px 32px rgba(0,0,0,.6)",
+    "glow":"0 0 0 2px var(--accent), 0 8px 32px rgb(from var(--accent) r g b / .28)"
+  },
+  "motion": { "fast":"120ms","base":"180ms","slow":"320ms",
+              "easing":"cubic-bezier(.2,.8,.2,1)" },
+  "breakpoints": { "sm":"480px","md":"768px","lg":"1024px","xl":"1280px" }
+}</pre>
+  </section>
+
+  <footer style="padding-top:48px; border-top:1px solid #2B2B36; display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between; align-items:center;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#6E6E7E;">Maré DS v1.0 · Grande Vitória — ES</div>
+    <a href="../home-mare-dark/Home Maré.dc.html" style="font-family:'Work Sans',sans-serif; font-size:16px; font-weight:600; color:#08080B; background:#00CFC0; border-radius:8px; padding:14px 28px; transition:all 180ms ease-out;" style-hover="transform:translateY(-2px); box-shadow:0 12px 28px rgba(0,207,192,.3)">Ver home de validação →</a>
+  </footer>
+</div>
+
+</x-dc>
+</body>
+</html>

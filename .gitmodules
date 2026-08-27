@@ -1,0 +1,15 @@
+[submodule "api"]
+	path = api
+	url = https://github.com/derlandyb/qor-api.git
+[submodule "mobile"]
+	path = mobile
+	url = https://github.com/derlandyb/qor-mobile.git
+[submodule "admin"]
+	path = admin
+	url = https://github.com/derlandyb/qor-admin.git
+[submodule "website"]
+	path = website
+	url = https://github.com/derlandyb/qor-website.git
+[submodule "landingpage"]
+	path = landingpage
+	url = https://github.com/derlandyb/qor-landingpage.git

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #0B0D14; }
+    @keyframes card-enter { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes live-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,46,126,0.55); } 50% { box-shadow: 0 0 0 6px rgba(255,46,126,0); } }
+  </style>
+</helmet>
+
+<div style="min-height:100vh; background:#0B0D14; font-family:'Inter',system-ui,sans-serif; padding-bottom:64px;">
+
+  <!-- Navbar -->
+  <nav style="display:flex; align-items:center; justify-content:space-between; padding:20px 32px; border-bottom:1px solid #2A2E3B;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,#FF2E7E,#B14EFF);"></div>
+      <span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; color:#F5F6FA; letter-spacing:-0.01em;">NIGHTLIFE·GV</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:28px; font-size:14px; font-weight:500; color:#9A9FB0;">
+      <span>Agenda</span>
+      <span>Casas</span>
+      <span>Sobre</span>
+    </div>
+  </nav>
+
+  <!-- Hero strip -->
+  <div style="padding:40px 32px 8px;">
+    <h1 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:32px; color:#F5F6FA; margin:0 0 6px; letter-spacing:-0.015em;">Agenda da Grande Vitória</h1>
+    <p style="font-size:14px; color:#9A9FB0; margin:0;">Descubra shows, festivais e casas de música perto de você.</p>
+  </div>
+
+  <!-- City filter bar -->
+  <nav style="display:flex; flex-wrap:wrap; gap:8px; padding:20px 32px;">
+    <sc-for list="{{ cityFilters }}" as="city" hint-placeholder-count="5">
+      <button
+        onClick="{{ city.onClick }}"
+        style="{{ city.style }}"
+        style-hover="{{ city.styleHover }}">
+        {{ city.label }}
+      </button>
+    </sc-for>
+  </nav>
+
+  <!-- Event grid -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:24px; padding:8px 32px;">
+    <sc-for list="{{ filteredEvents }}" as="ev" hint-placeholder-count="3">
+      <article
+        key="{{ ev.key }}"
+        style="{{ ev.cardStyle }}"
+        style-hover="{{ ev.cardStyleHover }}">
+
+        <div style="{{ ev.imageWrapStyle }}">
+          <div style="{{ ev.imageStyle }}">
+            <span style="font-family:monospace; font-size:11px; color:#4A4F60; letter-spacing:0.02em;">{{ ev.imageLabel }}</span>
+          </div>
+
+          <sc-if value="{{ ev.isLive }}">
+            <div style="position:absolute; top:12px; left:12px; display:flex; align-items:center; gap:6px; padding:4px 10px 4px 8px; border-radius:999px; background:rgba(11,13,20,0.8); backdrop-filter:blur(4px);">
+              <span style="width:7px; height:7px; border-radius:50%; background:#FF2E7E; animation:live-pulse 1.8s ease-in-out infinite;"></span>
+              <span style="font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:#FF2E7E;">Ao vivo</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ ev.showDateBadge }}">
+            <div style="position:absolute; top:12px; left:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:48px; height:48px; border-radius:8px; background:rgba(11,13,20,0.8); backdrop-filter:blur(4px); border:1px solid rgba(255,255,255,0.1);">
+              <span style="font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.02em; color:#9A9FB0; line-height:1;">{{ ev.month }}</span>
+              <span style="font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; color:#F5F6FA; line-height:1.3;">{{ ev.day }}</span>
+            </div>
+          </sc-if>
+
+          <span style="{{ ev.genreTagStyle }}">{{ ev.genre }}</span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px; padding:16px;">
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; line-height:1.15; letter-spacing:-0.01em; color:#F5F6FA; margin:0;">{{ ev.title }}</h3>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+            <div style="display:flex; flex-direction:column;">
+              <span style="font-weight:600; font-size:15px; color:#F5F6FA;">{{ ev.venue }}</span>
+              <span style="font-size:13px; color:#9A9FB0;">{{ ev.time }}</span>
+            </div>
+            <span style="{{ ev.cityTagStyle }}">{{ ev.cityLabel }}</span>
+          </div>
+
+          <div style="display:flex; gap:8px; margin-top:8px;">
+            <a href="{{ ev.mapsUrl }}" target="_blank" rel="noopener"
+               style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:11px 12px; border-radius:12px; background:rgba(46,197,255,0.1); border:1px solid rgba(46,197,255,0.3); color:#2EC5FF; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px; text-decoration:none; transition:all 250ms cubic-bezier(0.34,1.56,0.64,1);"
+               style-hover="background:#2EC5FF; color:#0B0D14; transform:scale(1.04);">
+              Ver no Mapa
+            </a>
+            <a href="{{ ev.instagramUrl }}" target="_blank" rel="noopener"
+               style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:11px 12px; border-radius:12px; background:linear-gradient(90deg,#FF2E7E,#B14EFF); background-size:200% 100%; background-position:0% 0%; color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:13px; text-decoration:none; transition:background-position 300ms cubic-bezier(0.4,0,0.2,1), transform 250ms cubic-bezier(0.34,1.56,0.64,1);"
+               style-hover="background-position:100% 0%; transform:scale(1.04);">
+              Ver Instagram
+            </a>
+          </div>
+        </div>
+      </article>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const CITY_META = {
+  all: { label: 'Todos', accent: '#F5F6FA', accentDark: '#0B0D14' },
+  vitoria: { label: 'Vitória', accent: '#FF2E7E', accentDark: '#0B0D14' },
+  'vila-velha': { label: 'Vila Velha', accent: '#2EC5FF', accentDark: '#0B0D14' },
+  serra: { label: 'Serra', accent: '#FF8A1E', accentDark: '#0B0D14' },
+  cariacica: { label: 'Cariacica', accent: '#B14EFF', accentDark: '#FFFFFF' },
+};
+
+const CITY_TAG_LABEL = {
+  vitoria: 'Vitória · Triângulo',
+  'vila-velha': 'Vila Velha · Itapuã',
+  serra: 'Serra · Laranjeiras',
+  cariacica: 'Cariacica',
+};
+
+const EVENTS = [
+  {
+    id: 'ev1', title: 'Noite do Rock na Serra', venue: 'Bar do Zeca', time: 'Sex, 22h · Laranjeiras',
+    city: 'serra', genre: 'Rock', genreColor: '#FF8A1E', month: 'AGO', day: '28',
+    imageLabel: '[ foto da banda ]', isLive: false,
+    mapsUrl: 'https://maps.google.com/?q=Bar+do+Zeca+Laranjeiras+Serra',
+    instagramUrl: 'https://instagram.com/bardozeca',
+  },
+  {
+    id: 'ev2', title: 'Roda de Samba na Praia', venue: 'Bar do Marlin', time: 'Dom, 18h · Praia do Canto',
+    city: 'vitoria', genre: 'Samba', genreColor: '#FF2E7E', month: 'AGO', day: '30',
+    imageLabel: '[ foto do show ]', isLive: true,
+    mapsUrl: 'https://maps.google.com/?q=Bar+do+Marlin+Praia+do+Canto+Vitoria',
+    instagramUrl: 'https://instagram.com/bardomarlin',
+  },
+  {
+    id: 'ev3', title: 'Sunset Eletrônico', venue: 'Deck Itapuã', time: 'Sáb, 17h · Itapuã',
+    city: 'vila-velha', genre: 'Eletrônico', genreColor: '#B14EFF', month: 'SET', day: '05',
+    imageLabel: '[ foto do line-up ]', isLive: false,
+    mapsUrl: 'https://maps.google.com/?q=Deck+Itapua+Vila+Velha',
+    instagramUrl: 'https://instagram.com/deckitapua',
+  },
+];
+
+class Component extends DCLogic {
+  state = { activeCity: 'all' };
+
+  renderVals() {
+    const { activeCity } = this.state;
+    const cityFilters = ['all', 'vitoria', 'vila-velha', 'serra', 'cariacica'].map((key) => {
+      const meta = CITY_META[key];
+      const isActive = activeCity === key;
+      const baseStyle = `padding:10px 18px; border-radius:999px; border:none; cursor:pointer; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:0.02em; transition:all 250ms cubic-bezier(0.4,0,0.2,1);`;
+      return {
+        key,
+        label: meta.label,
+        onClick: () => this.setState({ activeCity: key }),
+        style: isActive
+          ? `${baseStyle} background:${meta.accent}; color:${meta.accentDark}; transform:scale(1.05);`
+          : `${baseStyle} background:${meta.accent}22; color:${meta.accent};`,
+        styleHover: isActive ? '' : `background:${meta.accent}40;`,
+      };
+    });
+
+    const filtered = EVENTS.filter((ev) => activeCity === 'all' || ev.city === activeCity);
+
+    const filteredEvents = filtered.map((ev, i) => ({
+      key: `${activeCity}-${ev.id}`,
+      title: ev.title,
+      venue: ev.venue,
+      time: ev.time,
+      genre: ev.genre,
+      month: ev.month,
+      day: ev.day,
+      imageLabel: ev.imageLabel,
+      isLive: ev.isLive,
+      showDateBadge: !ev.isLive,
+      mapsUrl: ev.mapsUrl,
+      instagramUrl: ev.instagramUrl,
+      cityLabel: CITY_TAG_LABEL[ev.city],
+      cardStyle: `display:flex; flex-direction:column; background:#1B1E29; border:1px solid #2A2E3B; border-radius:16px; overflow:hidden; transition:transform 250ms cubic-bezier(0.34,1.56,0.64,1), box-shadow 250ms cubic-bezier(0.4,0,0.2,1); animation:card-enter 450ms cubic-bezier(0.34,1.56,0.64,1) both; animation-delay:${i * 60}ms;`,
+      cardStyleHover: `transform:scale(1.03) translateY(-4px); box-shadow:0 12px 32px -8px rgba(255,46,126,0.25);`,
+      imageWrapStyle: `position:relative; width:100%; aspect-ratio:4/5; background:repeating-linear-gradient(135deg, #12141D, #12141D 10px, #171A24 10px, #171A24 20px); display:flex; align-items:center; justify-content:center;`,
+      imageStyle: `display:flex; align-items:center; justify-content:center; width:100%; height:100%;`,
+      genreTagStyle: `position:absolute; top:12px; right:12px; padding:5px 10px; border-radius:6px; font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:${ev.genreColor}; color:#0B0D14;`,
+      cityTagStyle: `padding:4px 10px; border-radius:999px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.02em; white-space:nowrap; background:${CITY_META[ev.city].accent}22; color:${CITY_META[ev.city].accent};`,
+    }));
+
+    return { cityFilters, filteredEvents };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/*
+  Vibrant Brampton Summer Fest — Design Token CSS Variable Layer
+  Reverse-engineered from https://vibrantbrampton.ca/
+  See DESIGN_SYSTEM.md for full evidence and OBSERVED/MEASURED/INFERRED/UNKNOWN status per token.
+  NOTE: source stylesheet access was blocked this session — values are computed-style/visual only.
+*/
+
+:root {
+  /* ---------- Color — MEASURED ---------- */
+  --color-brand-gold: #ffd700;
+  --color-text-dark: #202020;
+  --color-text-light: #ffffff;
+  --color-text-muted: #b1a7a7;
+  --color-nav-active-bg: #111111;
+  --color-badge-border: #bac8d1; /* measured on one carousel card; likely varies per performer accent */
+
+  /* ---------- Color — INFERRED (visual estimate, not computed) ---------- */
+  --color-gradient-start: #fff6d0;
+  --color-gradient-end: #ff8a1e;
+  --color-footer-bg: #12141c;
+
+  /* ---------- Typography — MEASURED ---------- */
+  --font-display: Epilogue, sans-serif;
+  --font-body: "Work Sans", sans-serif;
+  --font-badge: Inter, sans-serif;
+
+  --text-h1-size: 102.816px;
+  --text-h1-weight: 500;
+  --text-h1-line-height: 102.816px;
+  --text-h1-letter-spacing: -4.11264px;
+
+  --text-button-size: 16px;
+  --text-button-weight: 600;
+  --text-nav-active-size: 14px;
+  --text-nav-active-weight: 700;
+  --text-badge-size: 19px;
+  --text-badge-weight: 500;
+  --text-body-size: 16px;
+  --text-body-weight: 400;
+
+  /* ---------- Spacing — MEASURED (isolated values, no confirmed base scale) ---------- */
+  --space-badge-padding: 3px 12px;
+  --space-button-padding: 18px 40px;
+  --space-nav-pill-padding: 8px 16px;
+
+  /* ---------- Radius — MEASURED ---------- */
+  --radius-button: 8px;
+  --radius-pill: 20px;
+
+  /* ---------- Borders — MEASURED ---------- */
+  --border-badge-width: 1px;
+}
+
+/* ---------- Reference component styles ---------- */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: var(--text-button-size);
+  font-weight: var(--text-button-weight);
+  color: var(--color-text-dark);
+  background: var(--color-brand-gold);
+  border: none;
+  border-radius: var(--radius-button);
+  padding: var(--space-button-padding);
+}
+
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: var(--text-nav-active-size);
+  font-weight: var(--text-nav-active-weight);
+  padding: var(--space-nav-pill-padding);
+  border-radius: var(--radius-pill);
+  color: #111111; /* inactive: plain dark text, no pill background */
+}
+.nav-pill--active {
+  background: var(--color-nav-active-bg);
+  color: var(--color-brand-gold);
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-badge);
+  font-size: var(--text-badge-size);
+  font-weight: var(--text-badge-weight);
+  color: var(--color-badge-border);
+  border: var(--border-badge-width) solid var(--color-badge-border);
+  border-radius: var(--radius-pill);
+  padding: var(--space-badge-padding);
+}
+
+.eyebrow-label {
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-body-weight);
+  color: var(--color-text-muted);
+  /* source text is typed in caps where needed — no CSS text-transform confirmed */
+}
+
+.section-background {
+  /* INFERRED gradient — exact stops not measured; recreate the low-poly triangle
+     texture as a separate overlay (SVG/PNG pattern), not a pure CSS gradient */
+  background: linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end));
+}
+
+.image-mask--blob {
+  /* organic mask — approximate with a CSS clip-path polygon or an SVG mask in production;
+     border-radius alone will not reproduce the observed contour */
+  clip-path: polygon(20% 0%, 80% 0%, 100% 30%, 100% 80%, 70% 100%, 20% 100%, 0% 60%, 0% 20%);
+}
+
+.image-mask--circle {
+  border-radius: 50%;
+}

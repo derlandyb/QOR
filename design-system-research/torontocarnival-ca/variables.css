@@ -1,0 +1,122 @@
+/*
+  Toronto Caribbean Carnival — Design Token CSS Variable Layer
+  Reverse-engineered from https://torontocarnival.ca/
+  See DESIGN_SYSTEM.md for full evidence and OBSERVED/MEASURED/INFERRED/UNKNOWN status per token.
+
+  IMPORTANT: this site does not use one unified accent color or one unified button
+  shape (see DESIGN_SYSTEM.md §1/§3/§17). The variables below preserve that variety
+  rather than force it into a single token set. If you want a cleaned-up system
+  instead of a faithful clone, start from --color-accent-magenta and
+  --radius-button-chamfered and deliberately narrow the rest (see §29).
+*/
+
+:root {
+  /* ---------- Color — MEASURED ---------- */
+  --color-accent-magenta: #ed177a;
+  --color-accent-purple: #9e5aff;
+
+  /* ---------- Color — visual estimate only, not computed ---------- */
+  --color-text-body: #2b2650;
+  --color-text-gold-label: #f5a623;
+  --color-nav-pill-bg: #fbeaf5;
+  --color-footer-top: #7b3fe4;
+  --color-footer-bottom: #0f0620;
+
+  /* per-section CTA accents — NOT a shared token set, kept distinct deliberately */
+  --color-cta-teal: #3fb6c9;
+  --color-cta-orange: #c9820f;
+  --color-cta-green: #4c9a2a;
+
+  /* ---------- Typography — MEASURED ---------- */
+  --font-heading: Montserrat, sans-serif;
+  --font-secondary: Barlow, Arial, Helvetica, sans-serif;
+
+  --text-h1-size: 60px;
+  --text-h1-weight: 800;
+  --text-h1-line-height: 96px;
+
+  --text-hero-intro-size: 26px;
+  --text-hero-intro-weight: 500;
+  --text-hero-intro-line-height: 39px;
+
+  --text-button-primary-size: 18px;
+  --text-button-outline-size: 13px;
+
+  /* ---------- Radius — MEASURED ---------- */
+  --radius-button-chamfered: 5px 35px 35px 5px;
+  --radius-button-pill: 50px;
+
+  /* ---------- Borders — MEASURED ---------- */
+  --border-outline-button: 2px solid #ffffff;
+
+  /* ---------- Spacing — MEASURED (isolated values, no confirmed base scale) ---------- */
+  --space-button-primary-padding: 17px 40px;
+  --space-button-outline-padding: 11px 23px;
+}
+
+/* ---------- Reference component styles ---------- */
+
+.btn-primary-chamfered {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-button-primary-size);
+  font-weight: 500;
+  color: #ffffff;
+  background: var(--color-accent-magenta);
+  border: none;
+  border-radius: var(--radius-button-chamfered);
+  padding: var(--space-button-primary-padding);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-button-outline-size);
+  font-weight: 500;
+  color: #ffffff;
+  background: transparent;
+  border: var(--border-outline-button);
+  border-radius: var(--radius-button-pill);
+  padding: var(--space-button-outline-padding);
+}
+
+.btn-gradient-pill {
+  /* visual estimate only — exact gradient stops not measured this session */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-accent-magenta), #f5a623);
+  border: none;
+  border-radius: var(--radius-button-pill);
+  padding: 14px 28px;
+}
+
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent-purple);
+  background: var(--color-nav-pill-bg);
+  border-radius: var(--radius-button-pill);
+  padding: 8px 16px;
+}
+
+.cta-column-heading {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  /* color set per-instance: var(--color-cta-teal) | var(--color-cta-orange) | var(--color-cta-green) */
+}
+
+.section-divider {
+  /* Each divider in this system (equalizer bars, mountain zigzag, layered waves)
+     is a distinct one-off SVG, not a single reusable pattern. Recreate each as
+     its own inline SVG asset rather than trying to parameterize one shape. */
+}

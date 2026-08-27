@@ -1,0 +1,38 @@
+/*
+  Corona React (BootstrapDash) "Modern Vertical" admin demo — layout/interaction reference
+  Reverse-engineered from https://demo.bootstrapdash.com/corona-react/modern-vertical/dashboard
+  See DESIGN_SYSTEM.md for full evidence and OBSERVED/MEASURED/INFERRED status per value.
+
+  SCOPE: this file records the REFERENCE's own surface/layout values so QOR's Admin Panel
+  can implement the same component SHAPES (sidebar width, card radius, flat/no-shadow
+  surfaces, status-pill table) at the same proportions. It is NOT a token set to apply
+  directly to QOR — color and typography values below belong to the reference's own
+  (unrelated) visual identity. QOR's Admin Panel uses NIGHTLIFE-GV's tokens instead
+  (design-system-porpose/design-system.md) for every --color-* / --font-* value.
+*/
+
+:root {
+  /* ---------- Reference's own surface values — MEASURED, NOT for reuse in QOR ---------- */
+  --reference-body-bg: #000000;
+  --reference-card-bg: #191c24;
+  --reference-card-radius: 6px;
+  --reference-card-shadow: none;
+  --reference-font-family: "Rubik", sans-serif;
+  --reference-heading-weight: 500;
+
+  /* ---------- Layout proportions — OBSERVED, safe to reuse as structural sizing ---------- */
+  --admin-sidebar-width: 244px;
+  --admin-stat-card-columns: 4;
+
+  /* ---------- Status-pill semantic colors — OBSERVED pattern, remap to NIGHTLIFE-GV accents ----------
+     Corona uses green/amber/red for Approved/Pending/Rejected. QOR's own status vocabulary
+     (Pending/Active/Suspended/Rejected for venues+promoters; draft/published/canceled/ended
+     for events) should reuse this THREE-STATE-COLOR-CLASS pattern (positive/neutral/negative)
+     mapped onto NIGHTLIFE-GV's own accent tokens rather than green/amber/red literally. */
+  --admin-status-pill-positive-class: "maps to NIGHTLIFE-GV accent for Active/Approved/Published";
+  --admin-status-pill-neutral-class: "maps to NIGHTLIFE-GV accent for Pending/Draft";
+  --admin-status-pill-negative-class: "maps to NIGHTLIFE-GV accent for Suspended/Rejected/Canceled";
+
+  /* ---------- Motion — MEASURED (breadth), not specific timing values ---------- */
+  --admin-transition-coverage-note: "1000+ elements observed with active transitions on the reference — apply NIGHTLIFE-GV's own easing/duration tokens this broadly (nav items, cards, chips), not just to primary CTAs";
+}

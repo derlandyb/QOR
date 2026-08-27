@@ -1,0 +1,156 @@
+/*
+  Electric Island — Design Token CSS Variable Layer
+  Reverse-engineered from https://www.electricisland.to/ (Season 14)
+  See DESIGN_SYSTEM.md for full evidence, sourcing and OBSERVED/MEASURED/INFERRED status per token.
+*/
+
+:root {
+  /* ---------- Color ---------- */
+  --color-background-primary: #000000;
+  --color-background-secondary: #131313;
+  --color-background-overlay: #0d1b1e99;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.5);
+  --color-text-muted: #fdfdfdb3;
+  --color-text-inverse: #000000;
+
+  --color-brand-primary: #fd5f40;   /* active accent on the captured Weekend 4 page */
+  --color-brand-weekend-1: #00f5d4; /* inferred from CSS var, not rendered */
+  --color-brand-weekend-2: #ff0000; /* inferred from CSS var, not rendered */
+  --color-brand-weekend-3: #e7f80d; /* inferred from CSS var, not rendered */
+  --color-brand-weekend-4: #fd5f40;
+
+  --color-border-default: #000000;
+  --color-border-button: #ffffff;
+
+  /* ---------- Typography ---------- */
+  --font-display: Anton, Impact, sans-serif;
+  --font-body: Suisseintl, Arial, sans-serif;
+  --font-mono: "Tt Interphases Pro Mono Var Roman", sans-serif;
+
+  --text-display-size: 5.833vw;
+  --text-display-letter-spacing: -0.03em;
+  --text-h1-size: 5vw;      /* measured 120.96px at 1512px viewport */
+  --text-h2-size: 3.333vw;
+  --text-h3-size: 2.5vw;
+  --text-h4-size: 2vw;
+  --text-h5-size: 1.5vw;
+  --text-body-size: 1.2vw;  /* measured 18.144px at 1512px viewport */
+  --text-large-size: 1vw;
+  --text-small-size: .5vw;
+
+  --line-height-tight: 1em;
+  --line-height-snug: 1.1em;
+  --line-height-normal: 1.3em;
+  --line-height-relaxed: 1.5em;
+
+  /* ---------- Spacing (4px-rooted rem scale) ---------- */
+  --space-0: 0rem;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 2rem;
+  --space-8: 2.5rem;
+  --space-9: 3rem;
+  --space-10: 3.5rem;
+  --space-11: 4rem;
+  --space-13: 5rem;
+
+  --padding-vertical-none: 0rem;
+  --padding-vertical-small: 5rem;
+  --padding-vertical-main: 7rem;
+  --padding-vertical-large: 10rem;
+  --padding-horizontal-main: 3rem;
+  --grid-gap-main: 1rem;
+
+  /* ---------- Sizing ---------- */
+  --nav-height: 104px;
+  --button-height: 46px;
+
+  /* ---------- Radius ---------- */
+  --radius-none: 0;
+  --radius-small: .25rem;   /* 4px */
+  --radius-main: .5rem;     /* 8px */
+  --radius-card-top: 18.144px;
+  --radius-round: 100vw;    /* fully round pills */
+
+  /* ---------- Borders ---------- */
+  --border-width-main: 1.5px;
+  --svg-stroke-width-main: 1.5px;
+
+  /* ---------- Containers ---------- */
+  --container-max: 150rem;
+
+  /* ---------- Breakpoints (reference only — not usable inside :root in real CSS) ---------- */
+  --breakpoint-mobile: 479px;
+  --breakpoint-tablet: 767px;
+  --breakpoint-desktop-sm: 991px;
+}
+
+/* ---------- Reference component styles (MEASURED) ---------- */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 15.12px;
+  line-height: 18.144px;
+  text-transform: uppercase;
+  color: var(--color-text-inverse);
+  background: #ffffff; /* or var(--color-brand-primary) for the coral variant */
+  border: 0.5px solid var(--color-border-button);
+  border-radius: var(--radius-round);
+  padding: 13.608px 36.288px;
+}
+.btn-primary:hover {
+  /* INFERRED from CSS custom properties, not directly screenshotted */
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 15.12px;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  background: transparent;
+  border: var(--border-width-main) solid var(--color-border-button);
+  border-radius: var(--radius-round);
+  padding: 13.608px 36.288px;
+}
+
+.lineup-stacking-card {
+  background: var(--color-background-secondary);
+  border-radius: var(--radius-card-top) var(--radius-card-top) 0 0;
+  padding: 90.72px 0;
+}
+
+.artist-name--headliner {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 1;
+}
+
+.artist-name--support {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 0.5;
+}
+
+.eyebrow-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-large-size);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  /* .scramble modifier drives a character-decode reveal animation on load/in-view (INFERRED timing) */
+}
