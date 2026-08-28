@@ -86,7 +86,7 @@ _None captured yet._
 ## Todos
 
 - [ ] `mobile`, `admin`, `website`, `landingpage` submodules have no feature work yet (README-only) — next up per ROADMAP.md once `api`'s domain layer stabilizes.
-- [ ] CLAUDE.md's repository-topology note ("none of which are checked out yet") is stale — all 5 submodules are already checked out. Correct in a future pass.
+- [x] CLAUDE.md's repository-topology note ("none of which are checked out yet") was stale — all 5 submodules are already checked out. Fixed 2026-08-28.
 
 ---
 

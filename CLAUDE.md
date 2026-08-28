@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **QOR** root workspace — a spec/design planning repo, not application source code. QOR is a music-event discovery platform for the Greater Vitória region (Vitória, Vila Velha, Serra, Cariacica), connecting fans with venues/promoters across mobile, web, and admin surfaces.
 
-Per `.specs/project/ARCHITECTURE.md` §1, the intended repository topology is this root repo plus 5 submodules — `qor-api` (Laravel), `qor-mobile` (KMP + Compose/SwiftUI), `qor-admin` (Next.js), `qor-website` (Next.js), `qor-landingpage` (Next.js) — none of which are checked out yet. There is no build/lint/test tooling in this repo itself; those commands belong to each submodule once it exists (see §8 of ARCHITECTURE.md for the Docker/Makefile/CI conventions each submodule must follow).
+Per `.specs/project/ARCHITECTURE.md` §1, the repository topology is this root repo plus 5 submodules — `qor-api` (Laravel), `qor-mobile` (KMP + Compose/SwiftUI), `qor-admin` (Next.js), `qor-website` (Next.js), `qor-landingpage` (Next.js) — all checked out, though only `qor-api` has feature work started so far (see `.specs/project/STATE.md`). There is no build/lint/test tooling in this repo itself; those commands belong to each submodule (see §8 of ARCHITECTURE.md for the Docker/Makefile/CI conventions each submodule must follow).
 
 ## Workflow: spec-driven planning via `tlc-spec-driven`
 
