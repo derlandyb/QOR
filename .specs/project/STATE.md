@@ -1,11 +1,18 @@
 # State
 
 **Last Updated:** 2026-08-28
-**Current Work:** MVP Core — `api` submodule Phase 2 (domain layer) merged; `mobile`/`admin`/`website`/`landingpage` not yet started.
+**Current Work:** MVP Core — `api` submodule Phase 3: Event Discovery (PR #3) and Auth & Fan Profile (PR #4) merged; Venue/Promoter Admin (T34–T43) in progress. `mobile`/`admin`/`website`/`landingpage` not yet started.
 
 ---
 
 ## Recent Decisions (Last 60 days)
+
+### AD-007: Phase 3 split into three sequential PRs, two infra gaps filled framework-natively (2026-08-28)
+
+**Decision:** `qor-api` Phase 3 (T23–T43) ships as three sequential branches/PRs — Event Discovery (merged, PR #3), Auth & Fan Profile (merged, PR #4), Venue/Promoter Admin (in progress). Two gaps Phase 2 left open are filled with Laravel-native mechanisms behind domain ports rather than custom builds: `AdminAccountRepository` for the admin login row created alongside Venue/Promoter registration, and email-verification/password-reset via signed URLs + the stock `password_reset_tokens` broker (`EmailVerificationPort`/`PasswordResetPort`).
+**Reason:** Keeps each PR reviewable and mergeable independently (milestones are sequential per CLAUDE.md); avoids inventing new custom mechanisms where Laravel already has a fitting one.
+**Trade-off:** Three review passes instead of one; the admin-login-row gap-fill adds one more domain entity/repository pair not in the original Phase 2 scope.
+**Impact:** PR #4's `review-laravel-api` pass caught and fixed two issues before merge: `EloquentUserRepository::delete()` was a plain soft-delete without PII scrub (violated the LGPD "right to be forgotten" design decision — fixed), and the email-verification link TTL was hardcoded instead of config-driven (fixed, added `qor.auth.email_verification_ttl_minutes`). CAPTCHA (ARCHITECTURE §13.2) remains deferred — see Todos.
 
 ### AD-001: Local dev orchestration via docker-compose + Makefile (2026-08-27)
 
@@ -87,6 +94,8 @@ _None captured yet._
 
 - [ ] `mobile`, `admin`, `website`, `landingpage` submodules have no feature work yet (README-only) — next up per ROADMAP.md once `api`'s domain layer stabilizes.
 - [x] CLAUDE.md's repository-topology note ("none of which are checked out yet") was stale — all 5 submodules are already checked out. Fixed 2026-08-28.
+- [ ] CAPTCHA (ARCHITECTURE §13.2) not implemented on any public unauthenticated form (fan signup, password-reset request, venue/promoter registration) — no provider chosen yet, not in PRD's resolved decisions. Needs a follow-up task once a vendor is picked.
+- [ ] Google ID token is trusted client-side (`POST /api/v1/auth/google` accepts `google_id`/`email`/`name` as-is) — server-side verification via Google's token library isn't wired up. Flagged in `GoogleAuthRequest`'s docblock (api PR #4).
 
 ---
 
