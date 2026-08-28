@@ -1,0 +1,40 @@
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/var/www/html
+      - api-vendor:/var/www/html/vendor
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - qor
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-qor}
+      POSTGRES_USER: ${POSTGRES_USER:-qor}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-qor}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-qor}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - qor
+
+volumes:
+  db-data:
+  api-vendor:
+
+networks:
+  qor:
+    driver: bridge

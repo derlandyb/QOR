@@ -5,3 +5,8 @@
 *.tmp
 node_modules/
 dist/
+
+# Secrets — root-level env used by docker-compose.yml
+.env
+.env.*
+!.env.example
