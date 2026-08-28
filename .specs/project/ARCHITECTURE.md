@@ -17,7 +17,7 @@ graph TD
     Landing["Landing Page (Next.js)<br/>qor-landingpage"]
     Gateway["Reverse Proxy / Gateway<br/>(Nginx local · LB+WAF in prod)"]
     API["Laravel API<br/>qor-api"]
-    DB[("Database")]
+    DB[("PostgreSQL")]
     S3[("S3 / CDN — media")]
     Google["Google OAuth"]
     Maps["Map Provider"]
@@ -254,7 +254,7 @@ A scheduled job resets `publishes_used_this_period` to 0 for every `Subscription
 ## 8. Local Development, CI, and Repo Conventions
 
 ### 8.1 Docker & Makefile
-Docker + Docker Compose for every service except the mobile app: API, website, admin panel, landing page, database, and any supporting services each get a compose service, defined per-submodule and composed from the root. A root-level `Makefile` drives the whole stack (`make up`, `make down`, `make test`) so `docker compose` is never invoked by hand per-service.
+Docker + Docker Compose for every service except the mobile app: API, website, admin panel, landing page, PostgreSQL, and any supporting services each get a compose service, defined per-submodule and composed from the root. A root-level `Makefile` drives the whole stack (`make up`, `make down`, `make test`) so `docker compose` is never invoked by hand per-service.
 
 ### 8.2 CI (GitHub Actions, per-repo)
 - One workflow per submodule — not a single monorepo pipeline.
