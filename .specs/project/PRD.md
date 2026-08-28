@@ -78,7 +78,7 @@ Fans currently have no single place to discover music events across Greater Vit�
 
 - **Self-registration**: public signup form (venue name, description, address, contact, image, login credentials). Account starts `Pending Approval` — no event creation or publishing until a Super Admin approves it.
 - **Event creation**: featured image, date/time, description, location, external ticket link, free/paid flag, genre, capacity, age rating, additional notes.
-- **Event lifecycle**: `Draft → Pending Review → Published | Rejected`, then `Published → Cancelled | Encerrado`. Submitting for review hands the event to the Super Admin's queue.
+- **Event lifecycle**: `Draft → Pending Review → Published | Rejected`, then `Published → Cancelled | Ended`. Submitting for review hands the event to the Super Admin's queue.
 - Edit/delete/duplicate own events; view per-event statistics.
 - Manage venue profile (name, description, address, contact, image); view event schedule and history.
 - Dashboard: interested-user count, views, favorites, ticket-link clicks, per-event performance.

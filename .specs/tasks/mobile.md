@@ -131,7 +131,7 @@ I7 → I14
 **Reuses**: `api.md` T25's exact endpoint contract (query params, response envelope)
 **Requirement**: `event-discovery/design.md`
 **Done when**:
-- [ ] Unit test (mocked HTTP engine): request built with correct query params for city/genre/cursor filters; response mapped to `Event` correctly; cancelled/encerrado state payload mapped to a distinct UI state, not treated as a normal event
+- [ ] Unit test (mocked HTTP engine): request built with correct query params for city/genre/cursor filters; response mapped to `Event` correctly; cancelled/ended state payload mapped to a distinct UI state, not treated as a normal event
 **Tests**: unit
 **Gate**: quick
 
@@ -141,7 +141,7 @@ I7 → I14
 **Depends on**: S6
 **Reuses**: `EventRepository` (S6)
 **Requirement**: DISC-01–DISC-18 (client-side consumption)
-**Done when**: unit tests mirroring `api.md` T23/T24's scenarios at the client-mapping level (filter combination, empty results, cancelled/encerrado handling)
+**Done when**: unit tests mirroring `api.md` T23/T24's scenarios at the client-mapping level (filter combination, empty results, cancelled/ended handling)
 **Tests**: unit
 **Gate**: quick
 
@@ -316,7 +316,7 @@ I7 → I14
 **Gate**: quick
 
 #### A14: Navigation graph wiring (sequential, after all screens exist)
-**What**: `NavHost` wiring every screen above, deep-link handling for shared event URLs (cancelled/encerrado state banners per DISC edge cases), `BottomNav` integration.
+**What**: `NavHost` wiring every screen above, deep-link handling for shared event URLs (cancelled/ended state banners per DISC edge cases), `BottomNav` integration.
 **Where**: `mobile/androidApp/src/main/kotlin/ui/NavGraph.kt`
 **Depends on**: A7, A8, A9, A10, A11, A12, A13, A3
 **Reuses**: all screens above

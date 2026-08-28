@@ -180,10 +180,10 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 
 **Acceptance Criteria**:
 
-1. WHEN a `Published` event's date/time passes THEN system SHALL transition it to `Encerrado`.
-2. WHEN an event is `Encerrado` THEN system SHALL treat it the same as a past event for fan-facing purposes (excluded from default list, per Event Discovery).
+1. WHEN a `Published` event's date/time passes THEN system SHALL transition it to `Ended`.
+2. WHEN an event is `Ended` THEN system SHALL treat it the same as a past event for fan-facing purposes (excluded from default list, per Event Discovery).
 
-**Independent Test**: Confirm a published event with a past date/time is `Encerrado`, not still `Published`.
+**Independent Test**: Confirm a published event with a past date/time is `Ended`, not still `Published`.
 
 ---
 
@@ -255,7 +255,7 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 - WHEN an event is submitted with a missing required field (e.g., no ticket link on a paid event) THEN system SHALL block submission with a field-specific error rather than accepting it silently.
 - WHEN a Super Admin rejects an event or account with no reason/feedback entered THEN system SHALL still allow the rejection (feedback is optional, not required).
 - WHEN a Promoter tagged on a Venue Admin's event attempts to edit or delete it THEN system SHALL block the action — tagging never grants edit rights.
-- WHEN an event's date/time passes while it's still `Pending Review` (never approved in time) THEN system SHALL NOT auto-publish it — it remains in the queue for an explicit Super Admin decision, and if later approved after its date has passed, system SHALL immediately mark it `Encerrado` rather than showing it as upcoming.
+- WHEN an event's date/time passes while it's still `Pending Review` (never approved in time) THEN system SHALL NOT auto-publish it — it remains in the queue for an explicit Super Admin decision, and if later approved after its date has passed, system SHALL immediately mark it `Ended` rather than showing it as upcoming.
 - WHEN an organizer account is suspended THEN system SHALL leave that account's already-`Published` events live and fan-visible unless a Super Admin separately force-cancels them.
 
 ---
@@ -286,7 +286,7 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 | ADMIN-20 | P1: Blocked actions before approval — enforcement across create/edit/submit | Design | In Design |
 | ADMIN-21 | P2: Edit/delete/duplicate own events | Design | In Design |
 | ADMIN-22 | P2: Event cancellation — organizer and Super Admin force-cancel | Design | In Design |
-| ADMIN-23 | P2: Natural event end — Published to Encerrado | Design | In Design |
+| ADMIN-23 | P2: Natural event end — Published to Ended | Design | In Design |
 | ADMIN-24 | P2: Promoter tagging — listed without edit rights | Design | In Design |
 | ADMIN-25 | P2: Venue/Promoter profile management | Design | In Design |
 | ADMIN-26 | P2: Venue/Promoter dashboard — per-event stats | Design | In Design |
@@ -307,4 +307,4 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 - [ ] An unapproved or suspended organizer account is blocked from creating or submitting events at every attempt
 - [ ] Organizer dashboards show accurate per-event counts matching fan-side activity
 
-**✅ Resolved during Design (2026-08-27)**: A rejected event **auto-returns to `Draft`** — there is no separate `Rejected` event state. The Super Admin's optional feedback stays attached to and visible on the event until the organizer edits and resubmits it. (Event lifecycle is therefore `Draft → Pending Review → Published | Draft (rejected) → Cancelled | Encerrado`, simpler than the PRD's original `Draft → Pending Review → Published | Rejected` sketch.)
+**✅ Resolved during Design (2026-08-27)**: A rejected event **auto-returns to `Draft`** — there is no separate `Rejected` event state. The Super Admin's optional feedback stays attached to and visible on the event until the organizer edits and resubmits it. (Event lifecycle is therefore `Draft → Pending Review → Published | Draft (rejected) → Cancelled | Ended`, simpler than the PRD's original `Draft → Pending Review → Published | Rejected` sketch.)

@@ -83,7 +83,7 @@ Fans in Greater Vitória have no single place to find out what's happening acros
 - WHEN no events are published in the fan's view (empty state) THEN system SHALL show a clear empty-state message rather than a blank screen.
 - WHEN an event has no featured image THEN system SHALL render a design-system-consistent placeholder image.
 - WHEN an event is cancelled (`Cancelled`) after being published THEN system SHALL remove it from the default list and show a cancelled state if reached directly via a deep link or share.
-- WHEN an event's status changes to `Encerrado` (ended) THEN system SHALL treat it the same as a past event and exclude it from the default list.
+- WHEN an event's status changes to `Ended` THEN system SHALL treat it the same as a past event and exclude it from the default list.
 - WHEN the ticket-link URL is malformed or unreachable THEN system SHALL fail gracefully (e.g., show an error toast) rather than crash.
 - WHEN a tagged promoter is missing one or more contact fields (phone/email/Instagram/TikTok) THEN system SHALL omit only the missing contact links, not the whole promoter entry.
 

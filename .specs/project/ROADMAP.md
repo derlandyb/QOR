@@ -26,7 +26,7 @@
 **Venue/Promoter Admin + Approval Workflow** - IN PROGRESS
 
 - Venue self-registration (single-venue) and Promoter self-registration, both `Pending Approval`
-- Event creation and `Draft → Pending Review → Published|Rejected → Cancelled|Encerrado` lifecycle
+- Event creation and `Draft → Pending Review → Published|Rejected → Cancelled|Ended` lifecycle
 - Super Admin account-approval queue and event-publish queue
 - Venue/Promoter dashboards (views, favorites, ticket-link clicks)
 

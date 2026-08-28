@@ -218,7 +218,7 @@ Phase 5 (Integration, sequential):
 **Depends on**: W6, W13
 **Reuses**: `EventCard`'s sub-components where applicable, `useEventDetail` (W11/W13)
 **Requirement**: DISC-07–DISC-13; Stitch screen `391ebe25bee544b89dc309283b2b9008`
-**Done when**: integration test covers cancelled/encerrado banner rendering, missing-promoter-contact-field omission, paid-vs-free ticket-button visibility
+**Done when**: integration test covers cancelled/ended banner rendering, missing-promoter-contact-field omission, paid-vs-free ticket-button visibility
 **Tests**: integration
 **Gate**: full
 

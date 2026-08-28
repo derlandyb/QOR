@@ -213,7 +213,7 @@ Phase 5 (Integration, sequential):
 **Gate**: full
 
 #### AT17: Event-approval (publish) queue page [P]
-**What**: Per ADMIN-16–ADMIN-19 — list every `Pending Review` event, approve (→`Published`)/reject (→`Draft` + feedback), auditable, including the past-date→`Encerrado` edge case display.
+**What**: Per ADMIN-16–ADMIN-19 — list every `Pending Review` event, approve (→`Published`)/reject (→`Draft` + feedback), auditable, including the past-date→`Ended` edge case display.
 **Where**: `admin/app/aprovacoes/eventos/page.tsx`
 **Depends on**: AT7, AT10, AT13
 **Reuses**: same components as AT16

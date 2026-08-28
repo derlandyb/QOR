@@ -218,7 +218,7 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Depends on**: T4, T7 (and T4's `genres` table)
 **Reuses**: T9's pattern
 **Requirement**: ARCHITECTURE §4, §5 (state machine)
-**Done when**: standard T9-shape checklist + unit test asserting the state machine's legal transitions (`Draft→PendingReview→Published|Draft→Cancelled|Encerrado`) are enforced at the entity level, illegal transitions throw
+**Done when**: standard T9-shape checklist + unit test asserting the state machine's legal transitions (`Draft→PendingReview→Published|Draft→Cancelled|Ended`) are enforced at the entity level, illegal transitions throw
 **Tests**: unit
 **Gate**: quick
 
@@ -319,7 +319,7 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Reuses**: factories from T9–T15
 **Requirement**: ARCHITECTURE §8.7
 **Done when**:
-- [ ] `php artisan db:seed` produces at least: fans, venues+promoters across all 4 cities, events across `Draft`/`PendingReview`/`Published`/`Cancelled`/`Encerrado` and all seeded genres
+- [ ] `php artisan db:seed` produces at least: fans, venues+promoters across all 4 cities, events across `Draft`/`PendingReview`/`Published`/`Cancelled`/`Ended` and all seeded genres
 - [ ] Runs automatically as part of `make up`
 **Tests**: none
 **Gate**: build
@@ -349,7 +349,7 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Reuses**: `EventRepository` (T16)
 **Requirement**: DISC-07–DISC-13
 **Done when**:
-- [ ] Unit tests: full-field happy path; cancelled event returns cancelled-state payload; encerrado event returns past-state payload; promoter missing one contact field omits only that link
+- [ ] Unit tests: full-field happy path; cancelled event returns cancelled-state payload; ended event returns past-state payload; promoter missing one contact field omits only that link
 - [ ] Gate check passes, test count ≥ 5
 **Tests**: unit
 **Gate**: quick
@@ -361,7 +361,7 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Reuses**: `ListUpcomingEvents` (T23), `GetEventDetails` (T24)
 **Requirement**: DISC-01–DISC-18
 **Done when**:
-- [ ] Integration tests: 200 + correct envelope for list/detail; 422 for invalid city/genre; cancelled/encerrado detail returns 200 with state banner, not 404
+- [ ] Integration tests: 200 + correct envelope for list/detail; 422 for invalid city/genre; cancelled/ended detail returns 200 with state banner, not 404
 - [ ] Gate check passes: `php artisan test --filter=EventControllerTest`, test count ≥ 6
 - [ ] Postman-collection-ready (used by T50)
 **Tests**: integration
@@ -523,13 +523,13 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Gate**: quick
 
 #### T39: `DecideEventApproval` use case
-**What**: `execute(eventId, outcome, feedback?, decidedBy): ApprovalDecision` — approve → `Published`, reject → auto-return to `Draft` with feedback attached, force-cancel, auditable; if approved after the event's date has passed, immediately mark `Encerrado` instead of `Published`.
+**What**: `execute(eventId, outcome, feedback?, decidedBy): ApprovalDecision` — approve → `Published`, reject → auto-return to `Draft` with feedback attached, force-cancel, auditable; if approved after the event's date has passed, immediately mark `Ended` instead of `Published`.
 **Where**: `api/src/Domain/Approval/UseCase/DecideEventApproval.php`
 **Depends on**: T12, T19
 **Reuses**: `ApprovalDecisionRepository` (T19)
 **Requirement**: ADMIN-16–ADMIN-19, ADMIN-22
 **Done when**:
-- [ ] Unit tests: approve before date-passed → `Published`; approve after date-passed → `Encerrado` directly; reject → `Draft` with feedback visible; every decision recorded
+- [ ] Unit tests: approve before date-passed → `Published`; approve after date-passed → `Ended` directly; reject → `Draft` with feedback visible; every decision recorded
 - [ ] Gate check passes, test count ≥ 5
 **Tests**: unit
 **Gate**: quick
@@ -573,7 +573,7 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Depends on**: T39, T7
 **Reuses**: `DecideEventApproval` (T39)
 **Requirement**: ADMIN-16–ADMIN-19
-**Done when**: integration tests: queue lists pending events; approve/reject end-to-end, including the past-date→Encerrado edge case; test count ≥ 5
+**Done when**: integration tests: queue lists pending events; approve/reject end-to-end, including the past-date→Ended edge case; test count ≥ 5
 **Tests**: integration
 **Gate**: full
 **Commit**: `feat(api): add event publish-queue endpoints`
@@ -592,7 +592,7 @@ T25,T31,T32,T40,T41,T42,T43 → T50 → T51 → T52
 **Gate**: quick
 
 #### T45: Natural event end — scheduled job [P]
-**What**: Scheduled job transitioning `Published` → `Encerrado` when `starts_at` passes.
+**What**: Scheduled job transitioning `Published` → `Ended` when `starts_at` passes.
 **Where**: `api/src/Console/Commands/CloseEndedEvents.php`, `api/routes/console.php` (schedule registration)
 **Depends on**: T12
 **Reuses**: `EventStatus` enum (T4)

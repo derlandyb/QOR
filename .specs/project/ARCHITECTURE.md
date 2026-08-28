@@ -116,7 +116,7 @@ title, description, cover_image_url (S3), starts_at, city, genre,
 address (own field for Promoter-created events; defaults from Venue for Venue-created events),
 is_free, ticket_url (nullable — required if !is_free), capacity (nullable),
 age_rating (nullable, informational-only in MVP Core), notes (nullable),
-status (enum: draft | pending_review | published | cancelled | encerrado),
+status (enum: draft | pending_review | published | cancelled | ended),
 rejection_feedback (nullable — cleared on next submission),
 created_at, updated_at
 ```
@@ -190,8 +190,8 @@ stateDiagram-v2
     PendingReview --> Published: Super Admin approves
     PendingReview --> Draft: Super Admin rejects (feedback attached)
     Published --> Cancelled: organizer cancels / Super Admin force-cancels
-    Published --> Encerrado: date/time passes
-    PendingReview --> Encerrado: date passes while still pending, then approved late
+    Published --> Ended: date/time passes
+    PendingReview --> Ended: date passes while still pending, then approved late
 ```
 
 Resolved during Design: a rejected event **auto-returns to `Draft`** — no separate `Rejected` state. Feedback attached at rejection stays visible on the event until the organizer edits and resubmits.
@@ -376,7 +376,7 @@ Every enum-shaped field named in §4's data models is a PHP 8.1+ **backed enum**
 
 | Enum | Cases | Backs |
 |---|---|---|
-| `EventStatus` | `Draft`, `PendingReview`, `Published`, `Cancelled`, `Encerrado` | `Event.status` |
+| `EventStatus` | `Draft`, `PendingReview`, `Published`, `Cancelled`, `Ended` | `Event.status` |
 | `EventCreatedByType` | `VenueAdmin`, `Promoter` | `Event.created_by_type` |
 | `ApprovalStatus` | `PendingApproval`, `Approved`, `Rejected`, `Suspended` | `Venue.approval_status`, `Promoter.approval_status` |
 | `ApprovalDecidableType` | `Venue`, `Promoter`, `Event` | `ApprovalDecision.decidable_type` |

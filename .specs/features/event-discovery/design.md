@@ -117,7 +117,7 @@ No new models — reuses `Event`, `Venue`, `EventPromoter` exactly as defined in
 | Event has no cover image | Design-system placeholder image | Placeholder renders, no broken-image icon |
 | Ticket URL malformed/unreachable | Client-side try/catch around the external open; toast, not crash | "Não foi possível abrir o link do ingresso" |
 | Event reached via stale/direct link is `Cancelled` | `GetEventDetails` returns a cancelled-state payload, not 404 | Detail page renders with a clear "Evento cancelado" banner instead of full content |
-| Event reached via stale/direct link is `Encerrado`/past | Same pattern as cancelled | "Este evento já aconteceu" banner |
+| Event reached via stale/direct link is `Ended`/past | Same pattern as cancelled | "Este evento já aconteceu" banner |
 | Tagged promoter missing one or more contact fields | `GetEventDetails` omits only the missing contact link(s), not the promoter entry | Promoter row shows only the contact icons that have data |
 | Filter combination yields a request to a nonexistent city/genre value | 200 with empty result set, not an error | Same empty-state as "no matches" |
 

@@ -137,7 +137,7 @@ Reuses `Venue`, `Promoter`, `Event`, `ApprovalDecision` from ARCHITECTURE.md §4
 | Unapproved/suspended account attempts create/edit/submit | `EventPolicy`/`VenuePolicy` blocks before the use case runs | "Sua conta ainda não foi aprovada" / "Sua conta está suspensa" |
 | Tagged promoter attempts to edit an event they don't own | `EventPolicy` ownership check | "Você não tem permissão para editar este evento" |
 | Rejection/suspension with no reason/feedback entered | Allowed — reason/feedback optional, not required | Decision recorded without a reason field |
-| Event's date passes while still `Pending Review`, later approved | `DecideEventApproval` immediately marks it `Encerrado` instead of `Published` if the date has passed by decision time | Organizer sees `Encerrado`, not a live "upcoming" event |
+| Event's date passes while still `Pending Review`, later approved | `DecideEventApproval` immediately marks it `Ended` instead of `Published` if the date has passed by decision time | Organizer sees `Ended`, not a live "upcoming" event |
 
 Client-side validation before submit: registration forms (venue/promoter) validate required fields and email format; event-creation/submit form validates required fields, ticket-link URL format (required only when `is_free` is false), capacity/age-rating as numeric — all mirroring the API's Form Request rules, all copy in pt-BR.
 
@@ -172,4 +172,4 @@ Per ARCHITECTURE.md §11/§14.4 (each event below is a named constant in the `An
 
 ## Requirement Coverage
 
-ADMIN-01–ADMIN-20 (all P1) map to `RegisterVenue`/`RegisterPromoter`, `DecideAccountApproval`, `CreateEvent`, `SubmitEventForReview`, `DecideEventApproval`, and their policies/controllers above. ADMIN-21–ADMIN-27 (P2) map to `EditEvent`/`DuplicateEvent`/`CancelEvent`, the natural-`Encerrado`-transition edge case, promoter tagging (`EventPromoter`, already modeled in ARCHITECTURE.md §4), venue/promoter profile management (extends `RegisterVenue`/`RegisterPromoter`'s repositories with an update path), the dashboard endpoint, and account suspension (folded into `DecideAccountApproval`'s outcome enum).
+ADMIN-01–ADMIN-20 (all P1) map to `RegisterVenue`/`RegisterPromoter`, `DecideAccountApproval`, `CreateEvent`, `SubmitEventForReview`, `DecideEventApproval`, and their policies/controllers above. ADMIN-21–ADMIN-27 (P2) map to `EditEvent`/`DuplicateEvent`/`CancelEvent`, the natural-`Ended`-transition edge case, promoter tagging (`EventPromoter`, already modeled in ARCHITECTURE.md §4), venue/promoter profile management (extends `RegisterVenue`/`RegisterPromoter`'s repositories with an update path), the dashboard endpoint, and account suspension (folded into `DecideAccountApproval`'s outcome enum).
