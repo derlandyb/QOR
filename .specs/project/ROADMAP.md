@@ -1,7 +1,7 @@
 # Roadmap
 
-**Current Milestone:** MVP Core
-**Status:** Planning
+**Current Milestone:** Monetization
+**Status:** In Progress (`qor-api` P1) — MVP Core and Social & Notifications both DONE in `qor-api`
 
 ---
 
@@ -23,12 +23,14 @@
 - Email/password + Google signup/login, password recovery
 - Profile fields (username, contact, address, favorite genres, radius, notification prefs)
 
-**Venue/Promoter Admin + Approval Workflow** - IN PROGRESS
+**Venue/Promoter Admin + Approval Workflow** - DONE (`qor-api`)
 
 - Venue self-registration (single-venue) and Promoter self-registration, both `Pending Approval`
 - Event creation and `Draft → Pending Review → Published|Rejected → Cancelled|Ended` lifecycle
 - Super Admin account-approval queue and event-publish queue
 - Venue/Promoter dashboards (views, favorites, ticket-link clicks)
+- Admin login (ADMIN-28-30) and Phase 4 event lifecycle (Edit/Duplicate/Cancel) also merged
+- `qor-admin` (Next.js UI) not started — this milestone is API-only so far
 
 ---
 
@@ -38,16 +40,19 @@
 
 ### Features
 
-**Favorites & Social** - PLANNED
+**Favorites & Social** - DONE (`qor-api`)
 
 - Mutual friends (request/accept/remove), friends-interested-in-event
 - Share (native + in-app to friend)
 - Social feed (should-have, ranking unspecified)
+- `qor-mobile`/`qor-website` UI not started — this milestone is API-only so far; `spec.md`'s
+  requirement-traceability table still reads "In Design" and needs a reconciliation pass
 
-**Notifications** - PLANNED
+**Notifications** - DONE (`qor-api`)
 
 - Push + email, per-channel opt-out, global silence
 - Triggers: nearby favorited event soon, friend interest, new regional events, reminders, event changed/cancelled
+- `spec.md`'s requirement-traceability table still reads "In Design" and needs a reconciliation pass
 
 ---
 
@@ -57,7 +62,7 @@
 
 ### Features
 
-**Publishing Plans & Landing Page** - PLANNED
+**Publishing Plans & Landing Page** - IN PROGRESS (`qor-api` P1 underway; spec+design already complete)
 
 - Public landing page (plan comparison, self-registration CTA)
 - Free plan (5 publishes/month) + Super-Admin-configurable paid tiers

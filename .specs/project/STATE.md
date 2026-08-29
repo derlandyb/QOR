@@ -1,11 +1,18 @@
 # State
 
-**Last Updated:** 2026-08-28
-**Current Work:** MVP Core — `api` submodule Phase 3 complete: Event Discovery (PR #3), Auth & Fan Profile (PR #4), Venue/Promoter Admin (PR #5) all merged. Phase 4 (P2 stretch: EditEvent/DuplicateEvent/CancelEvent, promoter tagging, venue/promoter profile management, dashboard, account suspension enum verification, Postman collection, k6 load test, coverage gate) and Phase 5+ (Social & Notifications milestone) not started. `mobile`/`admin`/`website`/`landingpage` submodules not yet started.
+**Last Updated:** 2026-08-29
+**Current Work:** Monetization milestone (ROADMAP.md milestone 3), `qor-api` P1 scope (MON-01–MON-18) — Tasks/Execute starting from `monetization/spec.md` and `design.md`, both already content-complete. MVP Core (Event Discovery PR #3, Auth & Fan Profile PR #4, Venue/Promoter Admin PR #5, Phase 4 event lifecycle PR #7, admin login PR #8) and the entire Social & Notifications milestone (sub-phases 5a–5d, PRs #10–#13) are fully merged in `api` — see AD-008. `mobile`/`admin`/`website`/`landingpage` submodules still have no feature work.
 
 ---
 
 ## Recent Decisions (Last 60 days)
+
+### AD-008: Root docs/submodule pointer had drifted 4 PRs behind `api`'s actual `main` (2026-08-29)
+
+**Decision:** Resynced the root repo's `api` submodule pointer (was pinned at `a2a5a39`, checked-out HEAD was already `a930ff7`) and rewrote STATE.md/ROADMAP.md to reflect what's actually merged: Phase 4 (event lifecycle: Edit/Duplicate/Cancel + admin tools, PR #7), admin login (ADMIN-28-30, PR #8), Postman docs (PR #9), and the full Social & Notifications milestone across sub-phases 5a–5d (PRs #10–#13: favorites, friend request/accept/remove/list, friends-interested, share, social feed, notification preferences, nearby-reminder/regional-publish detectors, event-changed/cancelled handling).
+**Reason:** Nobody committed the root submodule-pointer bump or updated STATE.md/ROADMAP.md after PRs #7–#13 merged in `api` — the docs kept describing a state 4 PRs stale, which made "what phase are we on" unanswerable from the docs alone.
+**Trade-off:** None — this is a pure resync, no code or scope change. `favorites-social/spec.md` and `notifications/spec.md`'s Requirement Traceability tables still read "In Design" for every row despite the code being merged; a full per-requirement reconciliation pass for those two tables is flagged as a Todo rather than done here (would require verifying each MON-style ID against actual test coverage, not just commit messages).
+**Impact:** ROADMAP.md now shows MVP Core and Social & Notifications as DONE (`qor-api` P1, UI not started in any client submodule) and Monetization as the active milestone. This session proceeds into Monetization's Tasks/Execute phases on that corrected basis.
 
 ### AD-007: Phase 3 split into three sequential PRs, two infra gaps filled framework-natively (2026-08-28)
 
@@ -99,6 +106,8 @@ _None captured yet._
 - [x] Venue/Promoter/Super Admin login (ADMIN-28–30) — Tasks/Execute closed 2026-08-28 on branch `feat/api-admin-login` (T1–T4, T6): `AuthenticateAdmin` use case, admin `LoginRequest`, `AdminAuthController` (`POST /api/admin/v1/auth/login`, `POST /api/admin/v1/auth/logout`) wired into the existing `admin` guard/`AdminAccountRepository`/`AdminUserModel`/`EnsureAdminIdentity` infra from PR #5. 354 tests passing, 98.5% coverage, phpstan clean. T7 (`review-laravel-api`) pending PR open.
 - [ ] Admin password recovery (forgot/reset password for Venue Admin/Promoter/Super Admin) is unspecified — `auth-fan-profile`'s `ResetPassword`/`password_reset_tokens` flow only covers fans. Not yet requested; flagged alongside the login gap for a future Specify pass if needed.
 - [ ] `qor-admin` has no Next.js scaffold yet (only `README.md`) — the admin-panel login UI, and every other frontend piece of `venue-promoter-admin`, needs a bootstrap pass (Next.js + `design-system-admin.md` tokens) before it can be Specified/Tasked as its own slice.
+- [ ] `favorites-social/spec.md` and `notifications/spec.md` Requirement Traceability tables still show every row as "In Design" despite both features being fully merged in `api` (PRs #10–#13, see AD-008) — needs a per-requirement reconciliation pass against actual code/tests, not a bulk status flip.
+- [ ] `qor-mobile`/`qor-website` have no UI for Favorites & Social or Notifications yet — those milestones are API-only so far.
 
 ---
 
