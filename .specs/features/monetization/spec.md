@@ -184,24 +184,24 @@ QOR's organizer side (Venues/Promoters) currently has no monetization mechanism 
 
 | Requirement ID | Story | Phase | Status |
 |---|---|---|---|
-| MON-01 | P1: Public plans landing page — list active plans | Design | In Design |
-| MON-02 | P1: Public plans landing page — CTA into self-registration | Design | In Design |
-| MON-03 | P1: Public plans landing page — deactivated plan hidden | Design | In Design |
-| MON-04 | P1: Default free plan on registration — Subscription created on approval | Design | In Design |
-| MON-05 | P1: Default free plan on registration — missing default-plan config blocks approval | Design | In Design |
-| MON-06 | P1: Default free plan on registration — visible before any change | Design | In Design |
-| MON-07 | P1: Quota enforcement at submission — under-quota increments and proceeds | Design | In Design |
-| MON-08 | P1: Quota enforcement at submission — at-quota blocked with upgrade prompt | Design | In Design |
-| MON-09 | P1: Quota enforcement at submission — approval/rejection doesn't adjust count | Design | In Design |
-| MON-10 | P1: Quota enforcement at submission — unlimited-quota plan never blocks | Design | In Design |
-| MON-11 | P1: Calendar-month quota reset — reset to 0 for all organizers | Design | In Design |
-| MON-12 | P1: Calendar-month quota reset — usage view scoped to current month | Design | In Design |
-| MON-13 | P1: Super Admin plan CRUD — create plan | Design | In Design |
-| MON-14 | P1: Super Admin plan CRUD — edit plan without altering historical usage | Design | In Design |
-| MON-15 | P1: Super Admin plan CRUD — deactivate plan | Design | In Design |
-| MON-16 | P1: Super Admin plan CRUD — required-field validation | Design | In Design |
-| MON-17 | P1: Organizer plan/usage view — show plan, price, quota, usage | Design | In Design |
-| MON-18 | P1: Organizer plan/usage view — at-limit flag with upgrade prompt | Design | In Design |
+| MON-01 | P1: Public plans landing page — list active plans | Tasks | In Tasks (T10, T20) |
+| MON-02 | P1: Public plans landing page — CTA into self-registration | Tasks | In Tasks (client-side only, no `qor-landingpage` scaffold yet) |
+| MON-03 | P1: Public plans landing page — deactivated plan hidden | Tasks | In Tasks (T10, T20) |
+| MON-04 | P1: Default free plan on registration — Subscription created on approval | Tasks | In Tasks (T14, T18, T24) |
+| MON-05 | P1: Default free plan on registration — missing default-plan config blocks approval | Tasks | In Tasks (T14, T18) |
+| MON-06 | P1: Default free plan on registration — visible before any change | Tasks | In Tasks (T14, T24) |
+| MON-07 | P1: Quota enforcement at submission — under-quota increments and proceeds | Tasks | In Tasks (T15, T19) |
+| MON-08 | P1: Quota enforcement at submission — at-quota blocked with upgrade prompt | Tasks | In Tasks (T15, T19) |
+| MON-09 | P1: Quota enforcement at submission — approval/rejection doesn't adjust count | Tasks | In Tasks (T19) |
+| MON-10 | P1: Quota enforcement at submission — unlimited-quota plan never blocks | Tasks | In Tasks (T15, T19) |
+| MON-11 | P1: Calendar-month quota reset — reset to 0 for all organizers | Tasks | In Tasks (T16, T23) |
+| MON-12 | P1: Calendar-month quota reset — usage view scoped to current month | Tasks | In Tasks (T17, T22) |
+| MON-13 | P1: Super Admin plan CRUD — create plan | Tasks | In Tasks (T11, T21) |
+| MON-14 | P1: Super Admin plan CRUD — edit plan without altering historical usage | Tasks | In Tasks (T12, T21) |
+| MON-15 | P1: Super Admin plan CRUD — deactivate plan | Tasks | In Tasks (T13, T21) |
+| MON-16 | P1: Super Admin plan CRUD — required-field validation | Tasks | In Tasks (T21) |
+| MON-17 | P1: Organizer plan/usage view — show plan, price, quota, usage | Tasks | In Tasks (T17, T22) |
+| MON-18 | P1: Organizer plan/usage view — at-limit flag with upgrade prompt | Tasks | In Tasks (T17, T22) |
 | MON-19 | P2: Plan upgrade/downgrade — new quota effective next reset | Design | In Design |
 | MON-20 | P2: Plan upgrade/downgrade — no retroactive block on downgrade | Design | In Design |
 | MON-21 | P2: Plan upgrade/downgrade — published events stay live | Design | In Design |
@@ -215,7 +215,7 @@ QOR's organizer side (Venues/Promoters) currently has no monetization mechanism 
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 26 total, 0 mapped to tasks, 26 unmapped, 26 In Design ⚠️
+**Coverage:** 26 total, 18 mapped to tasks (MON-01–18, P1), 8 unmapped (MON-19–26, P2, deferred), 18 In Tasks
 
 ---
 
