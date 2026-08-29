@@ -308,15 +308,15 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 | ADMIN-25 | P2: Venue/Promoter profile management | Design | In Design |
 | ADMIN-26 | P2: Venue/Promoter dashboard — per-event stats | Design | In Design |
 | ADMIN-27 | P2: Super Admin account suspension | Design | In Design |
-| ADMIN-28 | P1: Venue/Promoter/Super Admin login — successful login regardless of approval status | Design | In Design |
-| ADMIN-29 | P1: Venue/Promoter/Super Admin login — generic invalid-credentials message | Design | In Design |
-| ADMIN-30 | P1: Venue/Promoter/Super Admin login — guard isolation (no fan/admin cross-auth) | Design | In Design |
+| ADMIN-28 | P1: Venue/Promoter/Super Admin login — successful login regardless of approval status | T2, T4 | Done |
+| ADMIN-29 | P1: Venue/Promoter/Super Admin login — generic invalid-credentials message | T2, T4 | Done |
+| ADMIN-30 | P1: Venue/Promoter/Super Admin login — guard isolation (no fan/admin cross-auth) | T2, T4 | Done |
 
 **ID format:** `ADMIN-[NUMBER]`
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 30 total, 0 mapped to tasks, 30 unmapped, 30 In Design
+**Coverage:** 30 total, 3 mapped to tasks, 27 unmapped, 27 In Design, 3 Done
 
 ---
 
