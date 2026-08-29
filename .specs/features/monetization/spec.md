@@ -184,24 +184,24 @@ QOR's organizer side (Venues/Promoters) currently has no monetization mechanism 
 
 | Requirement ID | Story | Phase | Status |
 |---|---|---|---|
-| MON-01 | P1: Public plans landing page — list active plans | Implementing | Done (T10, T20) |
-| MON-02 | P1: Public plans landing page — CTA into self-registration | Implementing | Done, API side only (client-side CTA needs `qor-landingpage`, not yet scaffolded) |
-| MON-03 | P1: Public plans landing page — deactivated plan hidden | Implementing | Done (T10, T20) |
-| MON-04 | P1: Default free plan on registration — Subscription created on approval | Implementing | Done (T14, T18, T24) |
-| MON-05 | P1: Default free plan on registration — missing default-plan config blocks approval | Implementing | Done (T14, T18) |
-| MON-06 | P1: Default free plan on registration — visible before any change | Implementing | Done (T14, T24) |
-| MON-07 | P1: Quota enforcement at submission — under-quota increments and proceeds | Implementing | Done (T15, T19) |
-| MON-08 | P1: Quota enforcement at submission — at-quota blocked with upgrade prompt | Implementing | Done (T15, T19) |
-| MON-09 | P1: Quota enforcement at submission — approval/rejection doesn't adjust count | Implementing | Done (T19 — `DecideEventApproval.php` verified untouched) |
-| MON-10 | P1: Quota enforcement at submission — unlimited-quota plan never blocks | Implementing | Done (T15, T19) |
-| MON-11 | P1: Calendar-month quota reset — reset to 0 for all organizers | Implementing | Done (T16, T23) |
-| MON-12 | P1: Calendar-month quota reset — usage view scoped to current month | Implementing | Done (T17, T22) |
-| MON-13 | P1: Super Admin plan CRUD — create plan | Implementing | Done (T11, T21) |
-| MON-14 | P1: Super Admin plan CRUD — edit plan without altering historical usage | Implementing | Done (T12, T21) |
-| MON-15 | P1: Super Admin plan CRUD — deactivate plan | Implementing | Done (T13, T21) |
-| MON-16 | P1: Super Admin plan CRUD — required-field validation | Implementing | Done (T21) |
-| MON-17 | P1: Organizer plan/usage view — show plan, price, quota, usage | Implementing | Done (T17, T22) |
-| MON-18 | P1: Organizer plan/usage view — at-limit flag with upgrade prompt | Implementing | Done (T17, T22) |
+| MON-01 | P1: Public plans landing page — list active plans | Verified | Done (T10, T20) |
+| MON-02 | P1: Public plans landing page — CTA into self-registration | Verified | Done, API side only (client-side CTA needs `qor-landingpage`, not yet scaffolded) |
+| MON-03 | P1: Public plans landing page — deactivated plan hidden | Verified | Done (T10, T20) |
+| MON-04 | P1: Default free plan on registration — Subscription created on approval | Verified | Done (T14, T18, T24) |
+| MON-05 | P1: Default free plan on registration — missing default-plan config blocks approval | Verified | Done (T14, T18) |
+| MON-06 | P1: Default free plan on registration — visible before any change | Verified | Done (T14, T24) |
+| MON-07 | P1: Quota enforcement at submission — under-quota increments and proceeds | Verified | Done (T15, T19) |
+| MON-08 | P1: Quota enforcement at submission — at-quota blocked with upgrade prompt | Verified | Done (T15, T19) |
+| MON-09 | P1: Quota enforcement at submission — approval/rejection doesn't adjust count | Verified | Done (T19 — `DecideEventApproval.php` verified untouched) |
+| MON-10 | P1: Quota enforcement at submission — unlimited-quota plan never blocks | Verified | Done (T15, T19) |
+| MON-11 | P1: Calendar-month quota reset — reset to 0 for all organizers | Verified | Done (T16, T23) |
+| MON-12 | P1: Calendar-month quota reset — usage view scoped to current month | Verified | Done (T17, T22) |
+| MON-13 | P1: Super Admin plan CRUD — create plan | Verified | Done (T11, T21) |
+| MON-14 | P1: Super Admin plan CRUD — edit plan without altering historical usage | Verified | Done (T12, T21) |
+| MON-15 | P1: Super Admin plan CRUD — deactivate plan | Verified | Done (T13, T21) |
+| MON-16 | P1: Super Admin plan CRUD — required-field validation | Verified | Done (T21) |
+| MON-17 | P1: Organizer plan/usage view — show plan, price, quota, usage | Verified | Done (T17, T22) |
+| MON-18 | P1: Organizer plan/usage view — at-limit flag with upgrade prompt | Verified | Done (T17, T22) |
 | MON-19 | P2: Plan upgrade/downgrade — new quota effective next reset | Design | In Design |
 | MON-20 | P2: Plan upgrade/downgrade — no retroactive block on downgrade | Design | In Design |
 | MON-21 | P2: Plan upgrade/downgrade — published events stay live | Design | In Design |
@@ -215,15 +215,15 @@ QOR's organizer side (Venues/Promoters) currently has no monetization mechanism 
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 26 total, 18 mapped and implemented (MON-01–18, P1 — 571 tests passing, PHPStan level 9 clean; pending `review-laravel-api` before merge), 8 unmapped (MON-19–26, P2, deferred)
+**Coverage:** 26 total, 18 Verified (MON-01–18, P1 — merged in `qor-api` PR #14, 588 tests passing after review fixes, PHPStan level 9 clean), 8 unmapped (MON-19–26, P2, deferred)
 
 ---
 
 ## Success Criteria
 
-- [ ] A new organizer signup lands on the free plan automatically with a visible 0-of-5 usage counter
-- [ ] Submitting a 6th event in a calendar month on the free plan is blocked with an upgrade prompt; Super Admin approval/rejection never affects the count
-- [ ] Super Admin can change a plan's price/quota and see it reflected on the landing page and in new subscriptions, without a code deploy
-- [ ] An organizer whose paid plan lapses or downgrades keeps their already-published events live
+- [x] A new organizer signup lands on the free plan automatically with a visible 0-of-5 usage counter (API-verified; `qor-admin`/`qor-landingpage` UI not built yet)
+- [x] Submitting a 6th event in a calendar month on the free plan is blocked with an upgrade-prompt-shaped 422 (`code: quota_exceeded`); Super Admin approval/rejection never affects the count
+- [x] Super Admin can change a plan's price/quota and see it reflected on the landing page and in new subscriptions, without a code deploy (API-verified)
+- [ ] An organizer whose paid plan lapses or downgrades keeps their already-published events live (P2 — MON-19–23, deferred)
 
 **⚠️ Deferred to a future spec**: Payment gateway integration (PRD §8 Q6) — this spec's plan/subscription/quota model is gateway-agnostic by design so that billing can be layered in later without reshaping the `Plan`/`Subscription` entities defined in PRD §7.

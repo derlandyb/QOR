@@ -1,11 +1,18 @@
 # State
 
 **Last Updated:** 2026-08-29
-**Current Work:** Monetization milestone (ROADMAP.md milestone 3), `qor-api` P1 scope (MON-01–MON-18) — Tasks/Execute starting from `monetization/spec.md` and `design.md`, both already content-complete. MVP Core (Event Discovery PR #3, Auth & Fan Profile PR #4, Venue/Promoter Admin PR #5, Phase 4 event lifecycle PR #7, admin login PR #8) and the entire Social & Notifications milestone (sub-phases 5a–5d, PRs #10–#13) are fully merged in `api` — see AD-008. `mobile`/`admin`/`website`/`landingpage` submodules still have no feature work.
+**Current Work:** Monetization milestone (ROADMAP.md milestone 3) P1 scope (MON-01–MON-18) merged in `qor-api` (PR #14) — see AD-009. MVP Core (PRs #3–#5, #7, #8) and the entire Social & Notifications milestone (PRs #10–#13) are also fully merged in `api` — see AD-008. `mobile`/`admin`/`website`/`landingpage` submodules still have no feature work; Monetization P2 (MON-19–26) is deferred. Next up: either bootstrap `qor-admin`/`qor-landingpage` to surface the API-only milestones built so far, or start Monetization P2.
 
 ---
 
 ## Recent Decisions (Last 60 days)
+
+### AD-009: Monetization P1 (MON-01-18) merged — Plan/Subscription domain, quota enforcement (2026-08-29)
+
+**Decision:** `qor-api`'s Monetization milestone P1 scope shipped as a single PR (`feat/api-monetization`, PR #14, 26 tasks/commits): `Plan`/`Subscription` domain entities, repositories, all Billing use cases, targeted extensions to `DecideAccountApproval` (grants the default free plan on approval) and `SubmitEventForReview` (enforces the publish quota) — `DecideEventApproval` verified untouched per MON-09. Public/admin HTTP endpoints, a monthly quota-reset schedule, and a seeder round it out. P2 (MON-19–26: upgrade/downgrade, cancellation, annual billing enforcement) is deferred; the `annual_price`/`billing_cycle` schema fields already exist so no future migration is needed for it.
+**Reason:** Per ROADMAP.md's milestone sequencing — Monetization is next after MVP Core and Social & Notifications (AD-008). `spec.md`/`design.md` were already content-complete from an earlier session; this pass added `tasks.md` and executed it.
+**Trade-off:** API-only, same as every milestone so far — `qor-admin` (Plan CRUD UI, usage widget) and `qor-landingpage` (plan comparison page) still don't exist.
+**Impact:** `review-laravel-api`'s pass on PR #14 caught one High and three Medium findings before merge, all fixed: (1) a check-then-increment race condition in the quota logic, fixed with an atomic `SubscriptionRepository::incrementUsageIfUnderQuota()` using a transaction + row lock; (2) a missing unique constraint on `subscriptions(subscribable_type, subscribable_id)`; (3) a non-atomic multi-repository write sequence in `DecideAccountApproval`, fixed by introducing a new `Domain/Shared/TransactionManager` port (this codebase's first cross-repository transaction abstraction — prior `DB::transaction()` usage was always internal to a single Eloquent adapter method); (4) a generic `InvalidArgumentException` for the quota-exceeded case, replaced with a dedicated `QuotaExceeded` exception mapped to a machine-readable `code: quota_exceeded` for the future `qor-admin` upgrade-prompt UI. Final state: 588 tests passing, PHPStan level 9 clean.
 
 ### AD-008: Root docs/submodule pointer had drifted 4 PRs behind `api`'s actual `main` (2026-08-29)
 
@@ -62,6 +69,16 @@
 **Reason:** Per CLAUDE.md's "Review-before-merge" rule; each submodule has its own stack and conventions that a single generic reviewer wouldn't catch consistently.
 **Trade-off:** Adds a manual gate step between PR-open and merge in every submodule.
 **Impact:** Fixes found in review are applied silently, with no code comments referencing the review.
+
+---
+
+## Lessons Learned (continued)
+
+### L-002: Cross-repository atomicity now has an established pattern — `Domain/Shared/TransactionManager` (2026-08-29)
+
+**Context:** `DecideAccountApproval` (Monetization P1, AD-009) needed three writes across three repositories to succeed or fail atomically; the codebase's only prior transaction usage (`DB::transaction()` in `EloquentUserFavoriteGenreRepository`) was internal to one Eloquent adapter and couldn't span repositories from the Domain layer without leaking `Illuminate\*` imports there.
+**Solution:** Added `src/Domain/Shared/TransactionManager.php` (a plain `run(callable): mixed` interface) + `src/Infrastructure/Persistence/LaravelTransactionManager.php` (the `DB::transaction()` adapter), bound in `AppServiceProvider` alongside the other `Domain/Shared` ports (`FileUploadPort`, `PasswordHasher`).
+**Prevents:** The next use case needing atomicity across more than one repository should inject `TransactionManager` rather than reaching for `DB::transaction()` directly (which isn't available from the Domain layer anyway) or inventing a parallel mechanism.
 
 ---
 

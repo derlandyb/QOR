@@ -1,7 +1,7 @@
 # Roadmap
 
 **Current Milestone:** Monetization
-**Status:** In Progress (`qor-api` P1) — MVP Core and Social & Notifications both DONE in `qor-api`
+**Status:** P1 DONE (`qor-api`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. Next: client submodules (`qor-admin`/`qor-website`/`qor-mobile`/`qor-landingpage`) have no feature work yet, or Monetization P2.
 
 ---
 
@@ -62,7 +62,11 @@
 
 ### Features
 
-**Publishing Plans & Landing Page** - IN PROGRESS (`qor-api` P1 underway; spec+design already complete)
+**Publishing Plans & Landing Page** - DONE (`qor-api` P1, MON-01–18)
+
+- Plan/Subscription domain model, quota enforcement on event submission, default-free-plan grant on account approval, monthly quota reset, Super Admin plan CRUD, organizer usage view
+- P2 (MON-19–26: plan upgrade/downgrade, cancellation, annual billing enforcement) deferred
+- `qor-admin` (Plan CRUD UI, usage widget) and `qor-landingpage` (plan comparison page) not started — API-only so far
 
 - Public landing page (plan comparison, self-registration CTA)
 - Free plan (5 publishes/month) + Super-Admin-configurable paid tiers
