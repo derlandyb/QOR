@@ -74,6 +74,23 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 
 ---
 
+### P1: Venue/Promoter/Super Admin login ⭐ MVP
+
+**User Story**: As a Venue Admin, Promoter, or Super Admin, I want to log in with my registered credentials, so that I can access the admin panel regardless of my account's approval status.
+
+**Why P1**: Every other story in this feature (event creation, approval queues, dashboard) assumes an authenticated admin-guard session exists. Without login, registration and approval are dead ends.
+
+**Acceptance Criteria**:
+
+1. WHEN a Venue Admin, Promoter, or Super Admin submits correct email/password credentials THEN system SHALL log them in and start an admin-guard session, regardless of `Pending Approval`/`Approved`/`Rejected`/suspended status.
+2. WHEN incorrect credentials are submitted THEN system SHALL reject login with a generic "invalid credentials" message (not revealing whether the email exists), matching the fan-login pattern.
+3. WHEN a session is valid THEN system SHALL keep the account logged in across requests until logout or session expiry.
+4. WHEN a fan-guard token/cookie is presented to any `/api/admin/v1` route, or an admin-guard token/cookie to any `/api/v1` route THEN system SHALL reject it — the two guards never cross (ARCHITECTURE.md §2).
+
+**Independent Test**: Log in as an approved Venue Admin and confirm an admin-guard session starts; log in as a still-`Pending Approval` account and confirm login succeeds but event creation stays blocked (per ADMIN-03/ADMIN-13); attempt login with a wrong password and confirm a generic rejection; confirm a fan token can't authenticate against `/api/admin/v1`.
+
+---
+
 ### P1: Event creation ⭐ MVP
 
 **User Story**: As an approved Venue Admin or Promoter, I want to create an event, so that I can eventually publish it to fans.
@@ -291,12 +308,15 @@ Venues and independent Promoters have no shared tool to publish events or see wh
 | ADMIN-25 | P2: Venue/Promoter profile management | Design | In Design |
 | ADMIN-26 | P2: Venue/Promoter dashboard — per-event stats | Design | In Design |
 | ADMIN-27 | P2: Super Admin account suspension | Design | In Design |
+| ADMIN-28 | P1: Venue/Promoter/Super Admin login — successful login regardless of approval status | Design | In Design |
+| ADMIN-29 | P1: Venue/Promoter/Super Admin login — generic invalid-credentials message | Design | In Design |
+| ADMIN-30 | P1: Venue/Promoter/Super Admin login — guard isolation (no fan/admin cross-auth) | Design | In Design |
 
 **ID format:** `ADMIN-[NUMBER]`
 
 **Status values:** Pending → In Design → In Tasks → Implementing → Verified
 
-**Coverage:** 27 total, 0 mapped to tasks, 27 unmapped, 27 In Design ⚠️
+**Coverage:** 30 total, 0 mapped to tasks, 30 unmapped, 30 In Design
 
 ---
 

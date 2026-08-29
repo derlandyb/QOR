@@ -96,6 +96,8 @@ _None captured yet._
 - [x] CLAUDE.md's repository-topology note ("none of which are checked out yet") was stale — all 5 submodules are already checked out. Fixed 2026-08-28.
 - [ ] CAPTCHA (ARCHITECTURE §13.2) not implemented on any public unauthenticated form (fan signup, password-reset request, venue/promoter registration) — no provider chosen yet, not in PRD's resolved decisions. Needs a follow-up task once a vendor is picked.
 - [ ] Google ID token is trusted client-side (`POST /api/v1/auth/google` accepts `google_id`/`email`/`name` as-is) — server-side verification via Google's token library isn't wired up. Flagged in `GoogleAuthRequest`'s docblock (api PR #4).
+- [ ] Venue/Promoter/Super Admin login (ADMIN-28–30) — spec closed 2026-08-28; Design closed 2026-08-28 (`AuthenticateAdmin` use case + `AdminAuthController`, mirroring `AuthenticateFan`/`AuthController`, in `venue-promoter-admin/design.md`). Tasks/Execute still pending — `qor-api`'s `admin` guard, `AdminAccountRepository`, `AdminUserModel`, and `EnsureAdminIdentity`/`EnsureSuperAdmin` middleware are already merged (PR #5, confirmed still present after PR #7's Phase 4 merge) and ready for the login use case/controller/routes to be built against.
+- [ ] Admin password recovery (forgot/reset password for Venue Admin/Promoter/Super Admin) is unspecified — `auth-fan-profile`'s `ResetPassword`/`password_reset_tokens` flow only covers fans. Not yet requested; flagged alongside the login gap for a future Specify pass if needed.
 
 ---
 

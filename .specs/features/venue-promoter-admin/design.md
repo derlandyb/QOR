@@ -12,7 +12,8 @@ Admin-panel surface, entirely under `/api/admin/v1`, gated by the admin Sanctum 
 
 ```mermaid
 graph TD
-    AdminUI["Admin Panel UI: registration, queues, event form, dashboard"]
+    AdminUI["Admin Panel UI: login, registration, queues, event form, dashboard"]
+    AuthUseCase["Domain: AuthenticateAdmin"]
     RegUseCases["Domain: RegisterVenue, RegisterPromoter"]
     EventUseCases["Domain: CreateEvent, SubmitEventForReview, EditEvent, CancelEvent"]
     ApprovalUseCases["Domain: DecideAccountApproval, DecideEventApproval"]
@@ -23,9 +24,12 @@ graph TD
     DB[("Venue, Promoter, Event, ApprovalDecision")]
     S3[("S3 — venue/event images")]
 
+    AdminUI --> AuthUseCase
     AdminUI --> RegUseCases
     AdminUI --> EventUseCases
     AdminUI --> ApprovalUseCases
+    AuthUseCase --> AdminRepo["AdminAccountRepository"]
+    AdminRepo -.implemented by.-> EloquentRepos
     RegUseCases --> VenueRepo
     EventUseCases --> VenueRepo
     ApprovalUseCases --> VenueRepo
@@ -101,9 +105,22 @@ graph TD
 - **Location**: `src/Domain/Event/UseCase/{EditEvent,DuplicateEvent,CancelEvent}.php`
 - **Dependencies**: `EventRepository`, `EventPolicy` (ownership check — ADMIN-24's "tagged promoter can't edit" enforced here)
 
+### `AuthenticateAdmin` (domain use case)
+- **Purpose**: ADMIN-28–ADMIN-30 — email/password login for Venue Admin, Promoter, and Super Admin accounts, regardless of `approval_status`; generic invalid-credentials failure.
+- **Location**: `src/Domain/Admin/UseCase/AuthenticateAdmin.php`
+- **Interfaces**: `executeWithPassword(email, password): AdminAccount`
+- **Dependencies**: `AdminAccountRepository`, `PasswordHasher` (`src/Domain/Shared/PasswordHasher.php`, same interface `AuthenticateFan` already uses — not reimplemented)
+- **Reuse note**: Mirrors `AuthenticateFan::executeWithPassword` (`auth-fan-profile/design.md`) exactly in shape, with one deliberate difference — **no** `UnverifiedAccount`-style gate. ADMIN-28 requires login to succeed for `Pending Approval`/`Rejected`/suspended accounts alike; approval-status gating happens at the write-action policies (`EventPolicy`/`VenuePolicy`/`PromoterPolicy`, ADMIN-20), never at login. Throws a new `QOR\App\Domain\Admin\Exception\InvalidCredentials` (own class, own namespace — `AdminAccount` is a separate domain entity from `User`, so this doesn't reuse `QOR\App\Domain\User\Exception\InvalidCredentials` across domains) on a bad email/password pair, mapped to the same generic pt-BR message as the fan flow (ADMIN-29).
+
 ### `EventPolicy` / `VenuePolicy` / `PromoterPolicy` (authorization, per ARCHITECTURE.md §2)
 - **Purpose**: Ownership and approval-status gating — a `Pending Approval`/suspended account is blocked from every write action (ADMIN-20); a tagged promoter without ownership can't edit (ADMIN-24).
 - **Location**: `src/Http/Policies/{Event,Venue,Promoter}Policy.php` — Laravel Policy classes, invoked by controllers, not hand-rolled `if` checks
+
+### `AdminAuthController` (infrastructure adapter)
+- **Purpose**: ADMIN-28–ADMIN-30 — login/logout HTTP boundary for the admin guard, under `/api/admin/v1`. Mirrors fan-side `AuthController::login`/`logout` (`auth-fan-profile/design.md`) — same `LoginRequest`-shaped Form Request (email/password required), same try/catch-and-remap-to-401 pattern for `InvalidCredentials`, same "issue a Sanctum token, return it alongside the account" session-response shape, just against `AdminUserModel`/the `admin` guard instead of `UserModel`/`fan`.
+- **Location**: `src/Http/Controllers/Api/AdminV1/AdminAuthController.php`
+- **Interfaces**: `POST /api/admin/v1/auth/login` (public, `throttle:qor-auth` — same rate-limit group as registration, not a new one), `POST /api/admin/v1/auth/logout` (`auth:admin`, `guard.admin`)
+- **Dependencies**: `AuthenticateAdmin`
 
 ### `VenueController` / `PromoterController` / `EventController` / `AccountApprovalController` / `EventApprovalController` (infrastructure adapters)
 - **Purpose**: HTTP boundary, all under `/api/admin/v1`, distinct from event-discovery's public `EventController` under `/api/v1`.
@@ -114,6 +131,8 @@ graph TD
   - `GET /api/admin/v1/approvals/accounts`, `POST /api/admin/v1/approvals/accounts/{id}/decide`
   - `GET /api/admin/v1/approvals/events`, `POST /api/admin/v1/approvals/events/{id}/decide`
   - `GET /api/admin/v1/dashboard` (P2 — per-event stats)
+
+**Guard isolation (ADMIN-30)**: already structurally enforced, not new work this pass — confirmed in `qor-api`'s current `config/auth.php` (two independent guards, `fan`→`UserModel`/`fans` provider and `admin`→`AdminUserModel`/`admins` provider, no shared provider) and `routes/api_admin_v1.php` (every non-registration route behind `['auth:admin', 'guard.admin']`, approval routes additionally behind `guard.super-admin`). `EnsureAdminIdentity` middleware rejects any resolved guard user that isn't an `AdminUserModel` instance, which is what makes a fan token/cookie presented against `/api/admin/v1` fail closed rather than silently resolving. This design pass adds no new isolation mechanism — ADMIN-30 is satisfied by wiring the new login route into the existing guard split, and its Independent Test should assert against the existing middleware rather than new code.
 
 ### Admin-panel queue UI components
 - **Purpose**: One reusable table+decision-action component pattern, parameterized for account-approval vs. event-approval queues (list, detail expand, approve/reject with optional reason/feedback).
@@ -138,6 +157,8 @@ Reuses `Venue`, `Promoter`, `Event`, `ApprovalDecision` from ARCHITECTURE.md §4
 | Tagged promoter attempts to edit an event they don't own | `EventPolicy` ownership check | "Você não tem permissão para editar este evento" |
 | Rejection/suspension with no reason/feedback entered | Allowed — reason/feedback optional, not required | Decision recorded without a reason field |
 | Event's date passes while still `Pending Review`, later approved | `DecideEventApproval` immediately marks it `Ended` instead of `Published` if the date has passed by decision time | Organizer sees `Ended`, not a live "upcoming" event |
+| Wrong email/password on admin login | `AuthenticateAdmin` throws `InvalidCredentials`, `AdminAuthController` maps it to 401 — same message regardless of whether the email exists | "Credenciais inválidas" |
+| Correct credentials, `Pending Approval`/`Rejected`/suspended account | Login succeeds (no gate at login) — the account's next attempt to create/edit/submit is what gets blocked, by the existing `EventPolicy`/`VenuePolicy`/`PromoterPolicy` checks | Session starts; pending-approval state shown in the panel (ADMIN-03), write actions blocked with the existing "Sua conta ainda não foi aprovada" message |
 
 Client-side validation before submit: registration forms (venue/promoter) validate required fields and email format; event-creation/submit form validates required fields, ticket-link URL format (required only when `is_free` is false), capacity/age-rating as numeric — all mirroring the API's Form Request rules, all copy in pt-BR.
 
@@ -167,9 +188,11 @@ Per ARCHITECTURE.md §11/§14.4 (each event below is a named constant in the `An
 | Authorization mechanism | Laravel Policies, not inline controller checks | ARCHITECTURE.md §2 — keeps ownership/approval-status rules centralized and testable in isolation from HTTP concerns |
 | Account vs. event approval audit | One polymorphic `ApprovalDecision`, not two tables | ARCHITECTURE.md §6 — both need the identical who/when/outcome/reason shape |
 | Field length/format limits (name, description, capacity range, etc.) | Config-driven Form Request rules, not hardcoded per-field constants scattered in migrations/validators | ARCHITECTURE.md §14.2 — one source per limit, referenced by both the migration and the Form Request |
+| Admin login: no approval-status gate | Login succeeds for any valid credentials regardless of `approval_status` | ADMIN-28 (spec, resolved 2026-08-28) — approval gating belongs at the write-action policies, not authentication; matches the existing `EventPolicy`/`VenuePolicy` enforcement point rather than adding a second gate |
+| Admin login exception class | New `QOR\App\Domain\Admin\Exception\InvalidCredentials`, not a reuse of the fan domain's `User\Exception\InvalidCredentials` | `AdminAccount` and `User` are separate domain entities/bounded contexts (Clean Architecture, ARCHITECTURE.md §8.5) — cross-domain exception reuse would couple them for no benefit, same message text is coincidental, not structural |
 
 ---
 
 ## Requirement Coverage
 
-ADMIN-01–ADMIN-20 (all P1) map to `RegisterVenue`/`RegisterPromoter`, `DecideAccountApproval`, `CreateEvent`, `SubmitEventForReview`, `DecideEventApproval`, and their policies/controllers above. ADMIN-21–ADMIN-27 (P2) map to `EditEvent`/`DuplicateEvent`/`CancelEvent`, the natural-`Ended`-transition edge case, promoter tagging (`EventPromoter`, already modeled in ARCHITECTURE.md §4), venue/promoter profile management (extends `RegisterVenue`/`RegisterPromoter`'s repositories with an update path), the dashboard endpoint, and account suspension (folded into `DecideAccountApproval`'s outcome enum).
+ADMIN-01–ADMIN-20 (all P1) map to `RegisterVenue`/`RegisterPromoter`, `DecideAccountApproval`, `CreateEvent`, `SubmitEventForReview`, `DecideEventApproval`, and their policies/controllers above. ADMIN-21–ADMIN-27 (P2) map to `EditEvent`/`DuplicateEvent`/`CancelEvent`, the natural-`Ended`-transition edge case, promoter tagging (`EventPromoter`, already modeled in ARCHITECTURE.md §4), venue/promoter profile management (extends `RegisterVenue`/`RegisterPromoter`'s repositories with an update path), the dashboard endpoint, and account suspension (folded into `DecideAccountApproval`'s outcome enum). ADMIN-28–ADMIN-30 map to `AuthenticateAdmin` and `AdminAuthController` above — ADMIN-30 (guard isolation) specifically maps to the already-merged `config/auth.php` guard split and `EnsureAdminIdentity`/`guard.admin` middleware (api PR #5, per STATE.md AD-007), not new code.
