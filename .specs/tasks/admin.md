@@ -6,7 +6,7 @@
 **Status**: Draft
 **Milestone**: MVP Core only (Venue/Promoter Admin P1 = ADMIN-01–20; P2 ADMIN-21–27 included as stretch, same as `api.md` Phase 4, since spec marks them "In Design" not "Pending")
 
-**✅ Resolved (confirmed with user, reversing an earlier draft of this file)**: the admin panel **fully adopts** the BootstrapDash "Corona React — Modern Vertical" demo's own design system — colors, typography, spacing, radii, and motion — not NIGHTLIFE-GV. NIGHTLIFE-GV (`design-system.md`) stays scoped to mobile/website/landing page only, per `mobile.md`/`website.md`/`landingpage.md`. Every color/type/spacing/radius/motion value below traces to **`design-system-admin.md`**, extracted via a full live re-navigation of the demo (`https://demo.bootstrapdash.com/corona-react/modern-vertical/`) covering Dashboard, Buttons, Typography, Form Elements, Tables, Badges, Modals, Progress bars, and the Login page — `getComputedStyle`-measured colors, transition durations/easings, radii, and font metrics, not just structural observation. See that file for the full token/component/motion catalog before starting any task below.
+**✅ Resolved (confirmed with user, reversing an earlier draft of this file)**: the admin panel **fully adopts** the BootstrapDash "Corona Tailwind — Modern Vertical" demo's own design system — colors, typography, spacing, radii, and motion — not NIGHTLIFE-GV. NIGHTLIFE-GV (`design-system.md`) stays scoped to mobile/website/landing page only, per `mobile.md`/`website.md`/`landingpage.md`. Every color/type/spacing/radius/motion value below traces to **`design-system-admin.md`**, extracted via a full live re-navigation of the demo (`https://demo.bootstrapdash.com/corona-tailwind/themes/modern-vertical/`) covering Dashboard, Widgets, Buttons, Badges, Modals, Progress Bar, Tables, and the Login page — `getComputedStyle`-measured colors, transition durations/easings, radii, and font metrics, not just structural observation. This 2026-09-01 revision supersedes an earlier pass that used the sibling "Corona React" demo — see `STATE.md` AD-010. See `design-system-admin.md` for the full token/component/motion catalog before starting any task below.
 
 **Test coverage**: no `TESTING.md` yet (greenfield). Same test-type-per-layer convention as `website.md`: components → unit, pages/data-fetching → integration, scaffolding → none.
 
@@ -17,11 +17,11 @@
 ## `design-system-admin.md` quick index (see that file for full detail)
 
 - **§1 Colors**: `--admin-bg-body` `#000000`, `--admin-bg-surface` `#191C24`, 8-color semantic palette (`--admin-primary` `#0090E7`, `--admin-success` `#00D25B`, `--admin-danger` `#FC424A`, `--admin-warning` `#FFAB00`, `--admin-info` `#8F5FE8`, plus secondary/light/dark) — §1.2 has the QOR-status→color mapping table to use verbatim.
-- **§2 Typography**: Rubik, h1 35px/500 → h6 15px/500, body 14–16px/400.
-- **§3 Spacing & Radii**: card 4px, input 2px, select 6px, badge 4px, button 3px (50px pill variant — recommended default), modal 8px, sidebar 244px.
-- **§4 Motion (MEASURED, not estimated)**: buttons/inputs 150ms ease-in-out (color/bg/border/shadow), sidebar nav-link 450ms ease-in-out (color), modal backdrop/wrapper 150ms linear (opacity), modal dialog 400ms ease (transform), progress-bar stripe sweep ~1s linear infinite (`animated` variant).
-- **§5 Components**: Sidebar (5.1), Topbar (5.2), Stat card (5.3), Donut widget (5.4), List-activity widget (5.5), Status-pill data table (5.6), Buttons (5.7), Form inputs (5.8), Modal (5.9), Progress bar (5.10), Auth card (5.11).
-- **§6**: what NOT to carry over (Facebook login, template filler nav categories, sample content).
+- **§2 Typography**: no custom font — Tailwind's system font stack (`ui-sans-serif, system-ui, sans-serif, ...`), confirmed with user; stat values 24px/700, widget titles 14px/700, body 16px/400.
+- **§3 Spacing & Radii**: uniform `6px` (`rounded-md`) across cards/buttons/badges/most inputs (verify per input type — one measured input was `2px`), `9999px` (`rounded-full`) pill button variant (recommended default), sidebar 244px, buttons carry an explicit `min-width: 128px`.
+- **§4 Motion (MEASURED, not estimated — flatter than the old Corona React capture)**: sidebar expand/collapse `all` 300ms ease-in-out; buttons/inputs have **no transition class at all** — hover/focus states snap instantly (`0s`), do not add fades that aren't there; modal open/close transition unmeasured (couldn't trigger during capture) — re-measure live when the `DecisionModal` is built, don't assume the old doc's values.
+- **§5 Components**: Sidebar (5.1), Topbar (5.2), Stat card (5.3), Donut widget (5.4), List-activity widget (5.5), Status-pill data table (5.6), Buttons (5.7, adds an "Inverse" style family), Form inputs (5.8), Modal (5.9, unmeasured transition), Progress bar (5.10, adds circular variant), Auth card (5.11, photo background + two social buttons, both omitted).
+- **§6**: what NOT to carry over (Facebook + Google login buttons, the literal login background photo, template filler nav categories, sample content, invented hover/focus transitions).
 
 ---
 
@@ -103,14 +103,14 @@ Phase 5 (Integration, sequential):
 ### Corona design-system component library (fully sourced from `design-system-admin.md`)
 
 #### AT6: Corona token layer (Tailwind theme) + Sidebar + Topbar shell
-**What**: First task to touch styling, so it also owns porting the **full** `design-system-admin.md` §1–4 token set into this repo's Tailwind theme — colors (8-color semantic palette + surfaces/text), typography (Rubik, full h1–h6 + body scale), spacing/radii (card/input/select/badge/button/modal/sidebar), and the exact measured motion values (150ms ease-in-out control transitions, 450ms ease-in-out nav-link color, 150ms linear modal fades, 400ms ease modal-dialog transform). Then: sidebar per §5.1 (244px, icon+label nav — Dashboard, Aprovação de Contas, Aprovação de Eventos, Meus Eventos, role-scoped visibility, right-pill active/hover background with the measured 450ms color transition) and topbar per §5.2 (search input, `+ Novo Evento` primary CTA, icon buttons, profile dropdown).
+**What**: First task to touch styling, so it also owns porting the **full** `design-system-admin.md` §1–4 token set into this repo's Tailwind theme — colors (8-color semantic palette + surfaces/text), typography (system font stack — no custom Google Font, confirmed with user), spacing/radii (uniform 6px card/button/badge radius, 2px on the one measured input type — verify others, 9999px pill button, sidebar 244px, 128px button min-width), and the exact measured motion values (sidebar expand/collapse `all` 300ms ease-in-out; **no transition class on buttons/inputs** — hover/focus states snap instantly, do not add fades that aren't in the source; modal transition unmeasured, re-check live before implementing AT9). Then: sidebar per §5.1 (244px, icon+label nav — Dashboard, Aprovação de Contas, Aprovação de Eventos, Meus Eventos, role-scoped visibility, 300ms ease-in-out collapse transition) and topbar per §5.2 (search input, `+ Novo Evento` primary CTA, icon buttons, profile block).
 **Where**: `admin/styles/corona-theme.css` (or Tailwind theme extension, token layer), `admin/components/layout/Sidebar.tsx`, `Topbar.tsx`
 **Depends on**: AT4
 **Reuses**: `design-system-admin.md` §1–4 (full token set) and §5.1–5.2 (component blueprints)
 **Requirement**: user request — admin panel fully adopts the Corona design system, including all documented animations/transitions
 **Done when**:
 - [ ] Every token category from `design-system-admin.md` §1–4 present in the theme file — colors, type, spacing, radii, motion — none inlined ad hoc in later component tasks
-- [ ] Sidebar renders role-appropriate nav items (Super Admin sees both approval queues; Venue Admin/Promoter see only their own event management), active/hover state uses the measured 450ms ease-in-out color transition and right-side pill radius (`0 100px 100px 0`)
+- [ ] Sidebar renders role-appropriate nav items (Super Admin sees both approval queues; Venue Admin/Promoter see only their own event management); the sidebar's own expand/collapse uses the measured `all` 300ms ease-in-out transition — nav-item active/hover state itself has no measured transition (instant), don't invent one
 - [ ] No NIGHTLIFE-GV token (Space Grotesk/Inter, the pink/orange/purple/blue accent set, `--ease-beat`/`--duration-*`) present anywhere in this repo's rendered output
 **Tests**: unit
 **Gate**: quick
@@ -126,30 +126,30 @@ Phase 5 (Integration, sequential):
 **Gate**: quick
 
 #### AT8: Button, badge, and progress-bar components (with their measured animations)
-**What**: Per `design-system-admin.md` §5.7 (6 semantic colors × solid/outline/rounded-pill styles, `padding: 6px 12px`, `font-size: 15px`, 150ms ease-in-out transition on `color, background-color, border-color, box-shadow` — pill variant is the recommended default per §5.7's note) and §5.10 (progress bar: thin track, semantic-color fill, optional `striped` diagonal pattern, optional `animated` variant with the ~1s linear infinite stripe-sweep keyframe — extract and reuse Bootstrap's own `progress-bar-stripes` keyframe rather than re-deriving it, since §5.10 flags it as worth adopting literally).
+**What**: Per `design-system-admin.md` §5.7 (semantic colors × Default/Inverse/Outline/Rounded-pill styles, `padding: 6px 12px`, `font-size: 16px`, `min-width: 128px` — pill variant is the recommended default per §5.7's note — **no hover/focus transition**, hover background swap is an instant snap, don't add a fade) and §5.10 (progress bar: thin track, semantic-color fill; three variants — plain colored, inner-label percentage text, outer-label percentage text — plus a circular ring variant worth adopting for the quota widget).
 **Where**: `admin/components/design-system/{Button,Badge,ProgressBar}.tsx`
 **Depends on**: AT6
 **Reuses**: Corona tokens (AT6), `design-system-admin.md` §5.7/§5.10
 **Requirement**: user request — admin design-system components including all animations/transitions
 **Done when**:
-- [ ] Every button variant (6 colors × solid/outline/pill) renders with the exact 150ms ease-in-out transition on hover/focus
-- [ ] Progress bar's `striped`+`animated` combination actually animates (visible stripe sweep), not just a static striped fill
-- [ ] Unit tests: button variant/style matrix renders correct classes; progress bar width reflects the `value` prop correctly
+- [ ] Every button variant renders with the correct semantic color and radius; hover state snaps instantly (no transition), matching the measured source
+- [ ] Progress bar supports inner-label, outer-label, and (if adopted) circular variants; width/ring reflects the `value` prop correctly
+- [ ] Unit tests: button variant/style matrix renders correct classes; progress bar value reflects the `value` prop correctly
 **Tests**: unit
 **Gate**: quick
 
 #### AT9: Registration + event form components
-**What**: Per `design-system-admin.md` §5.8 (dark-fill inputs, 1px border, `border-radius: 2px`/`6px` select, `padding: 13px 20px 11px`, 150ms ease-in-out focus transition on `border-color, box-shadow`; checkboxes instant/no-transition per the a11y-clarity note). Multi-field form components for Venue/Promoter self-registration (name/description/address/contact/image or name/phone/email/Instagram/TikTok) and event creation/edit (image upload, date/time picker, description, location, ticket-link URL with conditional required-when-paid validation, free/paid toggle, genre select, capacity, age rating, notes) — client-side validation mirroring `venue-promoter-admin/design.md`'s Error Handling Strategy, all copy pt-BR.
+**What**: Per `design-system-admin.md` §5.8 (dark-fill inputs, thin border, radius verified per input type — `2px` on the one measured text input, don't assume the uniform `6px` card radius applies to every control; **no focus transition observed**, border-color change is an instant snap, not a fade; checkboxes instant/no-transition too, consistent with the a11y-clarity note). Multi-field form components for Venue/Promoter self-registration (name/description/address/contact/image or name/phone/email/Instagram/TikTok) and event creation/edit (image upload, date/time picker, description, location, ticket-link URL with conditional required-when-paid validation, free/paid toggle, genre select, capacity, age rating, notes) — client-side validation mirroring `venue-promoter-admin/design.md`'s Error Handling Strategy, all copy pt-BR.
 **Where**: `admin/components/design-system/{RegistrationForm,EventForm}.tsx`
 **Depends on**: AT5, AT6
 **Reuses**: Corona form-input tokens (AT6), `design-system-admin.md` §5.8
 **Requirement**: ADMIN-01, ADMIN-04, ADMIN-05, ADMIN-11, ADMIN-12, ADMIN-15
-**Done when**: unit tests — required-field validation blocks submit with field-specific pt-BR errors; ticket-link required only when `is_free` is false; input focus transition matches the measured 150ms value
+**Done when**: unit tests — required-field validation blocks submit with field-specific pt-BR errors; ticket-link required only when `is_free` is false; input focus state matches the measured instant (no-transition) border-color change
 **Tests**: unit
 **Gate**: quick
 
 #### AT10: Consent-capture component + approval-decision modal
-**What**: Consent-capture contract shared with `mobile.md`/`website.md` (independent admin-repo implementation, Corona-styled) plus the approve/reject decision modal per `design-system-admin.md` §5.9 — backdrop 150ms linear opacity fade, dialog 400ms ease transform slide-in, content `border-radius: 8px` on the near-black modal-content background (`#000000`, measurably darker than the `#191C24` card default), optional reason/feedback field (ADMIN-09/ADMIN-18's "optional, not required" rule), footer-right primary/light button pair.
+**What**: Consent-capture contract shared with `mobile.md`/`website.md` (independent admin-repo implementation, Corona-styled) plus the approve/reject decision modal per `design-system-admin.md` §5.9 — structure confirmed (Default/Authentication/sized variants) but the open/close transition was **not measurable live** during capture; re-measure it against the actual demo before finalizing this component rather than assuming the superseded doc's 150ms/400ms values, since this template's other components snap instantly rather than fade. Content radius should match the uniform `6px` token unless the modal's own dialog measures differently. Optional reason/feedback field (ADMIN-09/ADMIN-18's "optional, not required" rule), footer-right primary/light button pair.
 **Where**: `admin/components/design-system/{ConsentCapture,DecisionModal}.tsx`
 **Depends on**: AT6, AT8
 **Reuses**: same consent contract as `mobile.md` A5; `Button` (AT8); `design-system-admin.md` §5.9

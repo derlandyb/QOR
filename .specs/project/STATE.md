@@ -1,11 +1,18 @@
 # State
 
-**Last Updated:** 2026-08-29
+**Last Updated:** 2026-09-01
 **Current Work:** Monetization milestone (ROADMAP.md milestone 3) P1 scope (MON-01–MON-18) merged in `qor-api` (PR #14) — see AD-009. MVP Core (PRs #3–#5, #7, #8) and the entire Social & Notifications milestone (PRs #10–#13) are also fully merged in `api` — see AD-008. `mobile`/`admin`/`website`/`landingpage` submodules still have no feature work; Monetization P2 (MON-19–26) is deferred. Next up: either bootstrap `qor-admin`/`qor-landingpage` to surface the API-only milestones built so far, or start Monetization P2.
 
 ---
 
 ## Recent Decisions (Last 60 days)
+
+### AD-010: `qor-admin` design source switched from "Corona React" to "Corona Tailwind" (2026-09-01)
+
+**Decision:** `design-system-admin.md` now traces to the BootstrapDash **"Corona Tailwind — Modern Vertical"** demo (`https://demo.bootstrapdash.com/corona-tailwind/themes/modern-vertical/`) instead of the earlier "Corona React — Modern Vertical" capture. Re-navigated live (Dashboard, Widgets, Buttons, Badges, Modals, Progress Bar, Tables, Login) with the same `getComputedStyle`-measurement method as before. `.specs/tasks/admin.md`'s quick index was synced to match.
+**Reason:** User preference change mid-project — asked for the admin panel rebuilt from this sibling template instead, including its interaction behaviors and motion.
+**Trade-off:** Every measured token had to be re-verified rather than assumed shared across the two demos. Most held (semantic accent hex values, surface colors, sidebar width, status-pill color mapping all reconfirmed identical), but several changed materially: no custom Google Font (system font stack instead of Rubik, confirmed with user), a uniform 6px card/button/badge radius (was a 2–4px mix), and a much flatter motion language — buttons/inputs have no hover/focus transition at all in this build (was 150ms ease-in-out), only the sidebar's expand/collapse animates (300ms ease-in-out). The login page also gained a photo background and a second social-login button (Google, alongside Facebook) — both still omitted per ARCHITECTURE §2 (no social login).
+**Impact:** Docs-only change — `qor-admin` has no application code yet (empty scaffold), so no migration was needed. `design-system-admin.md` is a full rewrite; `.specs/tasks/admin.md`'s quick index and "Resolved" paragraph were updated to match. The modal open/close transition could not be measured live (toggle didn't trigger during capture) — flagged in both files as unmeasured, to be re-checked when `admin.md` AT9's `DecisionModal` is actually built rather than assumed from the superseded capture.
 
 ### AD-009: Monetization P1 (MON-01-18) merged — Plan/Subscription domain, quota enforcement (2026-08-29)
 
