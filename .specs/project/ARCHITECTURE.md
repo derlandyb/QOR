@@ -254,7 +254,13 @@ A scheduled job resets `publishes_used_this_period` to 0 for every `Subscription
 ## 8. Local Development, CI, and Repo Conventions
 
 ### 8.1 Docker & Makefile
-Docker + Docker Compose for every service except the mobile app: API, website, admin panel, landing page, PostgreSQL, and any supporting services each get a compose service, defined per-submodule and composed from the root. A root-level `Makefile` drives the whole stack (`make up`, `make down`, `make test`) so `docker compose` is never invoked by hand per-service.
+Docker + Docker Compose for every service except the mobile app: API, website, admin panel, landing page, PostgreSQL, and any supporting services each get a compose service, defined per-submodule and composed from the root. A root-level `Makefile` drives the whole stack so `docker compose` is never invoked by hand per-service — this includes local iteration, not just CI: lint/test/build for a submodule always run through the Makefile's Compose wrapper, never a bare `npm`/`composer`/host-toolchain invocation.
+
+**Makefile target convention** (resolved 2026-09-01, when `qor-admin`'s scaffold first needed it):
+- `make up` / `make down` — aggregate, bring the whole stack (every submodule's Compose service plus supporting services) up/down. Never scoped to one service.
+- `make test-<service>`, `make lint-<service>`, `make build-<service>` — one triplet per submodule service (e.g. `test-api`, `test-admin`, `lint-admin`, `build-admin`), each a thin `docker compose exec <service> <command>` wrapper around that submodule's own test/lint/build script. Not every submodule needs all three (e.g. `qor-api` has no separate "build" step distinct from its test suite) — add only the targets a submodule's own CI/tasks actually use.
+- `make test` — aggregate, runs every defined `test-*` target in sequence. There is no aggregate `lint`/`build`, since those are typically invoked per-submodule during that submodule's own task execution.
+- A submodule's own tasks file (e.g. `.specs/tasks/admin.md`) references these target names directly in its Verification/Gate sections rather than re-deriving how to run something in Docker each time.
 
 ### 8.2 CI (GitHub Actions, per-repo)
 - One workflow per submodule — not a single monorepo pipeline.

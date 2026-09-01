@@ -15,6 +15,22 @@ services:
     networks:
       - qor
 
+  admin:
+    build:
+      context: ./admin
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${ADMIN_API_BASE_URL:-http://localhost:8000}
+    volumes:
+      - ./admin:/app
+      - admin-node-modules:/app/node_modules
+      - admin-next-cache:/app/.next
+    depends_on:
+      - api
+    networks:
+      - qor
+
   db:
     image: postgres:16
     environment:
@@ -73,6 +89,8 @@ volumes:
   db-data:
   api-vendor:
   minio-data:
+  admin-node-modules:
+  admin-next-cache:
 
 networks:
   qor:
