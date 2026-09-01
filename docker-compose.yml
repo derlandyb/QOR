@@ -21,7 +21,17 @@ services:
     ports:
       - "3001:3000"
     environment:
-      NEXT_PUBLIC_API_BASE_URL: ${ADMIN_API_BASE_URL:-http://localhost:8000}
+      # "" (same-origin) is the default, not an absolute http://localhost:8000
+      # or http://api:8000: the browser — whether a developer's host Chrome
+      # hitting this container's published port, or Playwright's bundled
+      # Chromium running inside this container for `make e2e-admin` — must
+      # call its own origin so Sanctum's session cookie (api/.env's
+      # SESSION_DOMAIN=null, so no explicit cookie Domain) is always
+      # same-origin, never cross-site. next.config.ts's rewrites proxy the
+      # relative request server-side to the api container over the Docker
+      # network. See ARCHITECTURE §8.1/§8.3.
+      NEXT_PUBLIC_API_BASE_URL: ${ADMIN_API_BASE_URL-}
+      API_PROXY_TARGET: http://api:8000
     volumes:
       - ./admin:/app
       - admin-node-modules:/app/node_modules
