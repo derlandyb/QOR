@@ -1,7 +1,7 @@
 # Roadmap
 
 **Current Milestone:** Monetization
-**Status:** P1 DONE (`qor-api`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. Next: client submodules (`qor-admin`/`qor-website`/`qor-mobile`/`qor-landingpage`) have no feature work yet, or Monetization P2.
+**Status:** P1 DONE (`qor-api`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` has its foundation + Corona design-system component library merged (AT1–AT10 of `.specs/tasks/admin.md`, PR #3) but no real pages yet (AT11–AT34 remaining). Next: continue `qor-admin` (AT11+), or `qor-website`/`qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
 
 ---
 
@@ -30,7 +30,7 @@
 - Super Admin account-approval queue and event-publish queue
 - Venue/Promoter dashboards (views, favorites, ticket-link clicks)
 - Admin login (ADMIN-28-30) and Phase 4 event lifecycle (Edit/Duplicate/Cancel) also merged
-- `qor-admin` (Next.js UI) not started — this milestone is API-only so far
+- `qor-admin` (Next.js UI): foundation + Corona design-system component library merged (AT1–AT10, PR #3) — no real pages/hooks/layout wiring yet (AT11–AT34 remaining)
 
 ---
 
