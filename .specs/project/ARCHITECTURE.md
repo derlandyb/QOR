@@ -269,9 +269,17 @@ Docker + Docker Compose for every service except the mobile app: API, website, a
 - **Repo + CI scaffolding is the first implementation work** once Design is approved — it must exist before any feature code lands, so it precedes MVP Core's Tasks/Execute passes.
 
 ### 8.3 Testing strategy
-- **TDD is mandatory** across all repos — tests written before/alongside implementation.
-- **Minimum 80% coverage**, enforced as a CI gate per repo.
+- **TDD is mandatory** across all repos — tests written before/alongside implementation. Concretely, every task in every submodule's tasks file follows RED → GREEN → REFACTOR:
+  1. **RED**: write the failing test first (unit test for a hook/component/class, feature test for an API endpoint — GIVEN/WHEN/THEN per below), run it via that submodule's `make test-<service>` target, confirm it fails for the expected reason.
+  2. **GREEN**: implement the minimum needed to pass, re-run the same `make test-<service>` command, confirm it's green.
+  3. **REFACTOR**: clean up with tests green, re-run once more to confirm still green.
+- **Minimum 80% coverage**, enforced as a CI gate per repo — and locally, `make test-<service>` runs the coverage-enabled variant of that submodule's test command (e.g. `qor-admin`'s is `npm run test:coverage`, not plain `npm run test`), so the same command used during RED/GREEN/REFACTOR is the one the gate actually checks.
 - **Test naming**: GIVEN/WHEN/THEN, with `GIVEN`/`WHEN`/`THEN` always uppercase (e.g. `test('GIVEN a published event WHEN the fan opens the list THEN it appears soonest-first')`).
+- **Gate legend** (referenced by every submodule's tasks file as `Gate: quick` / `Gate: full`):
+  - **`Gate: quick`** = `make test-<service>` (that service's unit-level test suite, coverage-enforced) must pass.
+  - **`Gate: full`** = `make test-<service>` **and** `make lint-<service>` **and** `make build-<service>` (whichever of the three exist for that submodule, per §8.1) must all pass.
+  - An end-to-end/smoke task (e.g. an E2E Playwright spec) has its own dedicated `make e2e-<service>`-style target, run against the full `make up` stack, and is called out explicitly in that task rather than folded into `Gate: full`.
+- Every command above is a `docker compose exec <service> ...` wrapper via the Makefile (§8.1) — never a bare `npm`/`composer`/`vendor/bin`/host-toolchain invocation, whether run by a human or an agent executing a task.
 
 ### 8.4 No dead code
 Every implemented piece of code must be exercised by the running system — no speculative abstractions, no unused methods "for later." Enforced by CI static analysis, not just review:
