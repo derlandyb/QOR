@@ -51,6 +51,9 @@ services:
       # see that service's comment above.
       NEXT_PUBLIC_API_BASE_URL: ${WEBSITE_API_BASE_URL-}
       API_PROXY_TARGET: http://api:8000
+      # Event detail page's Google Maps JS API embed (W17) — set in your own
+      # local .env (gitignored, never committed), not here.
+      NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY-}
     volumes:
       - ./website:/app
       - website-node-modules:/app/node_modules
