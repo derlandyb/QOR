@@ -1,4 +1,4 @@
-.PHONY: up down test test-api test-admin lint-admin build-admin e2e-admin
+.PHONY: up down test test-api test-admin lint-admin build-admin e2e-admin test-website lint-website build-website
 
 up:
 	docker compose up -d --build
@@ -8,7 +8,7 @@ down:
 	docker compose down
 
 # Aggregate — runs every submodule's test target in sequence.
-test: test-api test-admin
+test: test-api test-admin test-website
 
 test-api:
 	docker compose exec api php artisan test
@@ -29,3 +29,13 @@ build-admin:
 # on the host. Not part of Gate: full — called out per-task in tasks.md.
 e2e-admin:
 	docker compose exec admin npx playwright test
+
+# Coverage-enabled — same rationale as test-admin above.
+test-website:
+	docker compose exec website npm run test:coverage
+
+lint-website:
+	docker compose exec website npm run lint
+
+build-website:
+	docker compose exec website npm run build

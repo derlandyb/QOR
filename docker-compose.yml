@@ -41,6 +41,25 @@ services:
     networks:
       - qor
 
+  website:
+    build:
+      context: ./website
+    ports:
+      - "3002:3000"
+    environment:
+      # Same same-origin rationale as admin's own NEXT_PUBLIC_API_BASE_URL —
+      # see that service's comment above.
+      NEXT_PUBLIC_API_BASE_URL: ${WEBSITE_API_BASE_URL-}
+      API_PROXY_TARGET: http://api:8000
+    volumes:
+      - ./website:/app
+      - website-node-modules:/app/node_modules
+      - website-next-cache:/app/.next
+    depends_on:
+      - api
+    networks:
+      - qor
+
   db:
     image: postgres:16
     environment:
@@ -101,6 +120,8 @@ volumes:
   minio-data:
   admin-node-modules:
   admin-next-cache:
+  website-node-modules:
+  website-next-cache:
 
 networks:
   qor:
