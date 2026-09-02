@@ -1,7 +1,7 @@
 # Roadmap
 
 **Current Milestone:** Monetization
-**Status:** P1 DONE (`qor-api` + `qor-admin`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` is fully merged through `.specs/tasks/admin.md`'s Milestone 3 (PRs #3, #4, #5): MVP Core (AT1–AT23 — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, E2E smoke test) and Monetization UI (AT24–AT34 — Super Admin Plan CRUD, organizer plan/usage view, publish-quota at-limit gate, E2E smoke test), all working end-to-end in a real browser. P2 (upgrade/downgrade/cancel, MON-19–23) is deferred — no `qor-api` route exists for it yet. `qor-website` has started its own MVP Core (PR #1: W1–W10 foundation + NIGHTLIFE-GV design-system library) — no pages yet. Next: `qor-website` W11–W24, or `qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
+**Status:** P1 DONE (`qor-api` + `qor-admin` + `qor-website`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` is fully merged through `.specs/tasks/admin.md`'s Milestone 3 (PRs #3, #4, #5): MVP Core (AT1–AT23 — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, E2E smoke test) and Monetization UI (AT24–AT34 — Super Admin Plan CRUD, organizer plan/usage view, publish-quota at-limit gate, E2E smoke test), all working end-to-end in a real browser. `qor-website`'s MVP Core (`.specs/tasks/website.md`) is now also fully merged (PR #1: W1–W10 foundation; PR #2: W11–W24 hooks/pages/layout/E2E) — home/explore/event-detail/login/signup/email-verification/password-recovery/profile all working end-to-end in a real browser, E2E-verified (browse → filter → event detail → signup → OTP verify → login → profile). Building it required adding real OTP (one-time-code) auth to `qor-api` (PRs #19–#21) and fixing the fan guard's SPA session-cookie auth (PR #22, same bug class already fixed for the admin guard). P2 (upgrade/downgrade/cancel, MON-19–23) is deferred — no `qor-api` route exists for it yet. Next: `qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
 
 ---
 
@@ -12,18 +12,18 @@
 
 ### Features
 
-**Event Discovery** - IN PROGRESS
+**Event Discovery** - DONE (`qor-website`)
 
 - Public event list (soonest-first, paginated, live-updating)
 - Event card (image, date/time, description, location, free/paid, favorite)
 - Event details page (full description, map, ticket link, tagged promoters, share)
-- `qor-website` (Next.js UI): foundation + NIGHTLIFE-GV design-system component library merged (W1–W10, PR #1) — `EventCard`, `CityFilterBar`/`GenreTagSet`, CTA buttons, typed `/api/v1` client. No pages yet (W15–W17 next).
+- `qor-website` (Next.js UI): fully merged (W1–W10 foundation, PR #1; W11–W24 hooks/pages/layout/E2E, PR #2) — home feed, explore page, event detail (Google Maps JS API embed, ticket button, share via Web Share API/clipboard) all working end-to-end. Favorite-toggle itself is still API-only (no UI button wired yet — Milestone 2 scope). Known gap: `/` and `/eventos/[id]` are client-rendered with no SSR/`generateMetadata`, so shared links unfurl with generic branding instead of the event's own title/flyer (STATE.md Todo).
 
-**Auth & Fan Profile** - IN PROGRESS
+**Auth & Fan Profile** - DONE (`qor-website`, basic fields)
 
 - Email/password + Google signup/login, password recovery
 - Profile fields (username, contact, address, favorite genres, radius, notification prefs)
-- `qor-website`: `ConsentCapture`/`FormField` components and the `/api/v1` auth/profile client are merged (W1–W10); auth pages themselves (W18–W22) not started.
+- `qor-website`: fully merged (W1–W10, PR #1; W11–W24, PR #2) — signup, login, email verification (OTP), password-recovery wizard (OTP), and a profile page covering basic fields (name/phone/email/picture) plus data-rights actions (export/delete/revoke). Address/favorite-genres/radius/notification-prefs fields are Milestone 2 scope (W35), not yet built. Google login is a disabled placeholder (no OAuth client ID provided yet).
 
 **Venue/Promoter Admin + Approval Workflow** - DONE (`qor-api`)
 
