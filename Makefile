@@ -1,4 +1,4 @@
-.PHONY: up down test test-api test-admin lint-admin build-admin e2e-admin test-website lint-website build-website
+.PHONY: up down test test-api test-admin lint-admin build-admin e2e-admin test-website lint-website build-website e2e-website
 
 up:
 	docker compose up -d --build
@@ -39,3 +39,9 @@ lint-website:
 
 build-website:
 	docker compose exec website npm run build
+
+# E2E smoke tests (Playwright) — run against the full `make up` stack, in
+# the website container's own browser install (see website/Dockerfile),
+# never on the host. Not part of Gate: full — called out per-task in tasks.md.
+e2e-website:
+	docker compose exec website npx playwright test
