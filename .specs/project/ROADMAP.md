@@ -1,7 +1,7 @@
 # Roadmap
 
 **Current Milestone:** Monetization
-**Status:** P1 DONE (`qor-api` + `qor-admin`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` is fully merged through `.specs/tasks/admin.md`'s Milestone 3 (PRs #3, #4, #5): MVP Core (AT1–AT23 — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, E2E smoke test) and Monetization UI (AT24–AT34 — Super Admin Plan CRUD, organizer plan/usage view, publish-quota at-limit gate, E2E smoke test), all working end-to-end in a real browser. P2 (upgrade/downgrade/cancel, MON-19–23) is deferred — no `qor-api` route exists for it yet. Next: `qor-website`/`qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
+**Status:** P1 DONE (`qor-api` + `qor-admin`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` is fully merged through `.specs/tasks/admin.md`'s Milestone 3 (PRs #3, #4, #5): MVP Core (AT1–AT23 — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, E2E smoke test) and Monetization UI (AT24–AT34 — Super Admin Plan CRUD, organizer plan/usage view, publish-quota at-limit gate, E2E smoke test), all working end-to-end in a real browser. P2 (upgrade/downgrade/cancel, MON-19–23) is deferred — no `qor-api` route exists for it yet. `qor-website` has started its own MVP Core (PR #1: W1–W10 foundation + NIGHTLIFE-GV design-system library) — no pages yet. Next: `qor-website` W11–W24, or `qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
 
 ---
 
@@ -17,11 +17,13 @@
 - Public event list (soonest-first, paginated, live-updating)
 - Event card (image, date/time, description, location, free/paid, favorite)
 - Event details page (full description, map, ticket link, tagged promoters, share)
+- `qor-website` (Next.js UI): foundation + NIGHTLIFE-GV design-system component library merged (W1–W10, PR #1) — `EventCard`, `CityFilterBar`/`GenreTagSet`, CTA buttons, typed `/api/v1` client. No pages yet (W15–W17 next).
 
 **Auth & Fan Profile** - IN PROGRESS
 
 - Email/password + Google signup/login, password recovery
 - Profile fields (username, contact, address, favorite genres, radius, notification prefs)
+- `qor-website`: `ConsentCapture`/`FormField` components and the `/api/v1` auth/profile client are merged (W1–W10); auth pages themselves (W18–W22) not started.
 
 **Venue/Promoter Admin + Approval Workflow** - DONE (`qor-api`)
 
@@ -30,7 +32,7 @@
 - Super Admin account-approval queue and event-publish queue
 - Venue/Promoter dashboards (views, favorites, ticket-link clicks)
 - Admin login (ADMIN-28-30) and Phase 4 event lifecycle (Edit/Duplicate/Cancel) also merged
-- `qor-admin` (Next.js UI): MVP Core complete — foundation + Corona design-system component library (AT1–AT10, PR #3), then hooks/pages/layout wiring/E2E (AT11–AT23, PR #4). Every MVP Core admin flow works in a real browser, E2E-verified: venue/promoter self-registration → Super Admin account approval → event creation/submission → Super Admin event approval → publicly visible. AT24–AT34 (Monetization UI) remains.
+- `qor-admin` (Next.js UI): fully merged through Milestone 3 — MVP Core (foundation + Corona design-system component library, AT1–AT10, PR #3; hooks/pages/layout wiring/E2E, AT11–AT23, PR #4) and Monetization UI (Plan CRUD, quota usage, at-limit gate, AT24–AT34, PR #5). Every flow works in a real browser, E2E-verified: venue/promoter self-registration → Super Admin account approval → event creation/submission → Super Admin event approval → publicly visible; free-plan auto-subscription → quota increments → at-limit block → Super Admin plan CRUD. P2 (upgrade/downgrade/cancel) deferred.
 
 ---
 
