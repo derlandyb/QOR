@@ -1,7 +1,7 @@
 # Roadmap
 
 **Current Milestone:** Monetization
-**Status:** P1 DONE (`qor-api`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` MVP Core (AT1–AT23 of `.specs/tasks/admin.md`) is fully merged (PRs #3, #4) — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, and an E2E smoke test all working end-to-end. `qor-admin` AT24–AT34 (Monetization UI) is next for that submodule. Next: `qor-admin` AT24+, or `qor-website`/`qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
+**Status:** P1 DONE (`qor-api` + `qor-admin`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` is fully merged through `.specs/tasks/admin.md`'s Milestone 3 (PRs #3, #4, #5): MVP Core (AT1–AT23 — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, E2E smoke test) and Monetization UI (AT24–AT34 — Super Admin Plan CRUD, organizer plan/usage view, publish-quota at-limit gate, E2E smoke test), all working end-to-end in a real browser. P2 (upgrade/downgrade/cancel, MON-19–23) is deferred — no `qor-api` route exists for it yet. Next: `qor-website`/`qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
 
 ---
 
@@ -62,11 +62,12 @@
 
 ### Features
 
-**Publishing Plans & Landing Page** - DONE (`qor-api` P1, MON-01–18)
+**Publishing Plans & Landing Page** - DONE (`qor-api` P1, MON-01–18; `qor-admin` UI)
 
 - Plan/Subscription domain model, quota enforcement on event submission, default-free-plan grant on account approval, monthly quota reset, Super Admin plan CRUD, organizer usage view
-- P2 (MON-19–26: plan upgrade/downgrade, cancellation, annual billing enforcement) deferred
-- `qor-admin` (Plan CRUD UI, usage widget) and `qor-landingpage` (plan comparison page) not started — API-only so far
+- P2 (MON-19–26: plan upgrade/downgrade, cancellation, annual billing enforcement) deferred — no `qor-api` route exists for it yet
+- `qor-admin` (Next.js UI): Plan CRUD pages, quota-usage widget, at-limit gate on event submission, organizer plan/usage view — all merged and E2E-verified (AT24–AT34, PR #5)
+- `qor-landingpage` (plan comparison page) not started — that submodule has no feature work yet
 
 - Public landing page (plan comparison, self-registration CTA)
 - Free plan (5 publishes/month) + Super-Admin-configurable paid tiers
