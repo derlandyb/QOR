@@ -1,7 +1,7 @@
 # Roadmap
 
 **Current Milestone:** Monetization
-**Status:** P1 DONE (`qor-api`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` has its foundation + Corona design-system component library merged (AT1–AT10 of `.specs/tasks/admin.md`, PR #3) but no real pages yet (AT11–AT34 remaining). Next: continue `qor-admin` (AT11+), or `qor-website`/`qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
+**Status:** P1 DONE (`qor-api`) — MVP Core, Social & Notifications, and Monetization P1 all DONE in `qor-api`. `qor-admin` MVP Core (AT1–AT23 of `.specs/tasks/admin.md`) is fully merged (PRs #3, #4) — login, both approval queues, both self-registration pages, organizer event CRUD/submission, dashboard, role-aware layout, and an E2E smoke test all working end-to-end. `qor-admin` AT24–AT34 (Monetization UI) is next for that submodule. Next: `qor-admin` AT24+, or `qor-website`/`qor-mobile`/`qor-landingpage` (no feature work yet), or Monetization P2.
 
 ---
 
@@ -30,7 +30,7 @@
 - Super Admin account-approval queue and event-publish queue
 - Venue/Promoter dashboards (views, favorites, ticket-link clicks)
 - Admin login (ADMIN-28-30) and Phase 4 event lifecycle (Edit/Duplicate/Cancel) also merged
-- `qor-admin` (Next.js UI): foundation + Corona design-system component library merged (AT1–AT10, PR #3) — no real pages/hooks/layout wiring yet (AT11–AT34 remaining)
+- `qor-admin` (Next.js UI): MVP Core complete — foundation + Corona design-system component library (AT1–AT10, PR #3), then hooks/pages/layout wiring/E2E (AT11–AT23, PR #4). Every MVP Core admin flow works in a real browser, E2E-verified: venue/promoter self-registration → Super Admin account approval → event creation/submission → Super Admin event approval → publicly visible. AT24–AT34 (Monetization UI) remains.
 
 ---
 
