@@ -317,7 +317,7 @@ After each `qor-api` milestone's endpoints are implemented: a Postman/Insomnia c
 1. Milestone implementation done in a submodule → open a PR from the milestone branch to that submodule's `main`.
 2. Run the matching reviewer subagent against the PR: `review-laravel-api` (`qor-api`), `review-react-web` (`qor-admin`/`qor-website`/`qor-landingpage`), `review-kmp-android` and `review-ios-swift` (`qor-mobile`). The reviewer posts findings as PR comments.
 3. Read and analyze the comments; apply fixes where warranted, push, and reply to the comments. **No code comments referencing the review or the bug found** — the fix is the record.
-4. Only after review comments are resolved: wait for GitHub Actions checks to pass, then merge.
+4. Only after review comments are resolved **and every CI check reports green — verified explicitly via `gh pr checks <PR>`, never inferred from a reviewer subagent's verdict or assumed from a prior run** — merge.
 5. **Next milestone cannot start (in any submodule)** until the current milestone's PR(s) are merged and `main` is updated — milestones are sequential across the whole project.
 6. After each submodule merge, update and commit the root `QOR` repo's submodule pointer so root `main` stays in sync.
 
@@ -430,6 +430,8 @@ Every threshold below lives in `config/qor.php` (or `.env`-driven config), never
 - **TypeScript repos**: every enum in §14.1 has a mirrored TypeScript union type or `const` object (e.g. `EventStatus`) in one shared `src/enums/` (or `src/constants/`) module per repo — components import the constant, never compare against a string literal. Values match the API's enum cases exactly (kept in sync manually until/unless a shared schema-generation step is introduced — flagged as a Tasks-phase tooling decision, not resolved here).
 - **`qor-mobile` (KMP)**: the same enums as Kotlin `enum class` definitions in `shared/domain/enum/`, one shared definition consumed by both Android and iOS — never a raw string compared in platform UI code.
 - **Route prefixes**: `/api/v1` and `/api/admin/v1` (§3) are each defined once — a Laravel route-group prefix constant in `qor-api`, and one `API_BASE_URL`/`ADMIN_API_BASE_URL` constant per client repo (environment-driven, not typed inline per request call).
+- **`qor-mobile` (Android) user-facing strings**: every pt-BR display string/content-description in Jetpack Compose UI lives in `res/values/strings.xml`, resolved via `stringResource(...)` — never a Kotlin string literal at the call site, and never a Kotlin `object` of string constants standing in for Android's own resource system.
+- **`qor-mobile` (Android) test tags**: `Modifier.testTag(...)` values are a distinct concern from user-facing copy — each lives in its own `res/values/strings-test-tag.xml`, referenced directly via `stringResource(...)` in production code and `Context.getString(...)` in tests. Never a Kotlin `const val`, never a literal repeated at the call site.
 
 ### 14.4 GA4 event names
 
