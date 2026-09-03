@@ -35,3 +35,13 @@ The **admin panel** (`qor-admin`) is the one exception: it uses its own, separat
 
 - `design-system-research/` holds competitive design-system teardowns (tokens.json/variables.css/notes per reference site) that NIGHTLIFE-GV was synthesized from, plus the `corona-react-admin/` subfolder (superseded by `design-system-admin.md` — see that folder's own notice) — useful background, not itself normative.
 - `design-system-porpose/` and the root `Nightlife-GV Showcase.dc.html` are Claude-Design canvas artifacts (`.dc.html` + `support.js`) showcasing the design system and sample screens (Home Maré variants). These are visual references/prototypes, not application code.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues (`github.com/derlandyb/QOR`), via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` at the repo root (lazily created), alongside the existing `.specs/` planning tree. See `docs/agents/domain.md`.
