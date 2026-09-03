@@ -65,20 +65,18 @@ services:
 
   # Playwright suite for admin — built from admin/Dockerfile.e2e (has its
   # own Chromium+deps install), gated behind the "e2e" profile so `make up`
-  # never builds or starts it. Reaches the always-running `admin` service
-  # over the qor network; see admin/playwright.config.ts.
+  # never builds or starts it. Shares the admin service's network
+  # namespace (rather than joining the qor network under its own hostname)
+  # so the browser sees localhost:3000, exactly like before this split —
+  # Next dev's same-origin check and Sanctum's stateful-domain check both
+  # only trust localhost by default. See admin/playwright.config.ts.
   admin-e2e:
     build:
       context: ./admin
       dockerfile: Dockerfile.e2e
-    environment:
-      NEXT_PUBLIC_API_BASE_URL: ${ADMIN_API_BASE_URL-}
-      API_PROXY_TARGET: http://api:8000
-      PLAYWRIGHT_BASE_URL: http://admin:3000
     depends_on:
       - admin
-    networks:
-      - qor
+    network_mode: "service:admin"
     profiles: ["e2e"]
 
   # Playwright suite for website — same rationale as admin-e2e above.
@@ -86,14 +84,9 @@ services:
     build:
       context: ./website
       dockerfile: Dockerfile.e2e
-    environment:
-      NEXT_PUBLIC_API_BASE_URL: ${WEBSITE_API_BASE_URL-}
-      API_PROXY_TARGET: http://api:8000
-      PLAYWRIGHT_BASE_URL: http://website:3000
     depends_on:
       - website
-    networks:
-      - qor
+    network_mode: "service:website"
     profiles: ["e2e"]
 
   db:
