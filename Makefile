@@ -25,10 +25,11 @@ build-admin:
 	docker compose exec admin npm run build
 
 # E2E smoke tests (Playwright) — run against the full `make up` stack, in
-# the admin container's own browser install (see admin/Dockerfile), never
-# on the host. Not part of Gate: full — called out per-task in tasks.md.
+# the dedicated admin-e2e image (see admin/Dockerfile.e2e), never in the
+# admin dev container or on the host. Not part of Gate: full — called out
+# per-task in tasks.md.
 e2e-admin:
-	docker compose exec admin npx playwright test
+	docker compose --profile e2e run --rm --build admin-e2e
 
 # Coverage-enabled — same rationale as test-admin above.
 test-website:
@@ -41,7 +42,8 @@ build-website:
 	docker compose exec website npm run build
 
 # E2E smoke tests (Playwright) — run against the full `make up` stack, in
-# the website container's own browser install (see website/Dockerfile),
-# never on the host. Not part of Gate: full — called out per-task in tasks.md.
+# the dedicated website-e2e image (see website/Dockerfile.e2e), never in
+# the website dev container or on the host. Not part of Gate: full —
+# called out per-task in tasks.md.
 e2e-website:
-	docker compose exec website npx playwright test
+	docker compose --profile e2e run --rm --build website-e2e
