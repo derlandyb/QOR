@@ -1471,4 +1471,106 @@ No violations.
 - GA4 event constants are **not implemented** anywhere in this file, in any milestone — gated on tracking-spreadsheet approval per ARCHITECTURE §11.
 - Map view for event discovery was **not included** in MVP Core and no milestone above adds one — no feature spec requests it.
 - Payment gateway integration is explicitly **out of scope** for Milestone 3 — `Plan`/`Subscription` are gateway-agnostic by design (PRD §8 Q6 remains open).
+
+---
+
+## Execution Plan — Genre Admin CRUD (standalone gap-fix)
+
+Not a ROADMAP milestone item — closes the long-standing "no genre-list endpoint" Todo in `.specs/project/STATE.md` (flagged during PR #4's `review-react-web` pass, still open as of AD-023) as a superset: full Super Admin CRUD (list/create/update/activate/deactivate), not just a read-only list. Branch: `feat/api-genre-endpoint`.
+
+```
+T107 → T108 → T109 → T110 → T111 → T112 → T113
+```
+(Sequential — each task builds directly on the previous file set; no parallel phase, unlike the milestones above.)
+
+## Task Breakdown — Genre Admin CRUD
+
+#### T107: `is_active` column + seeder
+**What**: Add `is_active` (boolean, default true) to the existing `genres` table; edit the existing `create_genres_table` migration directly (no additive migration — dev-stage schema, environment is torn down/recreated on every `make down && make up`) and `GenreSeeder`'s upsert to set it.
+**Where**: `api/database/migrations/2026_08_28_001243_create_genres_table.php`, `api/database/seeders/GenreSeeder.php`
+**Depends on**: T4 (original `genres` table)
+**Requirement**: ARCHITECTURE §14.1
+**Tests**: none (schema/seed only, exercised by T113's feature tests)
+**Gate**: quick
+
+#### T108: `Genre` domain entity + `GenreRepository` interface extension
+**What**: `Genre` entity (`id`, `name`, `slug` nullable, `isActive`), constructor validation on empty `name`. Extend the existing `GenreRepository` interface (keep `findNameById` untouched) with `findById`, `findAll`, `save`.
+**Where**: `api/src/Domain/Event/Genre.php`, `api/src/Domain/Event/GenreRepository.php` (modify)
+**Depends on**: T107
+**Reuses**: `Plan.php`'s entity shape (T90)
+**Requirement**: ARCHITECTURE §14.1
+**Tests**: unit
+**Gate**: quick
+
+#### T109: `EloquentGenreRepository`/`GenreModel`/`GenreFactory`
+**What**: `GenreModel` gets `is_active` fillable+cast+`HasFactory`; new `GenreFactory`; `EloquentGenreRepository` implements `findById`/`findAll`/`save` (slug always derived via `Str::slug($genre->name)`).
+**Where**: `api/src/Infrastructure/Persistence/Eloquent/GenreModel.php` (modify), `api/database/factories/GenreFactory.php`, `api/src/Infrastructure/Persistence/EloquentGenreRepository.php` (modify)
+**Depends on**: T108
+**Reuses**: `EloquentPlanRepository`'s `toDomain()` pattern (T92/T93 equivalent)
+**Requirement**: ARCHITECTURE §14.1
+**Tests**: integration
+**Gate**: quick
+
+#### T110: Genre use cases
+**What**: `CreateGenre`, `UpdateGenre`, `ActivateGenre`, `DeactivateGenre`, `ListAllGenres` — one class each, mirroring `CreatePlan`/`UpdatePlan`/`DeactivatePlan`/`ListAllPlans`.
+**Where**: `api/src/Domain/Event/UseCase/{CreateGenre,UpdateGenre,ActivateGenre,DeactivateGenre,ListAllGenres}.php`
+**Depends on**: T109
+**Reuses**: `CreatePlan`/`UpdatePlan`/`DeactivatePlan`/`ListAllPlans` (T98/T94)
+**Requirement**: user request (Super Admin genre CRUD)
+**Tests**: unit
+**Gate**: quick
+
+#### T111: `CreateGenreRequest`/`UpdateGenreRequest`
+**What**: FormRequests — `name` required|string|max:255|unique on `genres.name` (update ignores current id), pt-BR messages.
+**Where**: `api/src/Http/Requests/Api/AdminV1/{CreateGenreRequest,UpdateGenreRequest}.php`
+**Depends on**: T110
+**Reuses**: `CreatePlanRequest`/`UpdatePlanRequest` (T99b equivalent)
+**Requirement**: ARCHITECTURE §13.3
+**Tests**: covered by T113's integration tests
+**Gate**: quick
+
+#### T112: `GenreController` + routes
+**What**: `GET /api/admin/v1/genres` (`auth:admin`+`guard.admin` only — venue_admin/promoter need it for the event-creation picker); `POST /`, `PATCH /{id}`, `POST /{id}/activate`, `POST /{id}/deactivate` (additionally `guard.super-admin`). Status transitions are dedicated `POST` action routes, not `PATCH` — matches `/plans/{id}/deactivate`, `/events/{id}/submit|cancel|duplicate`.
+**Where**: `api/src/Http/Controllers/Api/AdminV1/GenreController.php`, `api/routes/api_admin_v1.php` (modify)
+**Depends on**: T111
+**Reuses**: `PlanController` (T103)
+**Requirement**: user request
+**Tests**: integration
+**Gate**: full
+
+#### T113: Genre test suite completion + coverage check (sequential)
+**What**: `GenreTest` (entity), `{CreateGenre,UpdateGenre,ActivateGenre,DeactivateGenre,ListAllGenres}Test` (use cases, Mockery), `GenreControllerTest` (happy paths + 422s + full auth rejection matrix — non-super-admin gets 403 on mutations but 200 on `index`, forged-permission-claim 403, fan token 401, unauthenticated 401), extend `EloquentGenreRepositoryTest`.
+**Where**: `api/tests/Unit/Domain/Event/{GenreTest.php,UseCase/*Test.php}`, `api/tests/Feature/Http/Controllers/Api/AdminV1/GenreControllerTest.php`, `api/tests/Feature/Infrastructure/Persistence/EloquentGenreRepositoryTest.php` (modify)
+**Depends on**: T112
+**Reuses**: `PlanControllerTest`'s auth-rejection-matrix pattern (T103's tests)
+**Requirement**: ARCHITECTURE §8.3
+**Tests**: unit + integration
+**Gate**: full
+**Commit**: `feat(api): add genre admin CRUD endpoints`
+
+## Task Granularity Check — Genre Admin CRUD
+
+| Task | Scope | Status |
+|---|---|---|
+| T107 | 1 schema change (1 column) + seeder | ✅ Granular |
+| T108 | 1 entity + 1 interface extension | ✅ Granular |
+| T109 | 1 model + 1 factory + 1 repository impl | ✅ Granular |
+| T110 | 5 cohesive use cases (1 concept) | ✅ Granular |
+| T111 | 2 FormRequests (1 concept) | ✅ Granular |
+| T112 | 1 controller + 1 route file edit | ✅ Granular |
+| T113 | Test completion, 1 deliverable | ✅ Granular |
+
+## Test Co-location Validation — Genre Admin CRUD
+
+| Task | Code Layer | Matrix Requires | Task Says | Status |
+|---|---|---|---|---|
+| T107 | Schema/seed | none | none | ✅ OK |
+| T108 | Domain entity/interface | unit | unit | ✅ OK |
+| T109 | Persistence adapter | integration | integration | ✅ OK |
+| T110 | Domain use cases | unit | unit | ✅ OK |
+| T111 | HTTP validation | integration (via T113) | covered by T113 | ✅ OK |
+| T112 | HTTP controller | integration | integration | ✅ OK |
+| T113 | Full suite + coverage gate | unit + integration | unit + integration | ✅ OK |
+
+No violations. No Diagram-Definition Cross-Check table: this is a standalone gap-fix tracked via `STATE.md`'s Todo list, not a milestone feature with a `design.md` sequence diagram.
 - T86/T87/T100/T101 all modify existing files from earlier milestones rather than duplicating logic — when executing, re-run the *original* task's test suite first to confirm no regression before adding the new assertions.

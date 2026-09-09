@@ -542,3 +542,85 @@ No violations.
 - AT31, AT33 modify existing MVP Core files — confirm original test suites still pass before adding new assertions.
 - Every task in this file, across every milestone, sources its visual system from `design-system-admin.md` (Corona), never NIGHTLIFE-GV — this was the explicit, confirmed reversal from earlier in the session and applies uniformly.
 - GA4 calls remain excluded from every task in this file, across every milestone.
+
+---
+
+## Execution Plan — Genre Admin CRUD (standalone gap-fix)
+
+Not a ROADMAP milestone item — closes the long-standing "no genre-list endpoint" Todo in `.specs/project/STATE.md` (`EventForm` takes a raw numeric `genre_id` instead of a picker) as a superset: a Super Admin genre management screen plus the picker fix. Depends on `api.md`'s Genre Admin CRUD tasks (T107–T113) being available. Branch: `feat/admin-genre-crud`.
+
+```
+AT35 → AT36 → AT37 → AT38 → AT39
+```
+(Sequential — client/types → hook → components → pages → EventForm wiring.)
+
+## Task Breakdown — Genre Admin CRUD
+
+#### AT35: Genre API client
+**What**: `Genre` type; `listGenres`, `createGenre`, `updateGenre`, `activateGenre`, `deactivateGenre` request builders.
+**Where**: `admin/lib/api/types.ts` (modify), `admin/lib/api/client.ts` (modify)
+**Depends on**: `api.md` T112
+**Reuses**: `Plan`/`listPlans`/`createPlan`/etc.'s section shape
+**Requirement**: user request
+**Tests**: unit
+**Gate**: quick
+
+#### AT36: `useGenres` hook
+**What**: Fetch-on-mount `refetch`, `create`, `update`, `activate`, `deactivate`.
+**Where**: `admin/hooks/useGenres.ts`
+**Depends on**: AT35
+**Reuses**: `usePlans` (`hooks/useBilling.ts`)
+**Requirement**: user request
+**Tests**: unit
+**Gate**: quick
+
+#### AT37: `GenreForm`/`GenreTable` components
+**What**: `GenreForm` (single `name` field); `GenreTable` (`name`, `slug`, status pill + inline Ativar/Desativar action, both directions since Genre isn't deactivate-only like Plan).
+**Where**: `admin/components/design-system/GenreForm.tsx`, `admin/components/design-system/GenreTable.tsx`, `admin/components/design-system/form-validation.ts` (modify — add `validateGenreFields`)
+**Depends on**: AT36
+**Reuses**: `PlanForm`/`PlanTable`
+**Requirement**: user request (dedicated genre registration form)
+**Tests**: unit
+**Gate**: quick
+
+#### AT38: `/generos` pages + nav entry
+**What**: List (with activate/deactivate via `DecisionModal`), create, edit pages; Super-Admin-only nav item.
+**Where**: `admin/app/generos/page.tsx`, `admin/app/generos/novo/page.tsx`, `admin/app/generos/[id]/editar/page.tsx`, `admin/components/layout/nav-items.ts` (modify)
+**Depends on**: AT37
+**Reuses**: `app/planos/**` page trio
+**Requirement**: user request
+**Tests**: integration
+**Gate**: full
+
+#### AT39: `EventForm` genre picker (sequential, modifies AT9's existing field)
+**What**: Replace the raw numeric `genre_id` `TextField` with a `SelectField` fed by a new `genreOptions` prop; `app/eventos/novo/page.tsx` and `app/eventos/[id]/editar/page.tsx` call `useGenres()`, filter `is_active`, map to `{value, label}`, pass down. Closes the STATE.md Todo this whole feature set is named after.
+**Where**: `admin/components/design-system/EventForm.tsx` (modify), `admin/app/eventos/novo/page.tsx` (modify), `admin/app/eventos/[id]/editar/page.tsx` (modify)
+**Depends on**: AT38, AT9 (existing)
+**Reuses**: `CITY_OPTIONS`/`SelectField` pattern already in `EventForm.tsx`
+**Requirement**: user request; STATE.md Todo (genre-list endpoint gap)
+**Done when**: existing `EventForm.test.tsx`/event-page tests still pass, plus new assertions that the genre field renders as a populated `<select>` and submits the chosen id
+**Tests**: integration
+**Gate**: full
+**Commit**: `feat(admin): add genre admin CRUD and wire EventForm genre picker`
+
+## Task Granularity Check — Genre Admin CRUD
+
+| Task | Scope | Status |
+|---|---|---|
+| AT35 | 1 client extension | ✅ Granular |
+| AT36 | 1 hook | ✅ Granular |
+| AT37 | 1 cohesive component pair (1 concept) | ✅ Granular |
+| AT38 | 1 page trio + nav | ✅ Granular |
+| AT39 | Targeted extension, one new behavior | ✅ Granular |
+
+## Test Co-location Validation — Genre Admin CRUD
+
+| Task | Code Layer | Matrix Requires | Task Says | Status |
+|---|---|---|---|---|
+| AT35 | Client | unit | unit | ✅ OK |
+| AT36 | Hooks | unit | unit | ✅ OK |
+| AT37 | Components | unit | unit | ✅ OK |
+| AT38 | Pages | integration | integration | ✅ OK |
+| AT39 | Page/form modification | integration | integration | ✅ OK |
+
+No violations. No Diagram-Definition Cross-Check table: standalone gap-fix tracked via `STATE.md`'s Todo list, not a milestone feature with a `design.md` sequence diagram.
