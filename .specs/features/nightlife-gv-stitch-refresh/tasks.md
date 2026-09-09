@@ -579,12 +579,26 @@ Each task follows the same shape: diff the page against its Stitch screenshot/HT
 **Tools** (all seven): MCP: `stitch` (`get_screen` for HTML+screenshot downloads) | Skill: NONE
 
 **Done when** (all seven):
-- [ ] Rendered page structurally matches the Stitch desktop screenshot
-- [ ] Uses only reconciled tokens, no new hardcoded values
-- [ ] Existing animations preserved unless the mock specifies otherwise
-- [ ] Co-located test updated, passing
+- [x] Rendered page structurally matches the Stitch desktop screenshot
+- [x] Uses only reconciled tokens, no new hardcoded values
+- [x] Existing animations preserved unless the mock specifies otherwise
+- [x] Co-located test updated, passing
 
 **T14 status**: ✅ Complete. `entrar/page.tsx` restyled to a two-panel split-screen (branding/live-highlight panel + form panel) per the Stitch desktop mock, reusing existing `TextField`/`Button`; all copy stayed within already-reconciled hex tokens. No animation existed on this page pre-refresh, so REFRESH-03 (preserve existing) is a no-op here.
+
+**T15 status**: ✅ Complete. `cadastro/page.tsx` restyled to the same two-panel split-screen pattern as `entrar`, matching the "Criar Conta (Registro Desktop)" mock; existing `TextField`/`Button`/`ConsentCapture` reused as-is, no new hex values. No animation existed pre-refresh.
+
+**T16 status**: ✅ Complete. `verificar-email/page.tsx` wrapped in a centered bordered card matching the "Verificação de E-mail OTP (Desktop)" mock's centered-card layout; added the destination email display; reused `OtpCodeInput`'s existing resend/cooldown UI as-is rather than rebuilding the mock's countdown chrome. No animation existed pre-refresh.
+
+**T17 status**: ✅ Complete. `recuperar-senha/page.tsx` (all 3 wizard steps) and `recuperar-senha/sucesso/page.tsx` wrapped in the same centered bordered card as `verificar-email`, matching the "Esqueci Minha Senha" / "Redefinir Nova Senha" / "Sucesso Envio de Link" desktop mocks; no route/logic changes, only the wrapper's structure/tokens. No animation existed pre-refresh.
+
+**T18 status**: ✅ Complete. `app/page.tsx` gains the Stitch landing mock's descriptive tagline below `HeroFeature`, still composed from the existing `HeroFeature`/`Marquee`/`EventCarousel`/`CityGrid` reuse chain per design.md. The mock's top nav and genre-category grid are out of scope: nav is `NavBar`'s global-layout concern (a separate component, untouched here) and a genre-browse grid is a not-yet-built feature with no "Done when" criterion covering it — adding one would be scope creep beyond this task's structural-refresh remit. Existing "Próximos eventos"/"Explore por cidade" headings and all functional behavior preserved unchanged (existing tests still pass). No animation change needed — `animate-card-enter`/`animate-pulse-glow` untouched.
+
+**T19 status**: ✅ Complete. `eventos/[id]/page.tsx` gains "Sobre o evento" and "Localização" section headings matching the "Detalhes do Evento (Desktop)" mock's labeled sections; the existing two-column layout (description/map/organizers + sticky ticket sidebar) and `EventHero`/`GoogleMap`/`CtaButton`/`EventCarousel` reuse were already structurally aligned. The mock's lineup/schedule block has no backing `Event` field, so it wasn't rebuilt (REFRESH-04). No animation existed on this page pre-refresh.
+
+**T20 status**: ✅ Complete. `perfil/page.tsx` wrapped in the same centered bordered card as the other refreshed pages, matching "Meu Perfil (Desktop)"; account-management heading renamed to "Segurança & Configurações da Conta" per the mock's wording for the fields this page actually has (export/delete). The mock's stats/favorite-genres/followed-venues/saved-events/sidebar-nav sections remain out of scope per this task's pre-existing scope note (Milestone 2's W35) — not rebuilt. No animation existed pre-refresh.
+
+**Phase 4 (T14–T20) status**: ✅ All seven website existing-screen refresh tasks complete. Full gate (`test:coverage` + `lint` + `build`) run at the end of Phase 4.
 
 **Tests**: unit
 **Gate**: quick (full at end of Phase 4)
