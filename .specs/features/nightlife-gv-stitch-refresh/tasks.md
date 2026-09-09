@@ -380,10 +380,12 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Happy path (valid box or valid city) returns geocoded events
-- [ ] Missing both box and city → 422 with the standard pt-BR error envelope
-- [ ] Zero-result area returns an empty array, not an error
-- [ ] Route is public (no auth), matching `GET /events`
+- [x] Happy path (valid box or valid city) returns geocoded events
+- [x] Missing both box and city → 422 with the standard pt-BR error envelope
+- [x] Zero-result area returns an empty array, not an error
+- [x] Route is public (no auth), matching `GET /events`
+
+**T7 status**: ✅ Complete. `GET /api/v1/events/map` added to the existing `EventController` (`map` action) alongside a new `GetMapEvents` use case (thin wrapper over `EventRepository::findMapEvents`, mirroring `ListUpcomingEvents`) and a new `MapEventsRequest` Form Request — `north`/`south`/`east`/`west` are `required_with` each other (a partial box 422s cleanly), and an `after()` validator hook 422s when neither a city nor a full box is given. Route registered public/no-auth in the same `throttle:qor-public-api` group as `GET /events`, placed before the `{id}` route (static-segment `map` never collides with the numeric `whereNumber('id')` constraint regardless of order). `eventToArray()` now includes `latitude`/`longitude` (additive — verified `assertJsonStructure` on `index`/`show` still passes since it doesn't forbid extra keys). 5 new Feature tests (box happy path, city happy path, missing-both 422, zero-result empty array, no-auth-token succeeds). Gate (full): 684 passed, 0 failed; `phpstan analyse` clean.
 
 **Tests**: integration (Feature test: happy path with box; happy path with city; missing params → 422; zero-result area → empty array)
 **Gate**: full
