@@ -328,9 +328,11 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Event with a resolvable address gets coordinates persisted
-- [ ] Event with an unresolvable address still saves, coordinates null, failure logged
-- [ ] No existing Event create/update test regresses
+- [x] Event with a resolvable address gets coordinates persisted
+- [x] Event with an unresolvable address still saves, coordinates null, failure logged
+- [x] No existing Event create/update test regresses
+
+**T5 status**: ✅ Complete. `Event` gained nullable `latitude`/`longitude`. `CreateEvent`/`EditEvent` now take `GeocodingPort` and geocode the effective address before saving (`EditEvent`'s Draft branch only re-geocodes when the address actually changed; the Published branch can't change address so it carries the existing coordinates through unchanged). `GeocodingPort::class` bound to `GoogleGeocodingAdapter` in `AppServiceProvider`. `EloquentEventRepository`/`EventModel` persist and hydrate the two new columns. All 25 pre-existing `CreateEvent`/`EditEvent` unit tests updated to inject a `GeocodingPort` mock (via a new `geocoding()` test helper, mirroring the existing `genres()` helper) — no assertion weakened. 5 new tests added (2 create, 3 edit) for the geocode-success/geocode-failure/address-unchanged paths. While validating, found `GoogleGeocodingAdapterTest`'s admin Feature-test siblings (e.g. `AdminV1\EventControllerTest`) were making real outbound HTTP calls once geocoding got wired in — fixed by adding `Http::preventStrayRequests()` to the shared `tests/TestCase::setUp()`; a stray request now throws, which `GoogleGeocodingAdapter` already treats as a non-blocking geocoding failure, so no test needed rewriting. Also fixed 3 phpstan `mixed`-offset errors in `GoogleGeocodingAdapter` (found running the Full gate early ahead of T7). Gate: 672 passed, 0 failed (was 663 before Phase 2 started); `vendor/bin/phpstan analyse` clean.
 
 **Tests**: unit (GIVEN a new event with a real address WHEN saved THEN coordinates persist; GIVEN an unresolvable address WHEN saved THEN the event still saves with null coordinates)
 **Gate**: quick
