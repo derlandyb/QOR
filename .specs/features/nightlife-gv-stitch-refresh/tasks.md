@@ -255,9 +255,11 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Migration runs clean (`docker compose exec api php artisan migrate`)
-- [ ] Columns are nullable (existing rows remain valid, no backfill)
-- [ ] Index created
+- [x] Migration runs clean (`docker compose exec api php artisan migrate`)
+- [x] Columns are nullable (existing rows remain valid, no backfill)
+- [x] Index created
+
+**T2 status**: ✅ Complete. `2026_09_09_010000_add_coordinates_to_events_table.php` adds nullable `latitude`/`longitude` `decimal(10,7)` to `events` plus a composite btree index on `(latitude, longitude)`. `docker compose exec api php artisan migrate` ran clean (`DONE`).
 
 **Tests**: none — matrix lists migrations as build-gate-only
 **Gate**: build
