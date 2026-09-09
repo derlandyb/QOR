@@ -644,12 +644,14 @@ Each task follows the same shape: diff the page against its Stitch screenshot/HT
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Pins render for geocoded events per Stitch's "Mapa Interativo" desktop mock
-- [ ] Clicking a pin navigates to that event's detail page
-- [ ] Panning/zooming or applying a city filter re-queries rather than filtering one static fetch
+- [x] Pins render for geocoded events per Stitch's "Mapa Interativo" desktop mock
+- [x] Clicking a pin navigates to that event's detail page
+- [x] Panning/zooming or applying a city filter re-queries rather than filtering one static fetch
 
 **Tests**: unit (pins render from mocked response; pin click navigates; viewport change triggers a new query)
 **Gate**: quick
+
+**Status**: ✅ Complete — `getMapEvents` added to `lib/api/client.ts`, `GoogleMap.tsx` extended with a multi-pin mode (`pins`/`onPinClick`/`onBoundsChanged`, backward-compatible with the existing single-`address` mode), `useMapEvents` hook re-queries on city or bounds change. 238/238 website tests pass (quick gate).
 
 **Commit**: `feat(website): add /mapa page`
 
