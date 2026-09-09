@@ -668,12 +668,14 @@ Each task follows the same shape: diff the page against its Stitch screenshot/HT
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Each of the 4 cities' Hub renders only that city's published events in the curated layout
-- [ ] Home offers a Hub entry point alongside the existing CityGrid link
-- [ ] Zero-event city shows `EmptyState`
+- [x] Each of the 4 cities' Hub renders only that city's published events in the curated layout
+- [x] Home offers a Hub entry point alongside the existing CityGrid link
+- [x] Zero-event city shows `EmptyState`
 
 **Tests**: unit (render per city; empty state; Home entry-point link present)
 **Gate**: full (end of Phase 5) + `make e2e-website` smoke covering `/favoritos`, `/mapa`, and one Hub
+
+**Status**: ✅ Complete — `website/app/hubs/[city]/page.tsx` added (curated per-city hero + EventCard grid over the existing `GET /events?city=`), Home's city section gets a "Hubs da Grande Vitória" link row alongside CityGrid. 249/249 unit tests pass, lint clean, build succeeds, e2e smoke (`/favoritos`, `/mapa`, `/hubs/vitoria`) 4/4 passing. The e2e run caught a real bug: `/mapa` and `/hubs` were missing from `lib/api/http.ts`'s `PUBLIC_PATHS`/`PUBLIC_PATH_PREFIXES`, so NavBar's background session check 401 was bouncing anonymous visitors to `/entrar` on both new public routes — fixed in the same commit since T23's own gate requires the smoke to pass across all three routes.
 
 **Commit**: `feat(website): add Hubs da Grande Vitória pages`
 
