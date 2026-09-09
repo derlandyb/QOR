@@ -304,9 +304,11 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Successful geocode returns a `Coordinates` instance
-- [ ] API error/timeout/no-results all return `null`, never throw
-- [ ] API key read from config/env only, never hardcoded (`ARCHITECTURE.md` §13.3)
+- [x] Successful geocode returns a `Coordinates` instance
+- [x] API error/timeout/no-results all return `null`, never throw
+- [x] API key read from config/env only, never hardcoded (`ARCHITECTURE.md` §13.3)
+
+**T4 status**: ✅ Complete. `GoogleGeocodingAdapter` calls the Google Geocoding API via `Http::get`, reading the key/endpoint from `config('qor.geocoding.google.*')` (new config block, env-driven). Zero-result/error/exception paths all return `null` and log via `Log::error`, never throw. 4 Feature tests (`Http::fake`, `Log::spy`) cover success, `ZERO_RESULTS`, HTTP 500, and a thrown `ConnectionException`. Gate: 667 passed, 0 failed (was 663 before this task).
 
 **Tests**: unit (GIVEN a resolvable address WHEN geocode() is called THEN it returns Coordinates; GIVEN an API error/timeout/unresolvable address THEN it returns null; failure is logged)
 **Gate**: quick
