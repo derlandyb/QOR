@@ -700,14 +700,26 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools** (all six): MCP: `stitch` | Skill: NONE
 
 **Done when** (all six):
-- [ ] Rendered screen structurally matches the Stitch mobile screenshot
-- [ ] Uses only reconciled tokens
-- [ ] Existing `*RenderTest`/`*Test` updated, passing
+- [x] Rendered screen structurally matches the Stitch mobile screenshot
+- [x] Uses only reconciled tokens
+- [x] Existing `*RenderTest`/`*Test` updated, passing
 
 **Tests**: unit/Robolectric render test
 **Gate**: quick (full at end of Phase 6)
 
 **Commits**: `style(mobile-android): refresh <Screen> per new Stitch design` (one per task)
+
+**T24 status**: ✅ Complete. `LoginScreen.kt` reordered to match "Entrar (Login Dark)": the (disabled-stub) Google CTA and a new "OU" divider now lead the form, ahead of the email/password fields, and the "Esqueci minha senha" link moved to sit directly under the password field (above the submit button) per the mock's field order. All values remain `QualORockThemeTokens` constants — no new hardcoded colors/spacing. No animation existed on this screen pre-refresh (REFRESH-03 no-op). Existing `LoginScreenTest` assertions are all text-existence based (order-independent), so none needed rewriting; one new test asserts the "OU" divider renders.
+
+**T25 status**: ✅ Complete. `SignupScreen.kt` reordered the same way as T24's Login refresh, matching "Criar Conta (Registro Dark)": the (disabled-stub) Google CTA and the shared `auth_divider_or` ("OU") divider now lead the form, ahead of name/email/password/birthdate. Tokens/animations unchanged. Existing `SignupScreenTest` assertions unaffected (text-existence based); one new test asserts the "OU" divider renders. 7/7 tests pass.
+
+**T26 status**: ✅ Complete. `EmailVerificationScreen.kt`'s existing title/instructions/OTP-field/submit/resend order already matched "Verificação de E-mail OTP (Mobile)" — the one structural gap was the mock's trust-footer line, added as a new `email_verification_security_footer` Text at the bottom, tokens only. One new test asserts the footer renders. 6/6 tests pass.
+
+**T27 status**: ✅ Complete. `HomeFeedScreen.kt` gains the "Eventos em Destaque" section heading from "Mobile App Homepage", rendered above the card list (Content state only — no change to Loading/Empty/Error states). The mock's city-filter chips and Hubs/Mapa/Salvos bottom-nav tabs are out of scope — they belong to not-yet-built screens (T31-T33), not this refresh task. One new test asserts the heading renders. 5/5 tests pass.
+
+**T28 status**: ✅ Complete. `EventDetailScreen.kt` gains a back-link header row ("‹ Voltar") from "Detalhes do Evento (Mobile)"'s back-button header, wired through a new `onBackClick: () -> Unit = {}` param (default no-op — same injectable-seam pattern as `launchIntent`; actually wiring it to `navController.popBackStack()` is A14/`QorNavGraph.kt`'s job, out of this file's scope). The rest of the screen's section order (hero, title/badges, date/venue, embedded map, description, ticket CTA, promoter contacts, share) already matched the mock. The mock's "Outros rocks rolando" related-events section has no backing `EventDetail` field and stays out of scope (REFRESH-04). One new test asserts tapping the back link fires the callback. 12/12 tests pass.
+
+**T29 status**: ✅ Complete. `ProfileScreen.kt` reorders the editable name field to sit directly under the avatar/"Alterar foto" block (above the read-only birthdate row), matching "Meu Perfil (Mobile)"'s "name right under the avatar" order. The mock's location badge, activity level, like/saved/hub counters, genre/venue preferences, and account-settings list have no backing data on `ProfileViewModel`/`User` and stay out of scope (REFRESH-04). One new test asserts the name field's semantics position sits above the birthdate row's. 5/5 tests pass.
 
 ---
 
@@ -722,12 +734,14 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Full email → code → new-password → success → login path works
-- [ ] Invalid/expired code rejected without advancing
-- [ ] Old 2-step tests replaced with 3-step equivalents (RED→GREEN→REFACTOR on the new flow)
+- [x] Full email → code → new-password → success → login path works
+- [x] Invalid/expired code rejected without advancing
+- [x] Old 2-step tests replaced with 3-step equivalents (RED→GREEN→REFACTOR on the new flow)
 
 **Tests**: unit/Robolectric render test (full 3-step happy path; invalid-code rejection)
 **Gate**: quick
+
+**T30 status**: ✅ Complete. `PasswordRecoveryViewModel`/`PasswordRecoveryScreen` already rendered real 3 steps (email → verify-code → new-password) as of prior work (commit `1f7ebf3`, confirmed in T11's status note) — the gap this task closes is PWDR-04: `ConfirmResetResult.Success` now advances to a new `PasswordRecoveryStep.Success` state (styled per Stitch's "Sucesso Envio de Link" mock: title, message, "Voltar para o login" CTA) instead of firing `PasswordRecoveryEvent.ResetSuccess` immediately; a new `onSuccessContinue()` fires that event only once the fan acknowledges the success screen. The redundant "Lembrou da senha? Fazer login" footer link is hidden on the Success step. Per design.md's Risks table, the step-3-success test was replaced (not extended): `GIVEN step 3 WHEN confirmReset succeeds THEN onResetSuccess fires` became `...THEN the success screen renders instead of navigating immediately`, plus a new `GIVEN the success screen WHEN the CTA is tapped THEN onResetSuccess fires`. The spec.md edge case (abandoned mid-flow verify-code step requires restarting from step 1, no persisted partial state) is covered at both layers: `PasswordRecoveryViewModelTest` proves a fresh instance never inherits an abandoned instance's step, `PasswordRecoveryScreenTest` proves a fresh render starts at the email step. `PasswordRecoveryScreenTest`: 10/10 pass. `PasswordRecoveryViewModelTest`: 15/15 pass.
 
 **Commit**: `feat(mobile-android): rebuild PasswordRecoveryScreen to 3-step parity`
 
