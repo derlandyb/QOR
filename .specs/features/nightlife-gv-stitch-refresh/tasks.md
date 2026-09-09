@@ -494,15 +494,17 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] `review-laravel-api` findings addressed
-- [ ] `gh pr checks <PR>` green, verified explicitly
-- [ ] Merged to `qor-api` `main`
-- [ ] Root repo's `api` submodule pointer updated and committed
+- [x] `review-laravel-api` findings addressed
+- [x] `gh pr checks <PR>` green, verified explicitly
+- [x] Merged to `qor-api` `main`
+- [x] Root repo's `api` submodule pointer updated and committed
 
 **Tests**: none — process checkpoint, not a code change
 **Gate**: n/a
 
 **Commit**: root repo: `chore: sync api submodule pointer (event geo/map)`
+
+**T12 status**: ✅ Complete. PR #26 (`feat/api-event-geo-map` → `main`), reviewed by `review-laravel-api` — no blocking findings (two minor non-blocking notes: `GetMapEvents` use case lacks a dedicated unit test vs. its sibling pattern; synchronous geocoding call is an accepted design.md tradeoff). `gh pr checks 26` confirmed 2/2 passed before merge. Merged via `gh pr merge --merge`, api's `main` now at `627455c`. Root submodule pointer updated in the commit that closes this task.
 
 ---
 
