@@ -429,8 +429,10 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] `toggle()` calls the existing endpoint and returns the new state
-- [ ] `list()` calls the existing endpoint and maps to `Event`
+- [x] `toggle()` calls the existing endpoint and returns the new state
+- [x] `list()` calls the existing endpoint and maps to `Event`
+
+**T9 status**: ✅ Complete. `list()` targets the actual routed endpoint (`GET /profile/favorites` — tasks.md's `/favorites` doesn't exist in `qor-api`'s `routes/api_v1.php`). `EventDto.genre` gained a `""` default (SPEC_DEVIATION) because the real favorites payload (`FavoriteController::eventToArray`) omits `genre` and sends `genre_id` instead, which would otherwise crash decoding.
 
 **Tests**: unit (GIVEN a successful toggle response THEN the new favorited state returns; GIVEN a list response THEN it maps to Event correctly; GIVEN a network/auth error THEN the Result is a failure)
 **Gate**: quick
@@ -452,7 +454,9 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Both use cases delegate correctly and surface repository errors as `Result` failures
+- [x] Both use cases delegate correctly and surface repository errors as `Result` failures
+
+**T10 status**: ✅ Complete. "Un-favorite-from-list removes it" (FAVUI-04) is a screen-level list-state behavior with no shared-module concept to test yet — covered in the later Android/iOS ViewModel tasks, not here.
 
 **Tests**: unit (1:1 to FAVUI-01/02/04 — toggle success, list success, un-favorite-from-list removes it)
 **Gate**: quick
@@ -474,8 +478,21 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Valid code → success
-- [ ] Invalid/expired code → failure with a pt-BR-mappable error, does not throw
+- [x] Valid code → success
+- [x] Invalid/expired code → failure with a pt-BR-mappable error, does not throw
+
+**T11 status**: ✅ Complete — already satisfied by prior work, no new code added. SPEC_DEVIATION:
+`UserRepository.verifyResetCode(email, code): VerifyResetCodeResult` and
+`ResetPassword.verifyResetCode(email, code)` (`mobile/shared/.../domain/user/UserRepository.kt`,
+`.../usecase/ResetPassword.kt`) already call `qor-api`'s `/auth/password/verify-code` and cover
+PWDR-01/02/03 exactly, added in commit `1f7ebf3` ("retrofit ResetPassword to 3-step OTP
+contract") before this batch ran. Tested in `ResetPasswordTest.kt` (valid/invalid/expired code)
+and `UserRepositoryImplTest.kt` (POST to `/auth/password/verify-code`, response mapping).
+Adding a second, parallel `VerifyPasswordResetCode` use case + `verifyPasswordResetCode`
+repository method per this task's literal `Result<Unit>` signature would duplicate this and
+regress it: `Result<Unit>` discards the reset token `VerifyResetCodeResult.Success` carries,
+which step 3 (`confirmPasswordReset`) requires. No files touched; no commit needed beyond this
+status update.
 
 **Tests**: unit (GIVEN a valid code THEN success; GIVEN an invalid/expired code THEN failure without throwing)
 **Gate**: quick
@@ -521,8 +538,19 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Box-mode and city-mode calls both map correctly to `GET /events/map`
-- [ ] Events with no coordinates never appear (already guaranteed server-side per MAPGEO-03, but the DTO mapping must not crash on a null-coordinate event elsewhere in the app)
+- [x] Box-mode and city-mode calls both map correctly to `GET /events/map`
+- [x] Events with no coordinates never appear (already guaranteed server-side per MAPGEO-03, but the DTO mapping must not crash on a null-coordinate event elsewhere in the app)
+
+**T13 status**: ✅ Complete. `EventRepository.getMapEvents`/`EventRepositoryImpl` return the
+plain (throwing) `List<Event>` per the existing `findUpcoming`/`findById` pattern; `Result<List<Event>>`
+wrapping happens only in `GetMapEvents`, matching design.md's Interfaces section and T9/T10's
+layering (SPEC_DEVIATION from this task's literal "`EventRepository.getMapEvents(...): Result<...>`"
+wording, kept consistent with the rest of the repo). `Event`/`EventDto` gained nullable
+`latitude`/`longitude`. Extending `EventRepository` required adding `getMapEvents` overrides to 7
+pre-existing `androidApp` test-only fakes (`ExploreViewModelTest`, `HomeFeedViewModelTest`,
+`EventDetailViewModelTest`, `ExploreScreenTest`, `EventDetailScreenTest`, `HomeFeedScreenTest`,
+`QorNavGraphTest`) so the build keeps compiling — a direct, unavoidable consequence of the
+interface change, not scope creep.
 
 **Tests**: unit (GIVEN box params THEN correct query built; GIVEN city param THEN correct query built; GIVEN a response THEN it maps to Event list correctly)
 **Gate**: quick
@@ -555,6 +583,8 @@ Each task follows the same shape: diff the page against its Stitch screenshot/HT
 - [ ] Uses only reconciled tokens, no new hardcoded values
 - [ ] Existing animations preserved unless the mock specifies otherwise
 - [ ] Co-located test updated, passing
+
+**T14 status**: ✅ Complete. `entrar/page.tsx` restyled to a two-panel split-screen (branding/live-highlight panel + form panel) per the Stitch desktop mock, reusing existing `TextField`/`Button`; all copy stayed within already-reconciled hex tokens. No animation existed on this page pre-refresh, so REFRESH-03 (preserve existing) is a no-op here.
 
 **Tests**: unit
 **Gate**: quick (full at end of Phase 4)
