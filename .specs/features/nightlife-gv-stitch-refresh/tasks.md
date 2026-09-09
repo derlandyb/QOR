@@ -405,7 +405,9 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: `postman` (if the collection is managed there) | Skill: NONE
 
 **Done when**:
-- [ ] New endpoint documented with both query modes and sample responses
+- [x] New endpoint documented with both query modes and sample responses
+
+**T8 status**: ✅ Complete. Two new requests added to the "Events (Public)" folder in `docs/postman/qor-api-mvp-core.postman_collection.json`: "Get Map Events (Bounding Box)" and "Get Map Events (City)", each with a sample query and a sample 200 response documented in its description (matching the collection's existing description-as-docs convention). Gate: file re-parses as valid JSON; no code changed.
 
 **Tests**: none — documentation artifact, not code
 **Gate**: build
