@@ -620,12 +620,14 @@ Each task follows the same shape: diff the page against its Stitch screenshot/HT
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Unauthenticated visitor redirects to `/entrar`
-- [ ] Authenticated fan sees their favorited events, matching Stitch's "Meus Favoritos" layout
-- [ ] Un-favoriting from the list removes it without a full reload
+- [x] Unauthenticated visitor redirects to `/entrar`
+- [x] Authenticated fan sees their favorited events, matching Stitch's "Meus Favoritos" layout
+- [x] Un-favoriting from the list removes it without a full reload
 
 **Tests**: unit (auth redirect; render with favorites; un-favorite removes item)
 **Gate**: quick
+
+**Status**: ✅ Complete — `getFavorites`/`toggleFavorite` added to `lib/api/client.ts`, `hooks/useFavorites.ts` handles optimistic remove + rollback, `/favoritos` left out of `PUBLIC_PATHS` so the existing 401 handler redirects to `/entrar`. 222/222 website tests pass (quick gate).
 
 **Commit**: `feat(website): add /favoritos page`
 
