@@ -281,8 +281,10 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Interface has zero framework/vendor imports (Clean Architecture §8.5)
-- [ ] `Coordinates` is immutable, validated (lat/lng within real-world bounds)
+- [x] Interface has zero framework/vendor imports (Clean Architecture §8.5)
+- [x] `Coordinates` is immutable, validated (lat/lng within real-world bounds)
+
+**T3 status**: ✅ Complete. `GeocodingPort::geocode(string): ?Coordinates` added with zero framework/vendor imports. `Coordinates` is a `final` readonly-property value object validating lat ∈ [-90,90] / lng ∈ [-180,180], throwing `InvalidArgumentException` with a pt-BR message otherwise. 6 unit tests in `CoordinatesTest.php` (valid, boundary, and all 4 out-of-bounds rejection cases). Gate: `docker compose exec api php artisan test` — 663 passed, 0 failed.
 
 **Tests**: unit (GIVEN valid lat/lng WHEN constructing Coordinates THEN it succeeds; GIVEN out-of-bounds values THEN it rejects)
 **Gate**: quick
