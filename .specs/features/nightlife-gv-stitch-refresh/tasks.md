@@ -354,9 +354,11 @@ Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
 **Tools**: MCP: NONE | Skill: NONE
 
 **Done when**:
-- [ ] Bounding-box query returns only events within bounds that have coordinates
-- [ ] City-radius mode resolves a city to its configured radius and returns matching events
-- [ ] Events with null coordinates are excluded from both modes
+- [x] Bounding-box query returns only events within bounds that have coordinates
+- [x] City-radius mode resolves a city to its configured radius and returns matching events
+- [x] Events with null coordinates are excluded from both modes
+
+**T6 status**: ✅ Complete. `EventRepository::findMapEvents(?MapBounds, ?City): list<Event>` added; `EloquentEventRepository` implements it with `whereNotNull`/`whereBetween` on `latitude`/`longitude`, published-only (mirrors `GET /events`'s existing public-query base). City mode resolves a fixed per-city center point (private const, same "fixed set of 4" status as the `City` enum) to a bounding box using the new `qor.map.city_radius_km` config key, converted via a km-per-degree approximation (no circular-radius SQL, staying inside Approach A's plain-bounding-box shape). New `MapBounds` domain value object (validated: north>south, east>west). `InMemoryEventRepository` (the domain contract-test fake) updated with a stub implementation and lat/lng passthrough in `save()`. 8 new tests (3 `MapBoundsTest`, 5 `EloquentEventRepositoryTest`: box in/out, city mode, null-coords excluded, draft-status excluded) against the real test DB. Gate: 679 passed, 0 failed; `phpstan analyse` clean.
 
 **Tests**: unit/integration (repository test against a real test DB: GIVEN events inside/outside a box THEN only inside ones return; GIVEN a city radius mode THEN only that city's geocoded events return; GIVEN an event with null coordinates THEN it's excluded)
 **Gate**: quick
