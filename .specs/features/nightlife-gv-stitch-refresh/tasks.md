@@ -760,11 +760,13 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Favoritos tab navigates to the real screen, no longer disabled
-- [ ] Favorite/un-favorite works from the list
+- [x] Favoritos tab navigates to the real screen, no longer disabled
+- [x] Favorite/un-favorite works from the list
 
 **Tests**: unit/Robolectric render test
 **Gate**: quick
+
+**T31 status**: ✅ Complete. `FavoritesScreen`/`FavoritesViewModel` consume T10's `ToggleFavorite`/`ListFavorites`, reusing `EventCard`/`EmptyState`. `BottomNavDestination.Favoritos` is now `enabled = true` and `QorNavGraph` routes it to the real screen instead of the Milestone-2 disabled stub. Split into a `feat(mobile-shared)` commit (DI wiring for `FavoriteRepository`/`ToggleFavorite`/`ListFavorites`, already-existing classes from T9/T10) and this `feat(mobile-android)` commit per `ARCHITECTURE.md` §8.10. Quick gate (`./gradlew test`) green in isolation.
 
 **Commit**: `feat(mobile-android): add FavoritesScreen, enable nav tab`
 
@@ -781,11 +783,13 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Pins render for geocoded events
-- [ ] Tapping a pin navigates to Event Detail
+- [x] Pins render for geocoded events
+- [x] Tapping a pin navigates to Event Detail
 
 **Tests**: unit/Robolectric render test
 **Gate**: quick
+
+**T32 status**: ✅ Complete. `MapScreen`/`MapViewModel` extend `EventMapState.kt`'s single-pin pattern to a multi-pin `maps-compose` `GoogleMap`, consuming T13's `GetMapEvents`; defaults to `City.Vitoria` (city mode) on load since there's no location-permission flow yet, with pan/zoom re-querying via `loadByBounds` (MAPUI-03). New nav-graph route added. Split into a `feat(mobile-shared)` commit (`GetMapEvents` DI wiring) and this `feat(mobile-android)` commit per `ARCHITECTURE.md` §8.10. Quick gate green in isolation.
 
 **Commit**: `feat(mobile-android): add MapScreen`
 
@@ -802,12 +806,16 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Each city's Hub renders correctly
-- [ ] Empty state for a zero-event city
-- [ ] Reachable from Home
+- [x] Each city's Hub renders correctly
+- [x] Empty state for a zero-event city
+- [x] Reachable from Home
 
 **Tests**: unit/Robolectric render test
 **Gate**: full (end of Phase 7)
+
+**T33 status**: ✅ Complete. `HubScreen`/`HubViewModel` reuse the existing `GET /events?city=` filter via `ListUpcomingEvents` (design.md's Tech Decision — no dedicated hub-aggregation endpoint), reusing `EventCard`/`EmptyState`. `HomeFeedScreen` gains a "Hubs da Grande Vitória" entry-point row of 4 per-city pills (reusing `CityFilterColors`), alongside the existing `CityFilterBar`→`/eventos?city=` link, not replacing it. New nav-graph route `hub/{city}` added, city sourced only from the route arg (spec's Edge Case: no stored preference fallback). No shared-module DI change needed (`ListUpcomingEvents` already bound). Full gate (`./gradlew test koverVerify :androidApp:koverVerifyDebug detekt`) green — 2 detekt findings (a magic-number camera constant in `MapScreen.kt`, two over-length KDoc/test lines) fixed during reconciliation.
+
+**Phase 7 (T31–T33) status**: ✅ Complete. All three tasks committed as 5 atomic commits (2 `feat(mobile-shared)` DI-wiring commits + 3 `feat(mobile-android)` screen commits), split per `ARCHITECTURE.md` §8.10's platform-boundary rule. Full gate green at Phase end.
 
 **Commit**: `feat(mobile-android): add Hub screen(s)`
 
