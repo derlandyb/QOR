@@ -838,14 +838,26 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools** (all six): MCP: `stitch` | Skill: NONE
 
 **Done when** (all six):
-- [ ] Rendered screen structurally matches the Stitch mobile screenshot
-- [ ] Uses only reconciled tokens
-- [ ] Any pure-logic helper touched keeps/gains XCTest coverage (views themselves build-verified only, per the documented iOS render-test-infra gap)
+- [x] Rendered screen structurally matches the Stitch mobile screenshot
+- [x] Uses only reconciled tokens
+- [x] Any pure-logic helper touched keeps/gains XCTest coverage (views themselves build-verified only, per the documented iOS render-test-infra gap)
 
 **Tests**: unit (pure logic only) / build-verified for views
 **Gate**: quick (full at end of Phase 8)
 
 **Commits**: `style(mobile-ios): refresh <View> per new Stitch design` (one per task)
+
+**T34 status**: ✅ Complete. `LoginView.swift` reordered to match "Entrar (Login Dark)" (mirrors Android's T24): the (disabled-stub) Google CTA and a new "OU" divider (`auth_divider_or`, added to `Localizable.xcstrings`) now lead the form, ahead of the email/password fields, and the "Esqueci minha senha" link moved to sit directly under the password field, above the submit button. All values remain `QorColor`/`QorSpace`/`QualORockThemeTokens` — no new hardcoded colors/spacing. No animation existed on this screen pre-refresh (REFRESH-03 no-op). One new `ViewInspector`-based test asserts the "OU" divider renders (`LoginViewTests.swift`); existing assertions (all `find(viewWithId:)`/`find(text:)`, order-independent) needed no changes. Prerequisite fix (separate commit, before T34): `Event`'s MAPGEO latitude/longitude fields had no Swift default across the Kotlin/Obj-C bridge, leaving 4 pre-existing iOS test fixtures (`EventDetailViewTests`, `EventDetailViewModelTests`, `HomeFeedViewTests`, `HomeFeedViewModelTests`) uncompilable — fixed so the whole `iosAppTests` target could build. Quick gate (`xcodebuild test -only-testing:iosAppTests/LoginViewTests`): 7/7 pass.
+
+**T35 status**: ✅ Complete. `SignupView.swift` reordered the same way as T34's Login refresh, matching "Criar Conta (Registro Dark)" (mirrors Android's T25): the (disabled-stub) Google CTA and the shared `auth_divider_or` ("OU") divider now lead the form, ahead of name/email/password/birthdate. Tokens/animations unchanged. One new test asserts the "OU" divider renders; existing accessibility-identifier-based assertions unaffected. Quick gate (`xcodebuild test -only-testing:iosAppTests/SignupViewTests`): 5/5 pass.
+
+**T36 status**: ✅ Complete. `EmailVerificationView.swift`'s existing title/instructions/OTP-field/submit/resend order already matched "Verificação de E-mail OTP (Mobile)" (mirrors Android's T26) — the one structural gap was the mock's trust-footer line, added as a new `email_verification_security_footer` Text at the bottom, tokens only. One new test asserts the footer renders. Quick gate (`xcodebuild test -only-testing:iosAppTests/EmailVerificationViewTests`): 5/5 pass.
+
+**T37 status**: ✅ Complete. `HomeFeedView.swift`'s Content state gains the "Eventos em Destaque" section heading from "Mobile App Homepage" (mirrors Android's T27), rendered above the card list — Loading/Empty/Error states unchanged. The mock's city-filter chips and Hubs/Mapa/Salvos bottom-nav tabs are out of scope, belonging to not-yet-built screens (T41–T43). One new test asserts the heading renders. Quick gate (`xcodebuild test -only-testing:iosAppTests/HomeFeedViewTests`): 6/6 pass.
+
+**T38 status**: ✅ Complete. Audit against "Detalhes do Evento (Mobile)" (mirrors Android's T28) found `EventDetailView.swift` already structurally matched: section order (hero, title/badges, date/venue, embedded map, description, ticket CTA, promoter contacts, share) and the `.toolbar` back-chevron affordance were already in place — unlike Android's `EventDetailScreen`, which had no back control before its own T28 refresh. No functional change was needed; a doc comment records the audit. The mock's "Outros rocks rolando" related-events section has no backing `EventDetail` field and stays out of scope (REFRESH-04), same call as Android's T28. Quick gate (`xcodebuild test -only-testing:iosAppTests/EventDetailViewTests -only-testing:iosAppTests/EventDetailViewModelTests`): 11/11 pass.
+
+**T39 status**: ✅ Complete. `ProfileView.swift` reorders the editable name field to sit directly under the avatar/"Alterar foto" block (above the read-only birthdate row), matching "Meu Perfil (Mobile)"'s "name right under the avatar" order (mirrors Android's T29). The mock's location badge, activity level, like/saved/hub counters, genre/venue preferences, and account-settings list have no backing data on `ProfileViewModel`/`User` and stay out of scope (REFRESH-04). One new `ViewInspector`-based test asserts the name field is encountered before the birthdate row in document-order traversal. Quick gate (`xcodebuild test -only-testing:iosAppTests/ProfileViewTests`): 4/4 pass.
 
 ---
 
@@ -860,8 +872,12 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Full 3-step path works; invalid code rejected without advancing
-- [ ] Old 2-step logic tests replaced with 3-step equivalents
+- [x] Full 3-step path works; invalid code rejected without advancing
+- [x] Old 2-step logic tests replaced with 3-step equivalents
+
+**T40 status**: ✅ Complete — already satisfied by prior work, no functional code change needed (mirrors T11's SPEC_DEVIATION shape). Unlike Android's original A10 (which shipped a collapsed 2-step stopgap needing T30 to retrofit), iOS's I10 already built `PasswordRecoveryView`/`PasswordRecoveryViewModel` as a real 3-step wizard (email → verify-code → new-password) consuming `ResetPassword.verifyResetCode`/`confirmReset` (T11's shared API), with PWDR-04's Success step already gated behind an explicit `onResetSuccess` tap rather than an immediate auto-navigate — the exact design decision Android's T30 had to retrofit was already iOS's design from the start. No 2-step legacy code or tests ever existed to replace. A doc comment on `PasswordRecoveryView` records this audit and cites the three Stitch mock IDs. Quick gate (`xcodebuild test -only-testing:iosAppTests/PasswordRecoveryViewTests -only-testing:iosAppTests/PasswordRecoveryViewModelTests`): 20/20 pass (7 view + 13 view-model).
+
+**Phase 8 (T34–T40) status**: ✅ Complete. All seven iOS screens refreshed/audited per Stitch, mirroring Android's T24–T30 exactly (same mocks; T38/T40 needed no functional change since iOS's prior implementation already matched the mock/design). 6 atomic `style(mobile-ios)`/`feat(mobile-ios)` code commits (T34/T35/T36/T37/T39 style + T38/T40 doc-only style commits), plus one prerequisite `fix(mobile-ios)` commit (pre-existing `Event` fixture compile break blocking every gate in this phase). Full gate (`xcodegen generate && swiftlint lint --strict && xcodebuild test`) run at phase end.
 
 **Tests**: unit (pure logic) / build-verified for the view
 **Gate**: quick
