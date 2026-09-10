@@ -11,6 +11,8 @@ Implement these tasks with the `tlc-spec-driven` skill: **activate it by name an
 **Design**: `.specs/features/nightlife-gv-stitch-refresh/design.md`
 **Status**: Draft
 
+**Addendum note (2026-09-10)**: Phases 10–15 (T47–T68) below implement the Stitch Fidelity Audit addendum recorded in `spec.md`/`design.md`/`context.md`. They are `mobile`-only (Android + iOS + `mobile/shared`) — the addendum explicitly excludes `qor-website` and needs no new `qor-api` work (design.md:232; every data need is served by `GET /events?city=&genre=` and the already-live `GET/PATCH /preferences`). The former "Phase 10: Interactive UAT" is renumbered **Phase 16** so it runs after all addendum work, not before it.
+
 ---
 
 ## Test Coverage Matrix
@@ -51,7 +53,7 @@ Implement these tasks with the `tlc-spec-driven` skill: **activate it by name an
 Phases are ordered and run sequentially. **Cross-repo sequencing note**: Phase 2 (`qor-api` geo backend, T2–T8) must reach a merged PR — `review-laravel-api` findings addressed, `gh pr checks` green, root submodule pointer updated — via the T12 checkpoint, before T13 (`GetMapEvents`) and any Map-UI task (T22, T32, T42) proceeds. Each repo gets its own milestone branch/PR per `ARCHITECTURE.md` §8.10-8.11: `qor-api` → `feat/api-event-geo-map`; `qor-mobile` → `feat/mobile-nightlife-stitch-refresh` (commits split per platform boundary within); `qor-website` → `feat/website-nightlife-stitch-refresh`.
 
 ```
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7 → Phase 8 → Phase 9 → Phase 10
+Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6 → Phase 7 → Phase 8 → Phase 9 → Phase 10 → Phase 11 → Phase 12 → Phase 13 → Phase 14 → Phase 15 → Phase 16
 ```
 
 ### Phase 1: Token reconciliation
@@ -145,14 +147,102 @@ T1 → T43
 T37 → T43
 ```
 
-### Phase 10: Interactive UAT
+### Phase 10: Regression fixes (BUGFIX-01..12)
+
+All six tasks are independent of each other — no dependency beyond the already-built files they patch. Presentation order: shared session fix first (both platforms inherit it), then Android, then iOS.
+
+```
+T47
+T31 → T48
+T32 → T48
+T33 → T48
+T49
+T25 → T50
+T51
+T35 → T52
+```
+
+### Phase 11: Login/Signup component fidelity + 5-tab bottom nav
+
+```
+T1 → T53
+T24 → T53
+T25 → T53
+T31 → T54
+T32 → T54
+T33 → T54
+T1 → T55
+T34 → T55
+T35 → T55
+T41 → T56
+T42 → T56
+T43 → T56
+```
+
+### Phase 12: Hub curated-layout rebuild (Android fix; iOS built correctly the first time via the T43 amendment below)
+
+```
+T1 → T57
+T33 → T57
+T54 → T57
+```
+
+### Phase 13: EventDetail + Profile content parity
+
+```
+T58
+T1 → T59
+T28 → T59
+T58 → T59
+T1 → T60
+T29 → T60
+T58 → T60
+T1 → T61
+T38 → T61
+T58 → T61
+T1 → T62
+T39 → T62
+T58 → T62
+```
+
+### Phase 14: Guest browsing (GUEST-01..04)
+
+```
+T1 → T63
+T31 → T63
+T60 → T63
+T1 → T64
+T41 → T64
+T62 → T64
+```
+
+### Phase 15: General screen fidelity (item 1a — Home & Email Verification, the two screens not already touched by Phases 11/13)
+
+```
+T1 → T65
+T27 → T65
+T63 → T65
+T1 → T66
+T26 → T66
+T65 → T66
+T1 → T67
+T37 → T67
+T64 → T67
+T1 → T68
+T36 → T68
+T67 → T68
+```
+
+### Phase 16: Interactive UAT
 ```
 T23 → T44
 T33 → T45
+T66 → T45
 T43 → T46
+T68 → T46
 ```
 
-**Total: 46 tasks across 10 phases.**
+**Total: 68 tasks across 16 phases.**
 
 ---
 
@@ -209,10 +299,62 @@ T1 → T43
 T37 → T43
 T23 → T44
 T33 → T45
+T66 → T45
 T43 → T46
+T68 → T46
+T31 → T48
+T32 → T48
+T33 → T48
+T25 → T50
+T35 → T52
+T1 → T53
+T24 → T53
+T25 → T53
+T31 → T54
+T32 → T54
+T33 → T54
+T1 → T55
+T34 → T55
+T35 → T55
+T41 → T56
+T42 → T56
+T43 → T56
+T1 → T57
+T33 → T57
+T54 → T57
+T1 → T59
+T28 → T59
+T58 → T59
+T1 → T60
+T29 → T60
+T58 → T60
+T1 → T61
+T38 → T61
+T58 → T61
+T1 → T62
+T39 → T62
+T58 → T62
+T1 → T63
+T31 → T63
+T60 → T63
+T1 → T64
+T41 → T64
+T62 → T64
+T1 → T65
+T27 → T65
+T63 → T65
+T1 → T66
+T26 → T66
+T65 → T66
+T1 → T67
+T37 → T67
+T64 → T67
+T1 → T68
+T36 → T68
+T67 → T68
 ```
 
-Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11.
+Tasks with no incoming edges (no dependencies): T1, T2, T3, T9, T11, T47, T49, T51, T58.
 
 ---
 
@@ -930,23 +1072,26 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 
 ### T43: iOS Hub view(s) + nav wiring
 
-**What**: Mirrors T33 for iOS.
+**Amended 2026-09-10 (Stitch Fidelity Audit addendum)**: originally scoped as a plain per-city list mirroring T33. Android's equivalent (T33) shipped that shape and was found to violate HUB-01's "curated, distinct from Explore" requirement, needing a follow-up fix (T57). Since T43 is still unstarted, it is amended now to build the curated layout directly — see design.md:313–319 — instead of building the known-wrong version first.
+
+**What**: New curated Hub surface: a city-selector landing state (4 gradient city cards + counts) plus a rebuilt curated per-city view (featured/highlighted event treatment, header imagery), per design.md's Hub rebuild (HUB-05/06). Not a plain per-city list.
 **Where**: `mobile/iosApp/iosApp/UI/Screens/HubView.swift`, `UI/AppNavigation.swift` (extend)
 **Depends on**: T1, T37
-**Reuses**: `EventCard`-equivalent, `EmptyState`-equivalent
-**Requirement**: HUB-01, HUB-02, HUB-03, HUB-04
+**Reuses**: `EventCard`-equivalent, `EmptyState`-equivalent, website's `CityGrid`/`CityFilterBar` styling as the curated-layout reference (per design.md:313-319)
+**Requirement**: HUB-01, HUB-02, HUB-03, HUB-04, HUB-05, HUB-06
 
 **Tools**: MCP: `stitch` | Skill: NONE
 
 **Done when**:
-- [ ] Each city's Hub renders correctly
+- [ ] City-selector landing state renders 4 gradient city cards with event counts
+- [ ] Each city's curated Hub view renders correctly, structurally distinct from the Explore/`/eventos` equivalent (featured/highlighted treatment, not a plain list)
 - [ ] Empty state for a zero-event city
 - [ ] Reachable from Home
 
 **Tests**: unit (pure logic) / build-verified
 **Gate**: full (end of Phase 9)
 
-**Commit**: `feat(mobile-ios): add Hub view(s)`
+**Commit**: `feat(mobile-ios): add curated Hub view(s)`
 
 ---
 
@@ -969,10 +1114,10 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 
 ### T45: Interactive UAT — Android
 
-**What**: Same as T44, for every changed/new Android screen (Compose preview or emulator screenshots).
+**What**: Same as T44, for every changed/new Android screen (Compose preview or emulator screenshots), now including every addendum surface (Phases 10–15).
 **Where**: N/A
-**Depends on**: T33
-**Requirement**: REFRESH-01, FAVUI, MAPUI, HUB (all, Android-side)
+**Depends on**: T33, T66
+**Requirement**: REFRESH-01, FAVUI, MAPUI, HUB (all, Android-side), BUGFIX-01,02,04,05,06,07,08,09,10,11,12, REFRESH-05,06,07,08, NAV-01,02, HUB-05,06, EVDET-01,02,03,04, PROF-01,02,03,04,05, GUEST-01,02,03,04
 
 **Tools**: MCP: `stitch` | Skill: NONE
 
@@ -986,10 +1131,10 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 
 ### T46: Interactive UAT — iOS
 
-**What**: Same as T44, for every changed/new iOS screen (SwiftUI preview or simulator screenshots).
+**What**: Same as T44, for every changed/new iOS screen (SwiftUI preview or simulator screenshots), now including every addendum surface (Phases 10–15).
 **Where**: N/A
-**Depends on**: T43
-**Requirement**: REFRESH-01, FAVUI, MAPUI, HUB (all, iOS-side)
+**Depends on**: T43, T68
+**Requirement**: REFRESH-01, FAVUI, MAPUI, HUB (all, iOS-side), BUGFIX-01,02,03,04,05,06,07,08,09,10,11,12, REFRESH-05,06,07,08, NAV-03,04, HUB-05,06, EVDET-01,02,03,04, PROF-01,02,03,04,05, GUEST-01,02,03,04
 
 **Tools**: MCP: `stitch` | Skill: NONE
 
@@ -1001,9 +1146,509 @@ Same shape as T14–T20, targeting Android's mobile Stitch screenshots.
 
 ---
 
+## Addendum Task Breakdown (Stitch Fidelity Audit, 2026-09-10)
+
+### T47: Shared — safe session restore
+
+**What**: Wrap `SessionStore.restore()` in a try/catch and add a success-check before decode in `UserRepositoryImpl.getProfile()`, so a stale/incompatible session object or a 401 on cold launch clears the token and falls back to the unauthenticated state instead of throwing uncaught through `QorNavGraph.kt`'s unguarded `LaunchedEffect`.
+**Where**: `mobile/shared/src/commonMain/kotlin/data/SessionStore.kt`, `mobile/shared/src/commonMain/kotlin/data/UserRepositoryImpl.kt`
+**Depends on**: None
+**Reuses**: existing `SessionStore`/`UserRepositoryImpl` structure
+**Requirement**: BUGFIX-07, BUGFIX-08, BUGFIX-09
+
+*Granularity note*: the crash spans both the store's restore path and the repository call it invokes — one root cause (unguarded deserialization), fixed together so neither file can regress the other's guard independently.
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] `SessionStore.restore()` catches deserialization/network failure, clears the token, and returns an unauthenticated state instead of throwing
+- [ ] `UserRepositoryImpl.getProfile()` checks response success before decoding
+- [ ] A new unit test reproduces the stale-session cold-launch crash pre-fix and proves it no longer throws post-fix
+
+**Tests**: unit (GIVEN a stale/incompatible stored session WHEN `restore()` runs THEN it clears the token and returns unauthenticated, no throw; GIVEN `getProfile()` receives a non-success response THEN it returns a failure result, never an uncaught decode exception)
+**Gate**: quick
+
+**Commit**: `fix(mobile-shared): guard session restore against stale/invalid deserialization`
+
+---
+
+### T48: Android — wire real map navigation
+
+**What**: `QorNavGraph.kt` passes real `onMapClick` callbacks into the Home/Explore/Favorites/Hub composable call sites instead of the hardcoded `{}` no-op currently in `FavoritesScreen.kt`/`HubScreen.kt`, so tapping a map entry point actually navigates to `MapScreen` (T32).
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/nav/QorNavGraph.kt`, `ui/screen/FavoritesScreen.kt`, `ui/screen/HubScreen.kt`
+**Depends on**: T31, T32, T33
+**Reuses**: `MapScreen`'s existing nav-graph route (T32)
+**Requirement**: BUGFIX-01, BUGFIX-02
+
+*Granularity note*: the nav-graph wiring and the two call sites it fixes are one indivisible repair — fixing only the nav graph without removing the screens' own hardcoded `{}` defaults leaves the bug in place.
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] Tapping the map entry point from Home, Explore, Favorites, and Hub navigates to `MapScreen`
+- [ ] No remaining hardcoded `onMapClick = {}` default masking a real callback
+
+**Tests**: unit/Robolectric render test (GIVEN the map entry point is tapped from each screen THEN navigation to `MapScreen` fires)
+**Gate**: quick
+
+**Commit**: `fix(mobile-android): wire real map navigation callbacks`
+
+---
+
+### T49: Android — event cover images
+
+**What**: Add the Coil dependency and wire `AsyncImage(event.coverImageUrl)` into `EventCard.kt`'s image slot, falling back to the existing `PlaceholderImage` when `coverImageUrl` is null or fails to load. `Event.coverImageUrl` already exists as a field but `EventCard` never read it.
+**Where**: `mobile/androidApp/build.gradle.kts` (add Coil dependency), `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/components/EventCard.kt`
+**Depends on**: None
+**Reuses**: `PlaceholderImage.kt` (already wired into `EventDetailScreen.kt`/`ProfileScreen.kt`, not yet into `EventCard`)
+**Requirement**: BUGFIX-04, BUGFIX-05, BUGFIX-06
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] `EventCard` renders the real cover image via Coil when `coverImageUrl` is present
+- [ ] `EventCard` falls back to `PlaceholderImage` when `coverImageUrl` is null or the load fails
+- [ ] Every screen using `EventCard` (Home, Explore, Favorites, Hub, related-events) shows real covers, not blank boxes
+
+**Tests**: unit/Robolectric render test (GIVEN an event with a cover URL THEN the image loads; GIVEN a null/failed cover URL THEN `PlaceholderImage` renders)
+**Gate**: quick
+
+**Commit**: `fix(mobile-android): render event cover images via Coil`
+
+---
+
+### T50: Android — signup birthdate mask + validation
+
+**What**: Replace `SignupScreen.kt`'s bare free-text birthdate field with a real `DD/MM/AAAA` input mask, and replace `SignupViewModel.validateBirthdate()`'s non-blank-only check with real format/range validation, converting to ISO 8601 before it reaches the unchanged shared `RegisterFan` DTO.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/SignupScreen.kt`, `ui/viewmodel/SignupViewModel.kt`
+**Depends on**: T25
+**Reuses**: existing `QorTextField` component
+**Requirement**: BUGFIX-10, BUGFIX-11, BUGFIX-12
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] Birthdate field masks input as `DD/MM/AAAA` while typing
+- [ ] A valid date (e.g. a real birthdate in range) is accepted and converted to ISO 8601 before submission
+- [ ] An invalid/out-of-range/malformed date is rejected client-side with a pt-BR error message, matching what previously reached the server as a silent rejection
+
+**Tests**: unit/Robolectric render test (GIVEN a valid `DD/MM/AAAA` date WHEN submitted THEN it converts to ISO 8601 and signup proceeds; GIVEN an invalid date THEN client-side validation rejects it with a pt-BR message)
+**Gate**: quick
+
+**Commit**: `fix(mobile-android): add real birthdate mask and validation to signup`
+
+---
+
+### T51: iOS — event cover images parity
+
+**What**: Verify the iOS root cause independently (per spec.md's iOS-parity assumption — `shared` KMP drives both platforms, but the platform-specific rendering layer differs) and wire native `AsyncImage` into the iOS `EventCard` equivalent, with the same `PlaceholderImage`-equivalent fallback as T49.
+**Where**: iOS `UI/Components/EventCard.swift` (or the equivalent file, confirmed during implementation)
+**Depends on**: None
+**Reuses**: iOS's existing placeholder-image pattern (equivalent of `PlaceholderImage.kt`)
+**Requirement**: BUGFIX-04, BUGFIX-05, BUGFIX-06
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] iOS root cause confirmed (not assumed identical to Android's) before the fix is written
+- [ ] iOS `EventCard` equivalent renders the real cover image via native `AsyncImage` when `coverImageUrl` is present
+- [ ] Falls back to the placeholder when `coverImageUrl` is null or the load fails
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: quick
+
+**Commit**: `fix(mobile-ios): render event cover images`
+
+---
+
+### T52: iOS — signup birthdate mask + validation
+
+**What**: Mirror T50 for iOS — verify the iOS root cause independently, then add a real `DD/MM/AAAA` input mask and format/range validation to the iOS signup birthdate field.
+**Where**: iOS `UI/Screens/SignupView.swift` and its view model
+**Depends on**: T35
+**Reuses**: existing iOS text-field component
+**Requirement**: BUGFIX-10, BUGFIX-11, BUGFIX-12
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] iOS root cause confirmed independently (mirrors T50, not copy-pasted from Android's diagnosis)
+- [ ] Birthdate field masks input as `DD/MM/AAAA`
+- [ ] Valid dates convert to ISO 8601 and submit; invalid dates are rejected client-side with a pt-BR message
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: quick
+
+**Commit**: `fix(mobile-ios): add real birthdate mask and validation to signup`
+
+---
+
+### T53: Android — Login/Signup Stitch component fidelity
+
+**What**: Bring `LoginScreen.kt`/`SignupScreen.kt` to real component-level Stitch match: a logo badge (net-new), the primary CTA restyled to the gradient `InstagramCta` treatment, `QorTextField` gains a `leadingIcon` slot (icon-prefixed fields), and the password field's visibility toggle becomes an eye/eye-slash icon.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/LoginScreen.kt`, `SignupScreen.kt`, shared `ui/components/QorTextField.kt`/`PasswordField.kt`
+**Depends on**: T1, T24, T25
+**Reuses**: `InstagramCta` gradient styling (per design.md:297-303)
+**Requirement**: REFRESH-05, REFRESH-06, REFRESH-07, REFRESH-08
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Logo badge renders above the form on both Login and Signup
+- [ ] Primary CTA uses the `InstagramCta` gradient treatment
+- [ ] Email/password fields render with leading icons
+- [ ] Password field toggle is an eye/eye-slash icon, not text
+
+**Tests**: unit/Robolectric render test
+**Gate**: quick
+
+**Commit**: `style(mobile-android): match Login/Signup to Stitch component fidelity`
+
+---
+
+### T54: Android — bottom nav real 5-tab set
+
+**What**: `BottomNavDestination` gains `Hubs` and `Mapa` cases (alongside the existing Início/Salvos/Perfil), routing to the already-built `HubScreen`/`MapScreen`, matching Stitch's Início/Hubs/Mapa/Salvos/Perfil tab set.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/components/BottomNav.kt`, `ui/nav/QorNavGraph.kt`
+**Depends on**: T31, T32, T33
+**Reuses**: existing `BottomNavDestination` enum shape, `BottomNav.kt`'s tab-rendering loop
+**Requirement**: NAV-01, NAV-02
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Bottom nav shows exactly 5 tabs: Início, Hubs, Mapa, Salvos, Perfil
+- [ ] Each new tab routes to its already-built screen (Hub, Map)
+
+**Tests**: unit/Robolectric render test
+**Gate**: full (end of Phase 10)
+
+**Commit**: `feat(mobile-android): add real 5-tab bottom nav`
+
+---
+
+### T55: iOS — Login/Signup Stitch component fidelity
+
+**What**: Mirrors T53 for iOS.
+**Where**: iOS `UI/Screens/LoginView.swift`, `SignupView.swift`, shared text-field/password-field components
+**Depends on**: T1, T34, T35
+**Reuses**: iOS equivalent of `InstagramCta` gradient styling
+**Requirement**: REFRESH-05, REFRESH-06, REFRESH-07, REFRESH-08
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Logo badge renders above the form on both Login and Signup
+- [ ] Primary CTA uses the gradient treatment
+- [ ] Email/password fields render with leading icons
+- [ ] Password field toggle is an eye/eye-slash icon
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: quick
+
+**Commit**: `style(mobile-ios): match Login/Signup to Stitch component fidelity`
+
+---
+
+### T56: iOS — bottom nav real 5-tab set
+
+**What**: Mirrors T54 for iOS.
+**Where**: iOS `UI/AppNavigation.swift`, `UI/Components/BottomNav.swift`
+**Depends on**: T41, T42, T43
+**Reuses**: existing iOS bottom-nav tab enum/rendering
+**Requirement**: NAV-03, NAV-04
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Bottom nav shows exactly 5 tabs: Início, Hubs, Mapa, Salvos, Perfil
+- [ ] Each new tab routes to its already-built view (Hub, Map)
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: full (end of Phase 11)
+
+**Commit**: `feat(mobile-ios): add real 5-tab bottom nav`
+
+---
+
+### T57: Android — rebuild Hub curated layout
+
+**What**: Rebuild `HubScreen.kt` to satisfy HUB-01/05/06: a city-selector landing state (4 gradient city cards + counts) plus a curated per-city view (featured/highlighted event treatment, header imagery), replacing the plain per-city list T33 shipped, which was structurally identical to `/eventos` and violated HUB-01's "curated, distinct from Explore" requirement.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/HubScreen.kt`
+**Depends on**: T1, T33, T54
+**Reuses**: `EventCard`, `EmptyState`, website's `CityGrid`/`CityFilterBar` styling as the curated-layout reference (per design.md:313-319)
+**Requirement**: HUB-01, HUB-05, HUB-06
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] City-selector landing state renders 4 gradient city cards with event counts
+- [ ] Each city's curated Hub view is structurally distinct from `/eventos`'s plain list (featured/highlighted treatment, header imagery)
+- [ ] Zero-event city still shows `EmptyState`
+- [ ] Existing `HubScreen` render tests updated to assert the curated structure, not the old plain-list structure
+
+**Tests**: unit/Robolectric render test
+**Gate**: full
+
+**Commit**: `fix(mobile-android): rebuild Hub screen to curated layout per HUB-01`
+
+---
+
+### T58: Shared — EventDto fix + preferences/recommendations use cases
+
+**What**: Fix `EventDto`'s promoter-mapping bug (deserializes a `promoters` key the API never sends — the API has always sent `tagged_promoters`; `ignoreUnknownKeys=true` silently masked the drop), correcting the mapping to `tagged_promoters[].contact_phone/contact_email` → `EventPromoterContact.phone/email`. Add `GetPreferences(): Result<UserPreferences>` / `UpdatePreferences(genreIds, radiusKm): Result<Unit>` use cases over the already-live `GET/PATCH /preferences`. Add a recommendations use case reusing `GET /events?city=&genre=` (same query, two call sites: EventDetail's related events and Profile's recommendations).
+**Where**: `mobile/shared/src/commonMain/kotlin/data/EventDto.kt`, new `mobile/shared/src/commonMain/kotlin/domain/user/usecase/GetPreferences.kt`, `UpdatePreferences.kt`, new `mobile/shared/src/commonMain/kotlin/domain/event/usecase/GetRelatedEvents.kt` (or equivalently named)
+**Depends on**: None
+**Reuses**: existing `EventRepository`/`UserRepository` port+impl+use-case shape, `GET /events?city=&genre=` (`api/src/Http/Requests/Api/V1/ListEventsRequest.php:19-26`), `GET/PATCH /preferences` (`ProfileController::showPreferences/updatePreferences`)
+**Requirement**: EVDET-01 (prerequisite), PROF-02, PROF-03
+
+*Granularity note*: three shared-module additions bundled because both Android and iOS EventDetail/Profile tasks (T59–T62) need all three to compile against — this is the merge-forward resolution the skill's task-boundary rule calls for when downstream tasks can't be tested until the use cases they consume exist.
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] `EventDto` correctly deserializes `tagged_promoters` into `EventPromoterContact` (name/phone/email/instagram/tiktok)
+- [ ] `GetPreferences`/`UpdatePreferences` call the existing `/preferences` endpoints and round-trip correctly
+- [ ] The related-events/recommendations use case calls `GET /events?city=&genre=` and excludes the current event where applicable
+
+**Tests**: unit (GIVEN an API response with `tagged_promoters` WHEN `EventDto` deserializes THEN `EventPromoterContact` fields populate correctly, reproducing the bug pre-fix and proving the fix post-fix; GIVEN preferences GET/PATCH calls THEN they round-trip; GIVEN a city/genre filter THEN related events exclude the current event)
+**Gate**: quick
+
+**Commit**: `fix(mobile-shared): correct EventDto promoter mapping, add preferences and related-events use cases`
+
+---
+
+### T59: Android — EventDetail organizer card, dual pill actions, related events
+
+**What**: Add the organizer card (name, icon/initials — no logo field exists on the API response), a dual pill action row (`MapaCta` + `InstagramCta`, replacing the single "Abrir no mapa" button), and a horizontal related-events carousel (`LazyRow` using `EventCard`, the first horizontal-list pattern in the codebase) sourced from T58's related-events use case. Each section renders independently and is omitted, not shown broken, when its data is absent. Also closes T28's outstanding structural-fidelity gap for this screen (full layout/spacing/component-structure match against Stitch, not a reorder).
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/EventDetailScreen.kt`
+**Depends on**: T1, T28, T58
+**Reuses**: `EventCard` (for the carousel), `MapaCta`/`InstagramCta` pill components
+**Requirement**: EVDET-01, EVDET-02, EVDET-03, EVDET-04
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Organizer card renders when organizer data is present, omitted (not broken) when absent
+- [ ] Dual pill row (Maps + Instagram) replaces the single map button
+- [ ] Horizontal related-events carousel renders other upcoming events in the same city/genre, excluding the current event
+- [ ] Full structural fidelity against the "Detalhes do Evento (Mobile)" Stitch mock, not just a reorder
+
+**Tests**: unit/Robolectric render test
+**Gate**: quick
+
+**Commit**: `feat(mobile-android): add EventDetail organizer card, dual actions, related events`
+
+---
+
+### T60: Android — Profile stats, preferences, favorite venues, recommendations, logout
+
+**What**: On-device stat pills (favorited-events count, distinct cities), genre/venue preference chips backed by T58's `GetPreferences`/`UpdatePreferences`, an address-derived favorite-venues list (deduplicated venue addresses from favorited events — no linked `Venue` name field exists, so this reads as deduplicated addresses, per the already-granted Agent's Discretion in context.md), recommendations reusing T58's related-events use case, and a logout control calling `SessionStore`'s existing clear path then routing to guest-browsable Home. Also closes T29's outstanding structural-fidelity gap for this screen.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/ProfileScreen.kt`
+**Depends on**: T1, T29, T58
+**Reuses**: `EventCard` (recommendations), `SessionStore`'s existing clear path
+**Requirement**: PROF-01, PROF-02, PROF-03, PROF-04, PROF-05
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Stat pills compute correctly from on-device favorited-events data
+- [ ] Genre/venue preference chips read and update via `GetPreferences`/`UpdatePreferences`
+- [ ] Favorite-venues list shows deduplicated addresses from favorited events
+- [ ] Recommendations render other upcoming events in the fan's city/genres
+- [ ] Logout clears the session and routes to guest-browsable Home
+- [ ] Full structural fidelity against the "Meu Perfil (Mobile)" Stitch mock
+
+**Tests**: unit/Robolectric render test
+**Gate**: quick
+
+**Commit**: `feat(mobile-android): add Profile stats, preferences, favorite venues, recommendations, logout`
+
+---
+
+### T61: iOS — EventDetail parity
+
+**What**: Mirrors T59 for iOS.
+**Where**: iOS `UI/Screens/EventDetailView.swift`
+**Depends on**: T1, T38, T58
+**Reuses**: iOS equivalent of `EventCard`, `MapaCta`/`InstagramCta` pill components
+**Requirement**: EVDET-01, EVDET-02, EVDET-03, EVDET-04
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Organizer card renders when present, omitted when absent
+- [ ] Dual pill row (Maps + Instagram) replaces the single map button
+- [ ] Horizontal related-events carousel renders, excluding the current event
+- [ ] Full structural fidelity against the Stitch mock
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: quick
+
+**Commit**: `feat(mobile-ios): add EventDetail organizer card, dual actions, related events`
+
+---
+
+### T62: iOS — Profile parity
+
+**What**: Mirrors T60 for iOS.
+**Where**: iOS `UI/Screens/ProfileView.swift`
+**Depends on**: T1, T39, T58
+**Reuses**: iOS equivalent of `EventCard`, `SessionStore`'s existing clear path
+**Requirement**: PROF-01, PROF-02, PROF-03, PROF-04, PROF-05
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Stat pills, preference chips, favorite venues, recommendations, and logout all match T60's Android behavior
+- [ ] Full structural fidelity against the Stitch mock
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: quick
+
+**Commit**: `feat(mobile-ios): add Profile stats, preferences, favorite venues, recommendations, logout`
+
+---
+
+### T63: Android — guest browsing
+
+**What**: App starts at `Routes.Home` unauthenticated instead of forcing login-on-launch; Home/Explore/Event Detail/Hub/Map remain reachable without a session. Favoritos, Profile, the favorite-heart control on any card, and notifications hard-redirect to Login/Signup (no soft-gated empty state, mirroring website's existing `PUBLIC_PATHS` pattern). A "Continuar como convidado" button is added to the entry flow. Client-side only — no new Sanctum guard, since these are already-public `GET` endpoints.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/nav/QorNavGraph.kt`, entry-point composables
+**Depends on**: T1, T31, T60
+**Reuses**: website's existing `PUBLIC_PATHS`/`PUBLIC_PATH_PREFIXES` gating pattern as the reference shape
+**Requirement**: GUEST-01, GUEST-02, GUEST-03, GUEST-04
+
+*Granularity note*: the guest-mode entry state and the gating checks on Favoritos/Profile/heart/notifications are one behavior — gating without a working unauthenticated entry point (or vice versa) isn't a shippable guest-browsing feature.
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] App launches to Home unauthenticated, no forced login
+- [ ] Home/Explore/Event Detail/Hub/Map render and function without a session
+- [ ] Tapping Favoritos, Profile, a favorite-heart, or notifications while unauthenticated hard-redirects to Login/Signup
+- [ ] "Continuar como convidado" button present on the entry flow
+
+**Tests**: unit/Robolectric render test (GIVEN no stored session WHEN the app launches THEN Home renders unauthenticated; GIVEN an unauthenticated fan taps a gated action THEN Login/Signup opens)
+**Gate**: full
+
+**Commit**: `feat(mobile-android): add unauthenticated guest browsing`
+
+---
+
+### T64: iOS — guest browsing
+
+**What**: Mirrors T63 for iOS. The `.unauthenticated` state renders `MainTabRootView` in guest mode instead of forcing Login — a larger nav-graph change than Android's per design.md's own risk note, since iOS's root view state machine differs structurally from Android's nav graph. Same gating rules on Favoritos/Profile/heart/notifications.
+**Where**: iOS `UI/AppNavigation.swift`, root view state
+**Depends on**: T1, T41, T62
+**Reuses**: website's `PUBLIC_PATHS` pattern as the reference shape (same as T63)
+**Requirement**: GUEST-01, GUEST-02, GUEST-03, GUEST-04
+
+**Tools**: MCP: NONE | Skill: NONE
+
+**Done when**:
+- [ ] `.unauthenticated` state renders `MainTabRootView` in guest mode instead of forcing Login
+- [ ] Home/Explore/Event Detail/Hub/Map render and function without a session
+- [ ] Tapping a gated action hard-redirects to Login/Signup
+- [ ] "Continuar como convidado" button present
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: full
+
+**Commit**: `feat(mobile-ios): add unauthenticated guest browsing`
+
+---
+
+### T65: Android — Home structural fidelity rebuild
+
+**What**: Rebuild `HomeFeedScreen.kt`'s layout/spacing/component structure to genuinely match "Mobile App Homepage" (Stitch), closing the gap the audit found: T27 only added a section heading, it did not rework structure/spacing to match the mock, which is what REFRESH-01's AC literally requires.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/HomeFeedScreen.kt`
+**Depends on**: T1, T27, T63
+**Reuses**: existing `ui/components/*` composables
+**Requirement**: REFRESH-01
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Rendered screen structurally matches the Stitch mobile screenshot (layout, spacing, component structure — not a reorder)
+- [ ] Uses only reconciled tokens
+- [ ] Existing `HomeFeedScreen` render tests updated, passing
+
+**Tests**: unit/Robolectric render test
+**Gate**: quick
+
+**Commit**: `style(mobile-android): rebuild Home structural fidelity per Stitch`
+
+---
+
+### T66: Android — Email Verification structural fidelity rebuild
+
+**What**: Rebuild `EmailVerificationScreen.kt`'s layout/spacing/component structure to genuinely match "Verificação de E-mail OTP (Mobile)" (Stitch), closing the same reorder-vs-match gap T26 left.
+**Where**: `mobile/androidApp/src/main/kotlin/br/com/qualorock/androidApp/ui/screen/EmailVerificationScreen.kt`
+**Depends on**: T1, T26, T65
+**Reuses**: existing `ui/components/*` composables
+**Requirement**: REFRESH-01
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Rendered screen structurally matches the Stitch mobile screenshot
+- [ ] Uses only reconciled tokens
+- [ ] Existing `EmailVerificationScreen` render tests updated, passing
+
+**Tests**: unit/Robolectric render test
+**Gate**: full (end of Phase 15, Android side)
+
+**Commit**: `style(mobile-android): rebuild Email Verification structural fidelity per Stitch`
+
+---
+
+### T67: iOS — Home structural fidelity rebuild
+
+**What**: Mirrors T65 for iOS.
+**Where**: iOS `UI/Screens/HomeFeedView.swift`
+**Depends on**: T1, T37, T64
+**Reuses**: existing `UI/Components/*` SwiftUI views
+**Requirement**: REFRESH-01
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Rendered screen structurally matches the Stitch mobile screenshot
+- [ ] Uses only reconciled tokens
+- [ ] Any pure-logic helper touched keeps/gains XCTest coverage
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: quick
+
+**Commit**: `style(mobile-ios): rebuild Home structural fidelity per Stitch`
+
+---
+
+### T68: iOS — Email Verification structural fidelity rebuild
+
+**What**: Mirrors T66 for iOS.
+**Where**: iOS `UI/Screens/EmailVerificationView.swift`
+**Depends on**: T1, T36, T67
+**Reuses**: existing `UI/Components/*` SwiftUI views
+**Requirement**: REFRESH-01
+
+**Tools**: MCP: `stitch` | Skill: NONE
+
+**Done when**:
+- [ ] Rendered screen structurally matches the Stitch mobile screenshot
+- [ ] Uses only reconciled tokens
+- [ ] Any pure-logic helper touched keeps/gains XCTest coverage
+
+**Tests**: unit (pure logic) / build-verified for the view
+**Gate**: full (end of Phase 15, iOS side)
+
+**Commit**: `style(mobile-ios): rebuild Email Verification structural fidelity per Stitch`
+
+---
+
 ## Phase Execution Notes
 
-Within Phase 4, 6, 8 (the per-screen refresh phases) and Phase 5/7/9 (new-screen phases) and Phase 10 (UAT), tasks have no dependency on each other — each depends only on T1 (and, where noted, one other earlier task) — so a single worker executes them in any convenient order within the phase; the numeric order (T14, T15, T16...) is simply the presentation order. The authoritative dependency edges are the Full Dependency Graph above, not task-number adjacency. Phases run in order; batches (sub-agent workers) pack consecutive whole phases — see Sub-Agent Offer below.
+Within Phase 4, 6, 8 (the per-screen refresh phases) and Phase 5/7/9 (new-screen phases) and Phase 16 (UAT), tasks have no dependency on each other — each depends only on T1 (and, where noted, one other earlier task) — so a single worker executes them in any convenient order within the phase; the numeric order (T14, T15, T16...) is simply the presentation order. The authoritative dependency edges are the Full Dependency Graph above, not task-number adjacency. Phase 10 (regression fixes, T47–T52) is similarly a set of independent tasks with no cross-dependency. Phases run in order; batches (sub-agent workers) pack consecutive whole phases — see Sub-Agent Offer below.
 
 ---
 
@@ -1028,6 +1673,17 @@ Within Phase 4, 6, 8 (the per-screen refresh phases) and Phase 5/7/9 (new-screen
 | T24–T33 | 1 screen each (T31/T33 include their obligatory nav-route registration, see notes) | ✅ Granular (cohesive) |
 | T34–T43 | 1 view each (T41/T43 include their obligatory nav-route registration, see notes) | ✅ Granular (cohesive) |
 | T44–T46 | 1 platform-wide UAT pass each | ✅ Granular (verification activity, not code) |
+| T47 | 1 root cause, 2 files (store + repo call it invokes, see note) | ✅ Granular (cohesive) |
+| T48 | 1 nav-graph wiring + 2 dependent call sites (see note) | ✅ Granular (cohesive) |
+| T49, T51 | 1 dependency + 1 component wiring each | ✅ Granular |
+| T50, T52 | 1 field mask + 1 validation function each | ✅ Granular |
+| T53, T55 | 1 screen pair's component fidelity each (Login+Signup, same commit per platform) | ✅ Granular (cohesive) |
+| T54, T56 | 1 nav-tab-set change each | ✅ Granular |
+| T57 | 1 screen rebuild | ✅ Granular |
+| T58 | 1 DTO fix + 2 sibling use cases (see note) | ✅ Granular (cohesive) |
+| T59–T62 | 1 screen's content parity each | ✅ Granular |
+| T63, T64 | 1 guest-mode entry state + its gating checks each (see note) | ✅ Granular (cohesive) |
+| T65–T68 | 1 screen's structural fidelity rebuild each | ✅ Granular |
 
 ---
 
@@ -1081,8 +1737,30 @@ Every `Depends on` in a task body has a matching edge in the Full Dependency Gra
 | T42 | T1, T13 | T1→T42, T13→T42 | ✅ Match |
 | T43 | T1, T37 | T1→T43, T37→T43 | ✅ Match |
 | T44 | T23 | T23→T44 | ✅ Match |
-| T45 | T33 | T33→T45 | ✅ Match |
-| T46 | T43 | T43→T46 | ✅ Match |
+| T45 | T33, T66 | T33→T45, T66→T45 | ✅ Match |
+| T46 | T43, T68 | T43→T46, T68→T46 | ✅ Match |
+| T47 | None | — | ✅ Match |
+| T48 | T31, T32, T33 | T31→T48, T32→T48, T33→T48 | ✅ Match |
+| T49 | None | — | ✅ Match |
+| T50 | T25 | T25→T50 | ✅ Match |
+| T51 | None | — | ✅ Match |
+| T52 | T35 | T35→T52 | ✅ Match |
+| T53 | T1, T24, T25 | T1→T53, T24→T53, T25→T53 | ✅ Match |
+| T54 | T31, T32, T33 | T31→T54, T32→T54, T33→T54 | ✅ Match |
+| T55 | T1, T34, T35 | T1→T55, T34→T55, T35→T55 | ✅ Match |
+| T56 | T41, T42, T43 | T41→T56, T42→T56, T43→T56 | ✅ Match |
+| T57 | T1, T33, T54 | T1→T57, T33→T57, T54→T57 | ✅ Match |
+| T58 | None | — | ✅ Match |
+| T59 | T1, T28, T58 | T1→T59, T28→T59, T58→T59 | ✅ Match |
+| T60 | T1, T29, T58 | T1→T60, T29→T60, T58→T60 | ✅ Match |
+| T61 | T1, T38, T58 | T1→T61, T38→T61, T58→T61 | ✅ Match |
+| T62 | T1, T39, T58 | T1→T62, T39→T62, T58→T62 | ✅ Match |
+| T63 | T1, T31, T60 | T1→T63, T31→T63, T60→T63 | ✅ Match |
+| T64 | T1, T41, T62 | T1→T64, T41→T64, T62→T64 | ✅ Match |
+| T65 | T1, T27, T63 | T1→T65, T27→T65, T63→T65 | ✅ Match |
+| T66 | T1, T26, T65 | T1→T66, T26→T66, T65→T66 | ✅ Match |
+| T67 | T1, T37, T64 | T1→T67, T37→T67, T64→T67 | ✅ Match |
+| T68 | T1, T36, T67 | T1→T68, T36→T68, T67→T68 | ✅ Match |
 
 No forward-phase dependency: every dependency points backward (an earlier phase) or within the same phase.
 
@@ -1112,6 +1790,9 @@ No forward-phase dependency: every dependency points backward (an earlier phase)
 | T34–T39 | iOS views (refresh) | unit (pure logic) | unit | ✅ OK |
 | T40–T43 | iOS views (new/rebuilt) | unit (pure logic) | unit | ✅ OK |
 | T44–T46 | verification activity | none (UAT is not a code layer) | none | ✅ OK |
+| T47, T58 | mobile/shared domain | unit | unit | ✅ OK |
+| T48–T50, T53, T54, T57, T59, T60, T63, T65, T66 | Android screens (fix/refresh/new) | unit/Robolectric | unit/Robolectric | ✅ OK |
+| T51, T52, T55, T56, T61, T62, T64, T67, T68 | iOS views (fix/refresh/new) | unit (pure logic) | unit | ✅ OK |
 
 No violations.
 
@@ -1119,20 +1800,14 @@ No violations.
 
 ## Sub-Agent Offer
 
-46 tasks across 10 phases exceeds the ~8-task inline threshold. Given real phase-size variance (1, 7, 5, 7, 3, 7, 3, 7, 3, 3 tasks) and the hard cross-repo gate at T12/T13 (Phase 2→3 boundary), the packing that both respects the ~7-task budget and never splits a phase is:
+68 tasks across 16 phases exceeds the ~8-task inline threshold. Phase 1–9 sizing/rationale is unchanged from the original plan (see prior note, retained below for reference). The addendum's own phases are similarly uneven (Phase 10: 6, 11: 4, 12: 1, 13: 5, 14: 2, 15: 4, 16: 3) and don't pack evenly into ~7-task batches without splitting a phase either. Consistent with the original recommendation, **one batch per phase (16 batches)** is proposed — guarantees phase integrity (including the T58 merge-forward checkpoint feeding T59–T62), keeps every cross-file dependency (e.g. T48 on T31/T32/T33, T54/T57 on the Phase 7 screens) an unambiguous batch boundary, and matches the feature's real shape. Original note, retained:
 
-| Batch | Phases (whole, in order) | Tasks | Count |
-| --- | --- | --- | --- |
-| 1 | 1, 2 | T1–T8 | 8 |
-| 2 | 3, 4 | T9–T13, T14–T20 | 12 (over budget — Phase 4 alone is 7; see note) |
-| 3 | 5, 6 | T21–T23, T24–T30 | 10 (over budget; see note) |
-| 4 | 7, 8 | T31–T33, T34–T40 | 10 (over budget; see note) |
-| 5 | 9, 10 | T41–T43, T44–T46 | 6 |
+> 46 tasks across the original 10 phases exceeds the ~8-task inline threshold. Given real phase-size variance (1, 7, 5, 7, 3, 7, 3, 7, 3, 3 tasks) and the hard cross-repo gate at T12/T13 (Phase 2→3 boundary), a 5-batch packing was possible but put 3 of 5 batches over budget by splitting-avoidance; one-batch-per-phase (10 batches) was recommended instead.
 
-Batches 2–4 exceed the ~7-task budget because their phase pairs (5+7, 3+7, 3+7) don't divide evenly at that size without splitting a 7-task phase — which the packing rule forbids. **Recommendation: one batch per phase (10 batches)** instead — costs more orchestration overhead than the ideal ~7-task packing, but guarantees phase integrity, keeps the T12 merge checkpoint an unambiguous batch boundary, and matches this feature's real shape (10 naturally-sized phases, several already near or under budget on their own). Ask the user which they prefer — 5 oversized-but-fewer batches, or 10 batches sized exactly to each phase — before dispatching Phase 1.
+Ask the user to confirm 16 batches (or propose an alternative packing) before dispatching Phase 1.
 
 ---
 
 ## Tools/MCP confirmation needed before Execute
 
-Primary tool per task group: `stitch` MCP for Stitch HTML/screenshot re-fetching during every screen-refresh and new-screen task, plus each repo's own toolchain (`docker compose`, `gradlew`, `xcodebuild`) for implementation/testing. `postman` MCP is optional for T8. `claude-in-chrome` is used for the website UAT pass (T44). No other skill or MCP is needed. Confirming this, and the batching question above, with the user before dispatching Phase 1.
+Primary tool per task group: `stitch` MCP for Stitch HTML/screenshot re-fetching during every screen-refresh, new-screen, and structural-fidelity task (including the addendum's T53, T55, T57, T59–T62, T65–T68, and the T43 amendment), plus each repo's own toolchain (`docker compose`, `gradlew`, `xcodebuild`) for implementation/testing. `postman` MCP is optional for T8. `claude-in-chrome` is used for the website UAT pass (T44). The addendum's bug-fix and content-parity tasks (T47–T52, T58–T64) need no MCP beyond each platform's own toolchain. No other skill or MCP is needed. Confirming this, and the batching question above, with the user before dispatching Phase 1 (or Phase 10, if Phases 1–9 are already complete, as they are per STATE.md AD-025).
